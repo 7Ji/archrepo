@@ -6,6 +6,8 @@ PKGBUILDs:
  - ffmpeg4.4-mpp: https://aur.archlinux.org/ffmpeg4.4-mpp.git
  - ffmpeg-mpp: https://aur.archlinux.org/ffmpeg-mpp.git
  - gl4es-git: https://aur.archlinux.org/gl4es-git.git
+ - kodi-matrix-mpp-git: https://aur.archlinux.org/kodi-matrix-mpp-git.git
+ - kodi-nexus-mpp-git: https://aur.archlinux.org/kodi-nexus-mpp-git.git
  - libmali-valhall-g610: https://aur.archlinux.org/libmali-valhall-g610.git
  - librga-multi: https://aur.archlinux.org/librga-multi.git
  - librist: https://aur.archlinux.org/librist.git
@@ -14,6 +16,7 @@ PKGBUILDs:
  - linux-aarch64-flippy: https://aur.archlinux.org/linux-aarch64-flippy.git
  - linux-aarch64-orangepi5: https://aur.archlinux.org/linux-aarch64-orangepi5.git
  - linux-firmware-amlogic-ophub: https://aur.archlinux.org/linux-firmware-amlogic-ophub.git
+ - linux-radxa-rkbsp5-git: https://aur.archlinux.org/linux-radxa-rkbsp5-git.git
  - mesa-panfork-git: https://aur.archlinux.org/mesa-panfork-git.git
  - mpp-git: https://aur.archlinux.org/mpp-git.git
  - qbittorrent-enhanced-nox-git: https://aur.archlinux.org/qbittorrent-enhanced-nox-git.git
@@ -24,5 +27,3 @@ PKGBUILDs:
  - v4l-utils-mpp: https://aur.archlinux.org/v4l-utils-mpp.git
  - xray: https://aur.archlinux.org/xray.git
  - yaopenvfd: https://aur.archlinux.org/yaopenvfd.git
-
-   
