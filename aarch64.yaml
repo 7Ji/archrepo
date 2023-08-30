@@ -17,6 +17,7 @@ PKGBUILDs:
  - linux-aarch64-orangepi5: https://aur.archlinux.org/linux-aarch64-orangepi5.git
  - linux-firmware-amlogic-ophub: https://aur.archlinux.org/linux-firmware-amlogic-ophub.git
  - linux-radxa-rkbsp5-git: https://aur.archlinux.org/linux-radxa-rkbsp5-git.git
+ - mali-valhall-g610-firmware: https://aur.archlinux.org/mali-valhall-g610-firmware.git
  - mesa-panfork-git: https://aur.archlinux.org/mesa-panfork-git.git
  - mpp-git: https://aur.archlinux.org/mpp-git.git
  - qbittorrent-enhanced-nox-git: https://aur.archlinux.org/qbittorrent-enhanced-nox-git.git
