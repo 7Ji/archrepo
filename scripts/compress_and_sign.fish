@@ -1,12 +1,12 @@
 set raw_pkgs *.pkg.tar
 set cnt_pkgs (count $raw_pkgs)
 if test $cnt_pkgs -eq 0
-    echo "No pacakges need to be compressed nor signed"
+    echo "No packages need to be compressed nor signed"
     exit 0
 end
 # As Github would escape : to .
 set com_pkgs (string replace -- ':' '.' $raw_pkgs.zst)
-echo "Compressing pacakges..."
+echo "Compressing packages..."
 for i in (seq 1 $cnt_pkgs)
     set raw_pkg "$raw_pkgs[$i]"
     set com_pkg "$com_pkgs[$i]"
@@ -15,7 +15,7 @@ for i in (seq 1 $cnt_pkgs)
 end
 echo "Waiting for all compression jobs..."
 wait
-echo "Compression done, signing pacakges..."
+echo "Compression done, signing packages..."
 rm -rf updates
 mkdir updates
 for com_pkg in $com_pkgs
