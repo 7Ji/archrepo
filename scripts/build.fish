@@ -50,9 +50,9 @@ function init_repo # 1: dir, 2: url
     rm -rf $argv[1]
     mkdir $argv[1]
     mkdir $argv[1]/{objects,refs}
-    echo 'ref: refs/heads/master' > "$argv[1]/HEAD"
+    echo 'ref: refs/heads/master' > $argv[1]/HEAD
     printf '[core]\n\trepositoryformatversion = 0\n\tfilemode = true\n\tbare = true\n[remote "origin"]\n\turl = %s\n\tfetch = +refs/*:refs/*\n' \
-        $argv[2] > "$argv[1]/config"
+        $argv[2] > $argv[1]/config
 end
 
 function repo_healthy
@@ -68,13 +68,13 @@ function git_update # 1: git dir 2: addtional arg (probably proxy)
         printf "Failed to update git repo '%s'\n" $argv[1]
         return 1
     end
-    if ! set ref (
+    if ! set ref "$(
         git --git-dir $argv[1] $argv[2..] ls-remote --symref origin HEAD | 
-        string match --regex 'refs/heads/[a-zA-Z0-9._/-]+')
+        string match --regex 'refs/heads/[a-zA-Z0-9._/-]+')"
         printf "Failed to get remote HEAD of repo '%s'\n" $argv[1]
         return 1
     end
-    if ! git --git-dir $argv[1] symbolic-ref HEAD "$ref"
+    if ! git --git-dir $argv[1] symbolic-ref HEAD $ref
         printf "Failed to set local HEAD of repo '%s' to '%s'\n" $argv[1] $ref
         return 1
     end
@@ -150,37 +150,6 @@ function dump_pkgbuild # 1: git dir 2: output
     end
 end
 
-function get_file_cache_paths # 1: type, 2+: name
-    for arg in $argv[2..]
-        set name (string split --max 1 --fields 1 ' ' "$arg")
-        # if test "$name" != ''
-        echo sources/file-"$argv[1]/$name"
-        # end
-    end
-end
-
-function deploy_sources # 1: pkgname
-    set pkgbuild build/$argv[1]/PKGBUILD
-    if ! set git_urls (scripts/get_git_sources.bash "$pkgbuild")
-        printf "Failed to parse git sources from '%s'\n" $argv[1]
-        return 1
-    end
-    if ! set files (scripts/get_file_sources.bash "$pkgbuild")
-        printf "Failed to parse file sources from '%s'\n" $argv[1]
-        return 1
-    end
-    for git_url in $git_urls
-        set hash (xxh3sum_64bit "$git_url")
-        set git_dir sources/git/"$hash"
-        if test ! -d "$git_dir"
-            or ! repo_healthy "$git_dir"
-            printf "Git source not ready\n"
-            return 1
-        end
-    end
-end
-
-
 function prepare_git_sources
     # do this alone first, so all git sources are up-to-date
     set pkgbuild "$(mktemp)"
@@ -188,25 +157,142 @@ function prepare_git_sources
     for i in (seq 1 $pkg_cnt)
         set hash $hashes[$i]
         set pkg $pkgs[$i]
-        if ! dump_pkgbuild sources/git/"$hash" "$pkgbuild"
+        if ! dump_pkgbuild sources/git/$hash $pkgbuild
             printf "Failed to get PKGBUILD from '%s' to parse vcs sources\n" \
-                    "$pkg"
+                    $pkg
+            rm -f $pkgbuild
             return 1
         end
-        if ! set --append git_urls (scripts/get_git_sources.bash "$pkgbuild")
-            printf "Failed to parse git sources from '%s'\n" "$pkg"
+        if ! set --append git_urls (scripts/get_git_sources.bash $pkgbuild)
+            printf "Failed to parse git sources from '%s'\n" $pkg
+            rm -f $pkgbuild
             return 1
         end
     end
     set git_urls (printf '%s\n' $git_urls | sort | uniq)
     for git_url in $git_urls
-        printf "Syncing git source '%s'\n" "$git_url"
-        if ! sync_repo sources/git/(xxh3sum_64bit "$git_url") "$git_url"
-            printf "Failed to sync git source '%s'\n" "$git_url"
+        printf "Syncing git source '%s'\n" $git_url
+        if ! sync_repo sources/git/(xxh3sum_64bit $git_url) $git_url
+            printf "Failed to sync git source '%s'\n" $git_url
+            rm -f $pkgbuild
             return 1
         end
     end
-    rm -f "$pkgbuild"
+    rm -f $pkgbuild
+end
+
+function deploy_git_sources # 1: pkgname
+    set pkgbuild build/$argv[1]/PKGBUILD
+    if ! set git_urls (scripts/get_git_sources.bash $pkgbuild)
+        printf "Failed to parse git sources from '%s'\n" $argv[1]
+        return 1
+    end
+    set git_hashes
+    for git_url in $git_urls
+        set git_hash "$(xxh3sum_64bit $git_url)"
+        set git_dir sources/git/$git_hash
+        if test ! -d $git_dir
+            or ! repo_healthy $git_dir
+            printf "Git source not ready\n"
+            return 1
+        end
+        set --append git_hashes $git_hash
+    end
+    if ! scripts/deploy_git_sources.bash $argv[1] $git_hashes
+        printf "Failed to deploy git sources\n"
+        return 1
+    end
+end
+
+function get_file_cache_paths # 1: type, 2+: name
+    for arg in $argv[2..]
+        set name (string split --max 1 --fields 1 ' ' $arg)
+        echo sources/file-$argv[1]/$name
+    end
+end
+
+function deploy_file_sources # 1: pkgname
+    set pkgbuild build/$argv[1]/PKGBUILD
+    if ! set files (scripts/get_file_sources.bash $pkgbuild)
+        printf "Failed to parse file sources from '%s'\n" $argv[1]
+        return 1
+    end
+    if test (count $files) -lt 2
+        return 0
+    end
+    switch $files[1]
+    case ''
+        printf "Warning: package '%s' does not have integrity check array for sources, cannot deploy\n" \
+            $argv[1]
+        return 0
+    case {ck,md5,sha{1,224,256,384,512},b2} # Valid, do nothing
+        set integ $files[1]
+    case '*'
+        printf "Invalid integrity %s\n" $files[1]
+        return 1
+    end
+    # for file in $files[2..]
+        printf '%s\n' $files[2..]
+    # end
+end
+
+function deploy_sources # 1: pkgname 2: pkg git hash
+    rm -rf build/$argv[1]
+    mkdir build/$argv[1]
+    if ! git --git-dir sources/git/$argv[2] --work-tree build/$argv[1] checkout -f master
+        printf "Failed to checkout package '%s' to builddir\n" $argv[1]
+        return 1
+    end
+    if ! deploy_git_sources $argv[1]
+        printf "Failed to deploy git sources for package '%s'\n" $argv[1]
+        return 1
+    end
+    if ! deploy_file_sources $argv[1]
+        printf "Failed to deploy file sources for package '%s'\n" $argv[1]
+        return 1
+    end
+end
+
+function deploy_if_need_build # 1: pkgname, 2: pkg git repo hash,
+    if ! set commit "$(git --git-dir sources/git/$argv[2] rev-parse master)"
+        printf "Failed to get latest commit ID from pkg '%s'\n" $argv[1]
+        return 1
+    end
+    set pkgbuild "$(mktemp)"
+    if ! dump_pkgbuild sources/git/$argv[2] $pkgbuild
+        printf "Failed to get PKGBUILD from '%s' to parse vcs sources\n" \
+                $argv[1]
+        return 1
+    end
+    set source_deployed 0
+    if test "$(scripts/type_var.bash $pkgbuild pkgver)" = 'function'
+        printf "Package '%s' has a pkgver() function, need a full checkout to run it\n" $argv[1]
+        if ! deploy_sources $argv[1] $argv[2]
+            printf "Failed to deploy sources for package '%s'\n" $argv[1]
+            return 1
+        end
+        set source_deployed 1
+        # Get pkgver here
+        set build "$argv[1]-$commit-$pkgver"
+    else
+        set build $argv[1]-$commit
+    end
+    rm -f $pkgbuild
+    printf "Build ID for package '%s' is '%s'\n" \
+        $argv[1] $build
+    set --append builds $build
+    if test -d pkgs/$build -a (count pkgs/$build/*) -gt 0
+        printf "Package '%s' with current build ID '%s' already built, skipping it" \
+            $argv[1] $build
+        rm -rf build/$argv[1]
+        return 255
+    end
+    if test $source_deployed -eq 0
+        and ! deploy_sources $argv[1] $argv[2]
+        printf "Failed to deploy sources for package '%s'\n" $argv[1]
+        return 1
+    end
+    return 0
 end
 
 
@@ -215,96 +301,37 @@ function prepare_sources
         echo "Failed to prepare git sources"
         return 1
     end
-    set pkgbuild "$(mktemp)"
-    set git_urls
     set --global builds
-    for integ in {ck,md5,sha{1,224,256,384,512},b2}
-        set {$integ}s
-    end
     for i in (seq 1 $pkg_cnt)
         set hash $hashes[$i]
         set pkg $pkgs[$i]
-        if ! set commit (git --git-dir sources/git/"$hash" rev-parse master)
-            printf "Failed to get latest commit ID from pkg '%s'\n" "$pkg"
+        deploy_if_need_build "$pkg" "$hash"
+        switch $status
+        case 0  # need build, do nothing
+        case 1
+            printf "Failed to deploy sources for package '%s' that needs building\n" \
+                $pkg
             return 1
-        end
-        if ! dump_pkgbuild sources/git/"$hash" "$pkgbuild"
-            printf "Failed to get PKGBUILD from '%s' to parse vcs sources\n" \
-                    "$pkg"
-            return 1
-        end
-        if test "$(scripts/type_var.bash "$pkgbuild" pkgver)" = 'function'
-            printf "Package '%s' has a pkgver() function, need a full checkout to run it\n" "$pkg"
-            mkdir build/"$pkg"
-            if ! git --git-dir sources/git/"$hash" --work-tree build/"$pkg" checkout -f master
-                printf "Failed to checkout package '%s' to builddir\n" "$pkg"
-                return 1
-            end
-
-            set build "$pkg-$commit-$pkgver"
-        else
-            set build "$pkg-$commit"
-        end
-        printf "Build ID for package '%s' is '%s'\n" \
-            "$pkg" "$build"
-        set --append builds "$build"
-        if test -d pkgs/"$build" -a (count pkgs/"$build"/*) -gt 0
-            printf "Package '%s' with current build ID '%s' already built, skipping it" \
-                "$pkg" "$build"
-            rm -rf build/$pkg
+        case 255 # Already built, skip
             continue
         end
-        if ! set --append git_urls (scripts/get_git_sources.bash "$pkgbuild")
-            printf "Failed to parse git sources from '%s'\n" "$pkg"
-            return 1
-        end
-        if ! set files (scripts/get_file_sources.bash "$pkgbuild")
-            printf "Failed to parse file sources from '%s'\n" "$pkg"
-            return 1
-        end
-        if test (count $files) -lt 2
-            continue
-        end
-        switch $files[1]
-        case ''
-            echo "Warning: no integrity found, cannot predownload"
-        case ck
-            set --append cks $files[2..]
-        case md5
-            set --append md5s $files[2..]
-        case sha1
-            set --append sha1s $files[2..]
-        case sha224
-            set --append sha224s $files[2..]
-        case sha256
-            set --append sha256s $files[2..]
-        case sha384
-            set --append sha384s $files[2..]
-        case sha512
-            set --append sha512s $files[2..]
-        case b2
-            set --append b2s $files[2..]
-        case '*'
-            printf "Invalid integrity %s\n" $files[1]
-            return 1
-        end
     end
-    set git_urls (printf '%s\n' $git_urls | sort | uniq)
-    set git_hashes (for git_url in $git_urls; xxh3sum_64bit $git_url; end)
+    # set git_urls (printf '%s\n' $git_urls | sort | uniq)
+    # set git_hashes (for git_url in $git_urls; xxh3sum_64bit $git_url; end)
 
-    set files
-    set urls
+    # set files
+    # set urls
 
-    for integ in {ck,md5,sha{1,224,256,384,512},b2}
-        set sums {$integ}s
-        set len_sum len_$integ
-        if test (count $$sums) -gt 0
-            set $sums (printf '%s\n' $$sums | sort | uniq --check-chars $$len_sum)
-            set --append files (get_file_cache_paths $integ $$sums)
-            set --append urls (string split --max 1 --fields 2 ' ' $$sums)
-        end
-    end
-    rm -f $pkgbuild
+    # for integ in {ck,md5,sha{1,224,256,384,512},b2}
+    #     set sums {$integ}s
+    #     set len_sum len_$integ
+    #     if test (count $$sums) -gt 0
+    #         set $sums (printf '%s\n' $$sums | sort | uniq --check-chars $$len_sum)
+    #         set --append files (get_file_cache_paths $integ $$sums)
+    #         set --append urls (string split --max 1 --fields 2 ' ' $$sums)
+    #     end
+    # end
+    # rm -f $pkgbuild
 end
 
 # function get_git_sources # 1: pkgbuild
