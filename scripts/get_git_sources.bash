@@ -10,7 +10,7 @@ get_all_sources_for_arch 'all_sources'
 for file in "${all_sources[@]}"; do
     if [[ $(get_protocol "${file}") != 'git' ]]; then continue; fi
     url=$(get_url "$file")
-	url=${url#git+}
-	url=${url%%#*}
-	echo "${url%%\?*}"
+    url=${url#git+}
+    url=${url%%#*}
+    echo "${url%%\?*}"
 done
