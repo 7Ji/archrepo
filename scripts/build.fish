@@ -1,7 +1,14 @@
-set git_proxy socks5://xray.lan:1080
-# Do not start new build job after 1-min loadavg is greater than this
+# Use the proxy to fetch from git server, after a failed attempt without proxy
+# Default: (empty), set with --git-proxy
+set git_proxy ''
+# Hold the PKGBUILDs and all git sources, do not update them
+# Default: 0, for disabled, set with --holdver to enable it
+set holdver 0
+# Do not start new build job after 1-min loadavg is greater than this, default 8, set with --load_max
+# Default: 8, for 8.00 load, 1.00 = 1 core, set with --load-max
 set load_max 8
-# Do not touch these constants
+
+# DO NOT touch these constants!
 set len_ck 10
 set len_md5 32
 set len_sha1 40
@@ -40,27 +47,59 @@ function init_repo # 1: dir, 2: url
         echo "Dir and URL not set"
         return 1
     end
-    rm -rf "$argv[1]"
-    mkdir "$argv[1]"
-    mkdir "$argv[1]"/{objects,refs}
+    rm -rf $argv[1]
+    mkdir $argv[1]
+    mkdir $argv[1]/{objects,refs}
     echo 'ref: refs/heads/master' > "$argv[1]/HEAD"
     printf '[core]\n\trepositoryformatversion = 0\n\tfilemode = true\n\tbare = true\n[remote "origin"]\n\turl = %s\n\tfetch = +refs/*:refs/*\n' \
-        "$argv[2]" > "$argv[1]/config"
+        $argv[2] > "$argv[1]/config"
+end
+
+function repo_healthy
+    if test "$(git --git-dir $argv[1] rev-parse HEAD)" = 'HEAD'
+        return 1
+    else
+        return 0
+    end
+end
+
+function git_update # 1: git dir 2: addtional arg (probably proxy)
+    if ! git --git-dir $argv[1] $argv[2..] remote update --prune
+        printf "Failed to update git repo '%s'\n" $argv[1]
+        return 1
+    end
+    if ! set ref (
+        git --git-dir $argv[1] $argv[2..] ls-remote --symref origin HEAD | 
+        string match --regex 'refs/heads/[a-zA-Z0-9]+')
+        printf "Failed to get remote HEAD of repo '%s'\n" $argv[1]
+        return 1
+    end
+    if ! git --git-dir $argv[1] symbolic-ref HEAD "$ref"
+        printf "Failed to set local HEAD of repo '%s' to '%s'\n" $argv[1] $ref
+        return 1
+    end
 end
 
 function update_repo # 1: dir
-    # TODO: Remove me! This is a temporary early-quit flag to save debugging time
-    return 0
-    if ! git --git-dir "$argv[1]" remote update
+    if test $holdver -eq 1
+        if repo_healthy $argv[1]
+            # printf "Holding version for healthy repo '%s'\n" $argv[1]
+            return 0
+        else
+            printf "Holdver set but repo '%s' not healthy, need to update it\n" \
+                $argv[1]
+        end
+    end
+    if ! git_update $argv[1]
         if test -z "$git_proxy"
             printf "Failed to update repo '%s'\n" $argv[1]
             return 1
         end
         printf "Failed to update repo '%s', using proxy '%s' to retry\n" \
-                "$argv[1]" "$git_proxy"
-        if ! git -c http.proxy="$git_proxy" --git-dir "$argv[1]" remote update
+                $argv[1] "$git_proxy"
+        if ! git_update $argv[1] -c http.proxy="$git_proxy"
             printf "Failed to update repo '%s' using proxy '%s'\n" \
-                "$argv[1]" "$git_proxy"
+                $argv[1] "$git_proxy"
             return 1
         end
     end
@@ -71,8 +110,8 @@ function sync_repo # 1: dir, 2: url. Init if not found, then update
         echo "Dir and URL not set"
         return 1
     end
-    if test ! -d "$argv[1]"
-        if ! init_repo "$argv[1]" "$argv[2]"
+    if test ! -d $argv[1]
+        if ! init_repo $argv[1] $argv[2]
             printf "Failed to init non-existing repo at '%s' for '%s'\n" \
                     $argv[1..2]
             return 1
@@ -86,7 +125,7 @@ function sync_repo # 1: dir, 2: url. Init if not found, then update
 end
 
 function read_pkgbuilds # 1: config
-    set --global list (grep -o '^ - [a-Z0-9_-]\+: [a-Z0-9_:/.-]\+'  "$argv[1]")
+    set --global list (grep -o '^ - [a-Z0-9_-]\+: [a-Z0-9_:/.-]\+'  $argv[1])
     set --global pkgs (string replace : '' (string split --no-empty --fields 2 ' ' $list))
     set --global urls (string split --no-empty --fields 3 ' ' $list)
     set --global hashes (for url in $urls; xxh3sum_64bit $url; end)
@@ -105,8 +144,8 @@ function sync_pkgbuilds
 end
 
 function dump_pkgbuild # 1: git dir 2: output
-    if ! git --git-dir "$argv[1]" cat-file blob master:PKGBUILD > "$argv[2]"
-        printf "Failed to dump PKGBUILD from '%s'\n" "$argv[1]"
+    if ! git --git-dir $argv[1] cat-file blob master:PKGBUILD > $argv[2]
+        printf "Failed to dump PKGBUILD from '%s' to '%s'\n" $argv[1] $argv[2]
         return 1
     end
 end
@@ -120,24 +159,108 @@ function get_file_cache_paths # 1: type, 2+: name
     end
 end
 
-function predownload_sources
+function deploy_sources # 1: pkgname
+    set pkgbuild build/$argv[1]/PKGBUILD
+    if ! set git_urls (scripts/get_git_sources.bash "$pkgbuild")
+        printf "Failed to parse git sources from '%s'\n" $argv[1]
+        return 1
+    end
+    if ! set files (scripts/get_file_sources.bash "$pkgbuild")
+        printf "Failed to parse file sources from '%s'\n" $argv[1]
+        return 1
+    end
+    for git_url in $git_urls
+        set hash (xxh3sum_64bit "$git_url")
+        set git_dir sources/git/"$hash"
+        if test ! -d "$git_dir"
+            or ! repo_healthy "$git_dir"
+            printf "Git source not ready\n"
+            return 1
+        end
+    end
+end
+
+
+function prepare_git_sources
+    # do this alone first, so all git sources are up-to-date
     set pkgbuild "$(mktemp)"
     set git_urls
-    for integ in {ck,md5,sha{1,224,256,384,512},b2}
-        set {$integ}s
-    end
-    for hash in $hashes
+    for i in (seq 1 $pkg_cnt)
+        set hash $hashes[$i]
+        set pkg $pkgs[$i]
         if ! dump_pkgbuild sources/git/"$hash" "$pkgbuild"
             printf "Failed to get PKGBUILD from '%s' to parse vcs sources\n" \
-                    "$hash"
+                    "$pkg"
             return 1
         end
         if ! set --append git_urls (scripts/get_git_sources.bash "$pkgbuild")
-            printf "Failed to parse git sources from '%s'\n" "$hash"
+            printf "Failed to parse git sources from '%s'\n" "$pkg"
+            return 1
+        end
+    end
+    set git_urls (printf '%s\n' $git_urls | sort | uniq)
+    for git_url in $git_urls
+        printf "Syncing git source '%s'\n" "$git_url"
+        if ! sync_repo sources/git/(xxh3sum_64bit "$git_url") "$git_url"
+            printf "Failed to sync git source '%s'\n" "$git_url"
+            return 1
+        end
+    end
+    rm -f "$pkgbuild"
+end
+
+
+function prepare_sources
+    if ! prepare_git_sources
+        echo "Failed to prepare git sources"
+        return 1
+    end
+    set pkgbuild "$(mktemp)"
+    set git_urls
+    set --global builds
+    for integ in {ck,md5,sha{1,224,256,384,512},b2}
+        set {$integ}s
+    end
+    for i in (seq 1 $pkg_cnt)
+        set hash $hashes[$i]
+        set pkg $pkgs[$i]
+        if ! set commit (git --git-dir sources/git/"$hash" rev-parse master)
+            printf "Failed to get latest commit ID from pkg '%s'\n" "$pkg"
+            return 1
+        end
+        if ! dump_pkgbuild sources/git/"$hash" "$pkgbuild"
+            printf "Failed to get PKGBUILD from '%s' to parse vcs sources\n" \
+                    "$pkg"
+            return 1
+        end
+        if test "$(scripts/type_var.bash "$pkgbuild" pkgver)" = 'function'
+            printf "Package '%s' has a pkgver() function, need a full checkout to run it\n" "$pkg"
+            mkdir build/"$pkg"
+            if ! git --git-dir sources/git/"$hash" --work-tree build/"$pkg" checkout -f master
+                printf "Failed to checkout package '%s' to builddir\n" "$pkg"
+                return 1
+            end
+
+
+            set build "$pkg-$commit-$pkgver"
+        else
+            set build "$pkg-$commit"
+        end
+        printf "Build ID for package '%s' is '%s'\n" \
+            "$pkg" "$build"
+        set --append builds "$build"
+        if test -d pkgs/"$build" -a (count pkgs/"$build"/*) -gt 0
+            printf "Package '%s' with current build ID '%s' already built, skipping it" \
+                "$pkg" "$build"
+            rm -rf build/$pkg
+            continue
+        end
+        if ! set --append git_urls (scripts/get_git_sources.bash "$pkgbuild")
+            printf "Failed to parse git sources from '%s'\n" "$pkg"
             return 1
         end
         if ! set files (scripts/get_file_sources.bash "$pkgbuild")
-            printf "Failed to parse file sources from '%s'\n" "$hash"
+            printf "Failed to parse file sources from '%s'\n" "$pkg"
             return 1
         end
         if test (count $files) -lt 2
@@ -163,7 +286,7 @@ function predownload_sources
         case b2
             set --append b2s $files[2..]
         case '*'
-            printf "Invalid integrity "
+            printf "Invalid integrity %s\n" $files[1]
             return 1
         end
     end
@@ -182,16 +305,14 @@ function predownload_sources
             set --append urls (string split --max 1 --fields 2 ' ' $$sums)
         end
     end
-    echo (count $files)
-    echo (count $urls)
     rm -f $pkgbuild
 end
 
 # function get_git_sources # 1: pkgbuild
 #     set -l pkgbuild (mktemp)
-#     if ! dump_pkgbuild "$argv[1]" "$pkgbuild"
+#     if ! dump_pkgbuild $argv[1] "$pkgbuild"
 #         printf "Failed to get PKGBUILD from '%s' to parse vcs sources\n" \
-#                 "$argv[1]"
+#                 $argv[1]
 #         return 1
 #     end
 #     ./scripts/get_git_sources.bash "$pkgbuild"
@@ -211,9 +332,9 @@ end
 
 # function get_file_sources  # 1: pkgbuild
 #     set -l pkgbuild (mktemp)
-#     if ! dump_pkgbuild "$argv[1]" "$pkgbuild"
+#     if ! dump_pkgbuild $argv[1] "$pkgbuild"
 #         printf "Failed to get PKGBUILD from '%s' to parse file sources\n" \
-#                 "$argv[1]"
+#                 $argv[1]
 #         return 1
 #     end
 #     ./scripts/get_file_sources.bash "$pkgbuild"
@@ -221,28 +342,42 @@ end
 # end
 
 function prepare_build # 1: pkg name 2: hash 3: git source hashes
-    set -l build_dir build/"$argv[1]"
+    set -l build_dir build/$argv[1]
     rm -rf "$build_dir"
     # Don't use -p here to save extra syscall, caller should've created build
     mkdir "$build_dir"
-    # mkdir -p netfiles/"$argv[1]"
-    if ! git --git-dir sources/git/"$argv[2]" --work-tree "$build_dir" checkout -f master
-        printf "Failed to checkout to builddir '%s'\n" "$argv[1]"
+    # mkdir -p netfiles/$argv[1]
+    if ! git --git-dir sources/git/$argv[2] --work-tree "$build_dir" checkout -f master
+        printf "Failed to checkout to builddir '%s'\n" $argv[1]
         return 1
     end
     if ! ./scripts/prepare_sources.bash $argv[1] (string split ' ' $argv[3])
-        printf "Failed to prepare sources for '%s'\n" "$argv[1]"
+        printf "Failed to prepare sources for '%s'\n" $argv[1]
         return 1
     end
 end
 
-# Config must be given as argv[1]
-if test -z $argv[1]
+# Parse arguments
+set config
+begin
+    argparse 'g/git-proxy=' 'H/holdver' 'l/load-max=' -- $argv
+    set git_proxy $_flag_g
+    if test -n "$_flag_l"
+        set load_max $_flag_l
+    end
+    if test -n "$_flag_H"
+        set holdver 1
+    end
+    set config $argv[1]
+end
+
+# Config must be set
+if test -z $config
     echo "Config file not set"
     exit 1
 end 
-if ! test -f $argv[1]
-    printf "Config file '%s' does not exist\n" $argv[1]
+if ! test -f $config
+    printf "Config file '%s' does not exist\n" $config
     exit 1
 end
 if ! ensure_dirs
@@ -256,15 +391,15 @@ set pkgs
 set urls
 set hashes
 set pkg_cnt
-if ! read_pkgbuilds $argv[1]
+if ! read_pkgbuilds $config
     echo "Failed to read PKGBUILDs"
     exit 1
 end
 
 sync_pkgbuilds
 
-if ! predownload_sources
-    echo "Failed to pre-download sources"
+if ! prepare_sources
+    echo "Failed to prepare sources"
     exit 1
 end
 

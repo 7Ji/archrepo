@@ -7,10 +7,10 @@ PKGEXT=.pkg.tar \
     makepkg --holdver --noextract --syncdeps --noconfirm
 popd
 # mv for atomic
-buildname=$(<$1.buildname)
-tempdir=$(mktemp -p pkgs -d XXXXXXXXXX)
+pkgdir=pkgs/$(<"$1".build)
+tempdir="${pkgdir}".temp
 mv "$1"/*"${PKGEXT}" "${tempdir}"/
-mv "${tempdir}" pkgs/"${buildname}"
-for pkg in pkgs/"${buildname}"/*; do
-    ln -s ../"${buildname}"/$(basename "${pkg}") pkgs/updated
+mv "${tempdir}" "${pkgdir}"
+for pkg in "${pkgdir}"/*; do
+    ln -sf ../"${buildname}"/$(basename "${pkg}") pkgs/updated
 done
