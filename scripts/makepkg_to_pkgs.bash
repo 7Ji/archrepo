@@ -4,7 +4,7 @@ pushd $1 &>/dev/null
 # --holdver as we updated those repos before even deploying the PKGBUILDs
 # --noextract as sources were extracted during need_build()
 PKGEXT=.pkg.tar \
-    makepkg --holdver --noextract --syncdeps --noconfirm
+    makepkg --holdver --noextract --syncdeps --noconfirm -A
 popd &>/dev/null
 # mv for atomic
 buildid="$(<"$1".id)"
