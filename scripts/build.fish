@@ -382,11 +382,18 @@ function prepare_sources
 end
 
 function makepkg_to_pkgs
+    set i 0
     for pkg in build/*
         if test -d $pkg
-            while test (string split --fields 1 ' ' (cat /proc/loadavg)) -ge $load_max
-                # Wait for CPU resource
-                sleep 1
+            set i (math $i + 1)
+            # Force a sleep per 4 packages, or when under heavy load
+            if test (math $i % 4) -eq 0
+                or test (string split --fields 1 ' ' (cat /proc/loadavg)) -gt $load_max
+                sleep 10
+                while test (string split --fields 1 ' ' (cat /proc/loadavg)) -gt $load_max
+                    # Wait for CPU resource
+                    sleep 3
+                end
             end
             printf "Started building work for '%s'\n" $pkg
             scripts/makepkg_to_pkgs.bash $pkg &
