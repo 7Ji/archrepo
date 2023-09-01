@@ -204,10 +204,45 @@ function deploy_git_sources # 1: pkgname
     end
 end
 
-function get_file_cache_paths # 1: type, 2+: name
-    for arg in $argv[2..]
-        set name (string split --max 1 --fields 1 ' ' $arg)
-        echo sources/file-$argv[1]/$name
+function ensure_cache_file # 1: path, 2: url, 3: cksum executable, 4: checksum
+    if test -f $argv[1]
+        return 0
+    end
+    set file_work $argv[1].work
+    switch $argv[2]
+    case 'file://*'
+        set cmd /usr/bin/curl -qgC - -o $file_work $argv[2]
+    case 'ftp://*'
+        set cmd /usr/bin/curl -qgfC - --ftp-pasv --retry 3 --retry-delay 3 -o $file_work $argv[2]
+    case 'http://*'
+        set cmd /usr/bin/curl -qgb "" -fLC - --retry 3 --retry-delay 3 -o $file_work $argv[2]
+    case 'rsync://*'
+        set cmd /usr/bin/rsync --no-motd -z $argv[2] $file_work
+    case 'scp://*'
+        set cmd /usr/bin/scp -C $argv[2] $file_work
+    case '*'
+        set cmd /usr/bin/curl -o $file_work $argv[2]
+    end
+    set try 0
+    rm -f $file_work
+    while test $try -lt 3
+        set try (math $try + 1)
+        printf "Downloading '%s' to '%s'...\n" $argv[2] $file_work
+        if ! $cmd
+            rm -f $file_work
+            continue
+        end
+        if test "$($argv[3] $file_work | string split --fields 1 ' ')" = "$argv[4]"
+            mv $file_work $argv[1]
+            break
+        else
+            printf "File '%s' from '%s' is corrupted\n" $argv[1..2]
+            rm -f $file_work
+        end
+    end
+    if test ! -f $argv[1]
+        printf "Failed to download from '%s' after all tries\n" $argv[2]
+        return 1
     end
 end
 
@@ -231,8 +266,24 @@ function deploy_file_sources # 1: pkgname
         printf "Invalid integrity %s\n" $files[1]
         return 1
     end
-    # for file in $files[2..]
-        printf '%s\n' $files[2..]
+    for file in $files[2..]
+        set file_cksum_url (string split --max 1 ' ' $file)
+        if ! ensure_cache_file \
+            sources/file-$integ/$file_cksum_url[1] \
+                $file_cksum_url[2] {$integ}sum $file_cksum_url[1]
+            printf "Failed to ensure cache file %s: '%s'\n" \
+                $integ $file
+            return 1
+        end
+    end
+    # set len_name len_$integ
+    # set sums (printf '%s\n' $files[2..] | sort | uniq --check-chars $$len_name)
+    # set file_paths (get_file_cache_paths $integ $sums)
+    # set file_urls (string split --max 1 --fields 2 ' ' $sums)
+    # for i in (seq 1 (count $file_paths))
+    #     printf "Cache file '%s' from url '%s'\n" $file_paths[$i] $file_urls[$i]
+
+    # end
     # end
 end
 
