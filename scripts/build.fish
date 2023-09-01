@@ -214,7 +214,7 @@ function ensure_cache_file # 1: path, 2: url, 3: cksum executable, 4: checksum
         set cmd /usr/bin/curl -qgC - -o $file_work $argv[2]
     case 'ftp://*'
         set cmd /usr/bin/curl -qgfC - --ftp-pasv --retry 3 --retry-delay 3 -o $file_work $argv[2]
-    case 'http://*'
+    case 'http'{,s}'://*'
         set cmd /usr/bin/curl -qgb "" -fLC - --retry 3 --retry-delay 3 -o $file_work $argv[2]
     case 'rsync://*'
         set cmd /usr/bin/rsync --no-motd -z $argv[2] $file_work
