@@ -15,3 +15,6 @@ srcdir="${SRCDEST}"/src
 mkdir "${srcdir}"
 cd "${srcdir}"
 extract_sources
+if [[ "$(type -t prepare)" == 'function' ]]; then
+    prepare
+fi
