@@ -70,7 +70,7 @@ function git_update # 1: git dir 2: addtional arg (probably proxy)
     end
     if ! set ref (
         git --git-dir $argv[1] $argv[2..] ls-remote --symref origin HEAD | 
-        string match --regex 'refs/heads/[a-zA-Z0-9]+')
+        string match --regex 'refs/heads/[a-zA-Z0-9._/-]+')
         printf "Failed to get remote HEAD of repo '%s'\n" $argv[1]
         return 1
     end
@@ -240,7 +240,6 @@ function prepare_sources
                 printf "Failed to checkout package '%s' to builddir\n" "$pkg"
                 return 1
             end
-
 
             set build "$pkg-$commit-$pkgver"
         else
