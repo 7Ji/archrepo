@@ -55,6 +55,10 @@ function init_repo # 1: dir, 2: url
         $argv[2] > $argv[1]/config
 end
 
+# What this really checks is the detached HEAD status, which is found on either:
+# 1. Broken repo, where HEAD cannot be peeled into valid commit due to the
+#    symref it points to is no more valid
+# 2. New repo, where our init master branch does not have any commit
 function repo_healthy
     if test "$(git --git-dir $argv[1] rev-parse HEAD)" = 'HEAD'
         return 1
@@ -63,6 +67,10 @@ function repo_healthy
     end
 end
 
+# This update the git repo with a mirror fetch + prune, then update HEAD
+# Note that due to limit of git command-line, we can't get the remote HEAD
+# in the same step as updating. This could be improved by rewriting the logic
+# into a single .c binary that uses libgit2, if efficiency is important.
 function git_update # 1: git dir 2: whether to update HEAD, 3: addtional arg (probably proxy)
     if ! git --git-dir $argv[1] $argv[3..] remote update --prune
         printf "Failed to update git repo '%s'\n" $argv[1]
@@ -108,7 +116,8 @@ function update_repo # 1: dir 2: whether to update head
     end
 end
 
-function sync_repo # 1: dir, 2: url. 3: whether to update HEAD. Init if not found, then update
+# Sync local git repo to remote. Init if not found, then update
+function sync_repo # 1: dir, 2: url. 3: whether to update HEAD. 
     if test -z "$argv[1..2]"
         echo "Dir and URL not set"
         return 1
@@ -127,6 +136,10 @@ function sync_repo # 1: dir, 2: url. 3: whether to update HEAD. Init if not foun
     end
 end
 
+# This is ugly as the function does not actually know the YAML format.
+# There will certainly be bad YAML config that breaks the function.
+# But as we maintain the PKGBUILDs list in-house, we can ignore the problem.
+# This could be rewritten using language that knows YAML format.
 function read_pkgbuilds # 1: config
     set list (grep -o '^ - [a-Z0-9_-]\+: [a-Z0-9_:/.-]\+'  $argv[1])
     set --global pkgs (string replace : '' (string split --no-empty --fields 2 ' ' $list))
@@ -139,6 +152,9 @@ function read_pkgbuilds # 1: config
     end
 end
 
+# Someone might want to change this to multi-threaded, DON'T DO THAT!
+# Most of our PKGBUILDs are from AUR, and as AUR runs completely profit-free,
+# I don't want to put too much load on the server.
 function sync_pkgbuilds
     for i in (seq 1 $pkg_cnt)
         printf "Syncing PKGBUILD '%s' with URL '%s', hash '%s'\n" $pkgs[$i] $urls[$i] $hashes[$i]
@@ -149,6 +165,7 @@ function sync_pkgbuilds
     end
 end
 
+# Hoo, surprised? We don't need to check out the whole repo to get PKGBUILD
 function dump_pkgbuild # 1: git dir 2: output
     if ! git --git-dir $argv[1] cat-file blob master:PKGBUILD > $argv[2]
         printf "Failed to dump PKGBUILD from '%s' to '%s'\n" $argv[1] $argv[2]
@@ -156,6 +173,7 @@ function dump_pkgbuild # 1: git dir 2: output
     end
 end
 
+# Dumps all PKGBUILDs, parse them and get a list of git sources, sync them
 function prepare_git_sources
     # do this alone first, so all git sources are up-to-date
     set pkgbuild "$(mktemp)"
@@ -189,6 +207,10 @@ function prepare_git_sources
     end
 end
 
+# Deploy (symlink) git sources into a package's build folder
+# The package should NOT write nor update it, as we've updated the repo, and
+# writes to the symlink are actually writing to our dedicated git sources 
+# storage.
 function deploy_git_sources # 1: pkgname
     set pkgbuild build/$argv[1]/PKGBUILD
     if ! set git_urls (scripts/get_git_sources.bash $pkgbuild)
@@ -212,6 +234,11 @@ function deploy_git_sources # 1: pkgname
     end
 end
 
+# Cache a network file that has checksum. Files will be downloaded as
+# sources/file-{integrity algorithm}/{checksum} if they're not found.
+# NOTE: The integrity check is only performed once when they're downloaded,
+# and is skipped in future for performance. Do not write to the files after 
+# they're cached. 
 function cache_file # 1: path, 2: url, 3: cksum executable, 4: checksum
     if test -f $argv[1]
         return 0
@@ -254,6 +281,10 @@ function cache_file # 1: path, 2: url, 3: cksum executable, 4: checksum
     end
 end
 
+# Deploy (symlink) network file sources into a package's build folder
+# The package should NOT write to it, as writes to the symlink are actually 
+# writing to our dedicated network file sources storage, and corrupting the
+# storage.
 function deploy_file_sources # 1: pkgname
     set pkgbuild build/$argv[1]/PKGBUILD
     if ! set files (scripts/get_file_sources.bash $pkgbuild)
@@ -290,6 +321,10 @@ function deploy_file_sources # 1: pkgname
     end
 end
 
+# Deploy (symlink) git and network file sources into a package's build folder
+# Then use libmakepkg to download remaining sources
+# Then extract the sources
+# After this logic, $srcdir is complete, and running pkgver() is possible.
 function deploy_sources # 1: pkgname 2: pkg git hash
     rm -rf build/$argv[1]
     mkdir build/$argv[1]
@@ -311,6 +346,22 @@ function deploy_sources # 1: pkgname 2: pkg git hash
     end
 end
 
+# Check if a package needs building, and deploy the sources so we can later run
+# `makepkg --noextract` directly if the package needs building.
+#
+# The check is actually performed against a build ID constructed as:
+#   [package name]-[package commit](-[pkgver])
+#
+# If the PKGBUILD does not define pkgver(), then the check is fast, and deploy-
+# ment can be totally skipped.
+# If it defines pkgver(), then a temporary yet full deployment is always needed,
+# so it would always be slow. The temporary deployed package would be removed if 
+# it does not need building.
+#
+# The result is binary: either the package needs building and build/$pkg
+# is created with all of needed source needed, as if after `makepkg --nobuild`;
+# or the package does not need building and builg/$pkg does not exist after
+# the checking.
 function deploy_if_need_build # 1: pkgname, 2: pkg git repo hash,
     if ! set commit "$(git --git-dir sources/git/$argv[2] rev-parse master)"
         printf "Failed to get latest commit ID from pkg '%s'\n" $argv[1]
@@ -359,6 +410,8 @@ function deploy_if_need_build # 1: pkgname, 2: pkg git repo hash,
     return 0
 end
 
+# Prepare sources so we can later run `makepkg --noextract` on all packages that
+# need building.
 function prepare_sources
     if ! prepare_git_sources
         echo "Failed to prepare git sources"
@@ -381,6 +434,11 @@ function prepare_sources
     end
 end
 
+# Make all packages and move them to folders corresponding to their build IDs,
+# and link the packages to pkgs/updated.
+# The step moving the packages is atomic, so the pkg/[build ID] folder would
+# always contain all packages. This is important for subsequent runs as they
+# can trust such robustness.
 function makepkg_to_pkgs
     set i 0
     for pkg in build/*
@@ -402,6 +460,7 @@ function makepkg_to_pkgs
     wait
 end
 
+# Create links under pkgs/latest, so all latest packages can be found
 function link_pkgs
     for build in $builds
         for pkg in pkgs/$build/*.pkg.tar
