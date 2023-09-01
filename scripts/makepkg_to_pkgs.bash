@@ -5,12 +5,14 @@ pushd $1 &>/dev/null
 # --noextract as sources were extracted during need_build()
 PKGEXT=.pkg.tar \
     makepkg --holdver --noextract --syncdeps --noconfirm
-popd
+popd &>/dev/null
 # mv for atomic
-pkgdir=pkgs/$(<"$1".build)
+buildid="$(<"$1".id)"
+pkgdir=pkgs/"${buildid}"
 tempdir="${pkgdir}".temp
-mv "$1"/*"${PKGEXT}" "${tempdir}"/
+mkdir "${tempdir}"
+mv "$1"/*.pkg.tar "${tempdir}"/
 mv "${tempdir}" "${pkgdir}"
 for pkg in "${pkgdir}"/*; do
-    ln -sf ../"${buildname}"/$(basename "${pkg}") pkgs/updated
+    ln -sf ../"${buildid}"/$(basename "${pkg}") pkgs/updated/
 done

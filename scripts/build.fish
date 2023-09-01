@@ -63,13 +63,16 @@ function repo_healthy
     end
 end
 
-function git_update # 1: git dir 2: addtional arg (probably proxy)
-    if ! git --git-dir $argv[1] $argv[2..] remote update --prune
+function git_update # 1: git dir 2: whether to update HEAD, 3: addtional arg (probably proxy)
+    if ! git --git-dir $argv[1] $argv[3..] remote update --prune
         printf "Failed to update git repo '%s'\n" $argv[1]
         return 1
     end
+    if test $argv[2] != 'yes'
+        return 0
+    end
     if ! set ref "$(
-        git --git-dir $argv[1] $argv[2..] ls-remote --symref origin HEAD | 
+        git --git-dir $argv[1] $argv[3..] ls-remote --symref origin HEAD | 
         string match --regex 'refs/heads/[a-zA-Z0-9._/-]+')"
         printf "Failed to get remote HEAD of repo '%s'\n" $argv[1]
         return 1
@@ -80,7 +83,7 @@ function git_update # 1: git dir 2: addtional arg (probably proxy)
     end
 end
 
-function update_repo # 1: dir
+function update_repo # 1: dir 2: whether to update head
     if test $holdver -eq 1
         if repo_healthy $argv[1]
             # printf "Holding version for healthy repo '%s'\n" $argv[1]
@@ -90,14 +93,14 @@ function update_repo # 1: dir
                 $argv[1]
         end
     end
-    if ! git_update $argv[1]
+    if ! git_update $argv[1..2]
         if test -z "$git_proxy"
             printf "Failed to update repo '%s'\n" $argv[1]
             return 1
         end
         printf "Failed to update repo '%s', using proxy '%s' to retry\n" \
                 $argv[1] "$git_proxy"
-        if ! git_update $argv[1] -c http.proxy="$git_proxy"
+        if ! git_update $argv[1..2] -c http.proxy="$git_proxy"
             printf "Failed to update repo '%s' using proxy '%s'\n" \
                 $argv[1] "$git_proxy"
             return 1
@@ -105,7 +108,7 @@ function update_repo # 1: dir
     end
 end
 
-function sync_repo # 1: dir, 2: url. Init if not found, then update
+function sync_repo # 1: dir, 2: url. 3: whether to update HEAD. Init if not found, then update
     if test -z "$argv[1..2]"
         echo "Dir and URL not set"
         return 1
@@ -117,7 +120,7 @@ function sync_repo # 1: dir, 2: url. Init if not found, then update
             return 1
         end
     end
-    if ! update_repo $argv[1]
+    if ! update_repo $argv[1] $argv[3]
         printf "Failed to update repo at '%s' to sync with '%s'\n" \
             $argv[1] $argv[2]
         return 1
@@ -139,7 +142,7 @@ end
 function sync_pkgbuilds
     for i in (seq 1 $pkg_cnt)
         printf "Syncing PKGBUILD '%s' with URL '%s', hash '%s'\n" $pkgs[$i] $urls[$i] $hashes[$i]
-        sync_repo sources/git/$hashes[$i] $urls[$i]
+        sync_repo sources/git/$hashes[$i] $urls[$i] no
     end
 end
 
@@ -169,16 +172,18 @@ function prepare_git_sources
             return 1
         end
     end
+    rm -f $pkgbuild
+    if test (count $git_urls) -eq 0
+        return 0
+    end
     set git_urls (printf '%s\n' $git_urls | sort | uniq)
     for git_url in $git_urls
         printf "Syncing git source '%s'\n" $git_url
-        if ! sync_repo sources/git/(xxh3sum_64bit $git_url) $git_url
+        if ! sync_repo sources/git/(xxh3sum_64bit $git_url) $git_url yes
             printf "Failed to sync git source '%s'\n" $git_url
-            rm -f $pkgbuild
             return 1
         end
     end
-    rm -f $pkgbuild
 end
 
 function deploy_git_sources # 1: pkgname
@@ -227,7 +232,7 @@ function ensure_cache_file # 1: path, 2: url, 3: cksum executable, 4: checksum
     rm -f $file_work
     while test $try -lt 3
         set try (math $try + 1)
-        printf "Downloading '%s' to '%s'...\n" $argv[2] $file_work
+        printf "Caching '%s' <= '%s'...\n" $file_work $argv[2]
         if ! $cmd
             rm -f $file_work
             continue
@@ -276,15 +281,10 @@ function deploy_file_sources # 1: pkgname
             return 1
         end
     end
-    # set len_name len_$integ
-    # set sums (printf '%s\n' $files[2..] | sort | uniq --check-chars $$len_name)
-    # set file_paths (get_file_cache_paths $integ $sums)
-    # set file_urls (string split --max 1 --fields 2 ' ' $sums)
-    # for i in (seq 1 (count $file_paths))
-    #     printf "Cache file '%s' from url '%s'\n" $file_paths[$i] $file_urls[$i]
-
-    # end
-    # end
+    if ! scripts/deploy_file_sources.bash $argv[1]
+        printf "Failed to deploy file sources\n"
+        return 1
+    end
 end
 
 function deploy_sources # 1: pkgname 2: pkg git hash
@@ -300,6 +300,10 @@ function deploy_sources # 1: pkgname 2: pkg git hash
     end
     if ! deploy_file_sources $argv[1]
         printf "Failed to deploy file sources for package '%s'\n" $argv[1]
+        return 1
+    end
+    if ! scripts/extract_sources.bash $argv[1]
+        printf "Failed to prepare non-git non-file sources for package '%s'\n" $argv[1]
         return 1
     end
 end
@@ -323,17 +327,22 @@ function deploy_if_need_build # 1: pkgname, 2: pkg git repo hash,
             return 1
         end
         set source_deployed 1
+        if ! set pkgver "$(scripts/get_pkgver.bash $argv[1])"
+            printf "Failed to run pkgver() for package '%s'\n" $argv[1]
+            return 1
+        end
         # Get pkgver here
         set build "$argv[1]-$commit-$pkgver"
     else
         set build $argv[1]-$commit
     end
+    echo "$build" > build/$argv[1].id
     rm -f $pkgbuild
     printf "Build ID for package '%s' is '%s'\n" \
         $argv[1] $build
     set --append builds $build
     if test -d pkgs/$build -a (count pkgs/$build/*) -gt 0
-        printf "Package '%s' with current build ID '%s' already built, skipping it" \
+        printf "Package '%s' with current build ID '%s' already built, skipping it\n" \
             $argv[1] $build
         rm -rf build/$argv[1]
         return 255
@@ -345,7 +354,6 @@ function deploy_if_need_build # 1: pkgname, 2: pkg git repo hash,
     end
     return 0
 end
-
 
 function prepare_sources
     if ! prepare_git_sources
@@ -367,70 +375,27 @@ function prepare_sources
             continue
         end
     end
-    # set git_urls (printf '%s\n' $git_urls | sort | uniq)
-    # set git_hashes (for git_url in $git_urls; xxh3sum_64bit $git_url; end)
-
-    # set files
-    # set urls
-
-    # for integ in {ck,md5,sha{1,224,256,384,512},b2}
-    #     set sums {$integ}s
-    #     set len_sum len_$integ
-    #     if test (count $$sums) -gt 0
-    #         set $sums (printf '%s\n' $$sums | sort | uniq --check-chars $$len_sum)
-    #         set --append files (get_file_cache_paths $integ $$sums)
-    #         set --append urls (string split --max 1 --fields 2 ' ' $$sums)
-    #     end
-    # end
-    # rm -f $pkgbuild
 end
 
-# function get_git_sources # 1: pkgbuild
-#     set -l pkgbuild (mktemp)
-#     if ! dump_pkgbuild $argv[1] "$pkgbuild"
-#         printf "Failed to get PKGBUILD from '%s' to parse vcs sources\n" \
-#                 $argv[1]
-#         return 1
-#     end
-#     ./scripts/get_git_sources.bash "$pkgbuild"
-#     rm -f "$pkgbuild"
-# end
-
-# function get_git_hashes # @: sources
-#     if test (string length "$argv") -eq 0
-#         echo
-#         return 0
-#     end
-#     for arg in (string split ' ' $argv)
-#         printf '%s ' (xxh3sum_64bit $arg)
-#     end
-#     echo
-# end
-
-# function get_file_sources  # 1: pkgbuild
-#     set -l pkgbuild (mktemp)
-#     if ! dump_pkgbuild $argv[1] "$pkgbuild"
-#         printf "Failed to get PKGBUILD from '%s' to parse file sources\n" \
-#                 $argv[1]
-#         return 1
-#     end
-#     ./scripts/get_file_sources.bash "$pkgbuild"
-#     rm -f "$pkgbuild"
-# end
-
-function prepare_build # 1: pkg name 2: hash 3: git source hashes
-    set -l build_dir build/$argv[1]
-    rm -rf "$build_dir"
-    # Don't use -p here to save extra syscall, caller should've created build
-    mkdir "$build_dir"
-    # mkdir -p netfiles/$argv[1]
-    if ! git --git-dir sources/git/$argv[2] --work-tree "$build_dir" checkout -f master
-        printf "Failed to checkout to builddir '%s'\n" $argv[1]
-        return 1
+function makepkg_to_pkgs
+    for pkg in build/*
+        if test -d $pkg
+            while test (string split --fields 1 ' ' (cat /proc/loadavg)) -ge $load_max
+                # Wait for CPU resource
+                sleep 1
+            end
+            printf "Started building work for '%s'\n" $pkg
+            scripts/makepkg_to_pkgs.bash $pkg &
+        end
     end
-    if ! ./scripts/prepare_sources.bash $argv[1] (string split ' ' $argv[3])
-        printf "Failed to prepare sources for '%s'\n" $argv[1]
-        return 1
+    wait
+end
+
+function link_pkgs
+    for build in $builds
+        for pkg in pkgs/$build/*.pkg.tar
+            ln -sf ../$build/$(basename $pkg) pkgs/latest/
+        end
     end
 end
 
@@ -477,6 +442,16 @@ sync_pkgbuilds
 
 if ! prepare_sources
     echo "Failed to prepare sources"
+    exit 1
+end
+
+if ! makepkg_to_pkgs
+    echo "Failed to makepkgs"
+    exit 1
+end
+
+if ! link_pkgs
+    echo "Failed to linking packages"
     exit 1
 end
 
