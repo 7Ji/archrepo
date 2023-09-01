@@ -128,7 +128,7 @@ function sync_repo # 1: dir, 2: url. 3: whether to update HEAD. Init if not foun
 end
 
 function read_pkgbuilds # 1: config
-    set --global list (grep -o '^ - [a-Z0-9_-]\+: [a-Z0-9_:/.-]\+'  $argv[1])
+    set list (grep -o '^ - [a-Z0-9_-]\+: [a-Z0-9_:/.-]\+'  $argv[1])
     set --global pkgs (string replace : '' (string split --no-empty --fields 2 ' ' $list))
     set --global urls (string split --no-empty --fields 3 ' ' $list)
     set --global hashes (for url in $urls; xxh3sum_64bit $url; end)
@@ -142,7 +142,10 @@ end
 function sync_pkgbuilds
     for i in (seq 1 $pkg_cnt)
         printf "Syncing PKGBUILD '%s' with URL '%s', hash '%s'\n" $pkgs[$i] $urls[$i] $hashes[$i]
-        sync_repo sources/git/$hashes[$i] $urls[$i] no
+        if ! sync_repo sources/git/$hashes[$i] $urls[$i] no
+            printf "Failed to sync PKGBUILD '%s'\n" $pkgs[$i]
+            return 1
+        end
     end
 end
 
@@ -209,7 +212,7 @@ function deploy_git_sources # 1: pkgname
     end
 end
 
-function ensure_cache_file # 1: path, 2: url, 3: cksum executable, 4: checksum
+function cache_file # 1: path, 2: url, 3: cksum executable, 4: checksum
     if test -f $argv[1]
         return 0
     end
@@ -273,10 +276,10 @@ function deploy_file_sources # 1: pkgname
     end
     for file in $files[2..]
         set file_cksum_url (string split --max 1 ' ' $file)
-        if ! ensure_cache_file \
+        if ! cache_file \
             sources/file-$integ/$file_cksum_url[1] \
                 $file_cksum_url[2] {$integ}sum $file_cksum_url[1]
-            printf "Failed to ensure cache file %s: '%s'\n" \
+            printf "Failed to cache file %s: '%s'\n" \
                 $integ $file
             return 1
         end
@@ -347,6 +350,7 @@ function deploy_if_need_build # 1: pkgname, 2: pkg git repo hash,
         rm -rf build/$argv[1]
         return 255
     end
+    rm -rf pkgs/$build
     if test $source_deployed -eq 0
         and ! deploy_sources $argv[1] $argv[2]
         printf "Failed to deploy sources for package '%s'\n" $argv[1]
@@ -438,7 +442,10 @@ if ! read_pkgbuilds $config
     exit 1
 end
 
-sync_pkgbuilds
+if ! sync_pkgbuilds
+    echo "Failed to sync PKGBUILDs"
+    exit 1
+end
 
 if ! prepare_sources
     echo "Failed to prepare sources"
