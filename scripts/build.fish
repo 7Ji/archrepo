@@ -29,7 +29,7 @@ function ensure_dir
 end
 
 function ensure_dirs
-    rm -rf build pkgs/{latest,updated}
+    rm -rf build pkgs/{latest,updated,*.temp}
     for dir in build sources/{git,file-{ck,md5,sha{1,224,256,384,512},b2}} pkgs/{latest,updated}
         if ! ensure_dir $dir
             printf "Failed to ensure work folder '%s'\n" $argv[1]
