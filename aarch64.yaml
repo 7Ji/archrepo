@@ -25,5 +25,5 @@ PKGBUILDs:
  - uboot-legacy-initrd-hooks: https://aur.archlinux.org/uboot-legacy-initrd-hooks.git
  - usbrelay: https://aur.archlinux.org/usbrelay.git
  - v4l-utils-mpp: https://aur.archlinux.org/v4l-utils-mpp.git
- - xray: https://aur.archlinux.org/xray.git
+ - xray-nogeo: https://github.com/7Ji-PKGBUILDs/xray-nogeo.git
  - yaopenvfd: https://aur.archlinux.org/yaopenvfd.git
