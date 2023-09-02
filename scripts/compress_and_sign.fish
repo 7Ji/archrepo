@@ -11,13 +11,14 @@ for i in (seq 1 $cnt_pkgs)
     set raw_pkg "$raw_pkgs[$i]"
     set com_pkg "$com_pkgs[$i]"
     printf "'%s' -> '%s'\n" "$raw_pkg" "$com_pkg"
-    zstd -22T0 --ultra --rm -o "$com_pkg" "$raw_pkg" &
+    zstd -22T0 --force --ultra --rm -o "$com_pkg" "$raw_pkg" &
 end
 echo "Waiting for all compression jobs..."
 wait
 echo "Compression done, signing packages..."
 rm -rf updates
 mkdir updates
+rm -f $com_pkgs.sig
 for com_pkg in $com_pkgs
     gpg --use-agent --detach-sign --output $com_pkg{.sig,}
     ln -s ../$com_pkg updates/$com_pkg
