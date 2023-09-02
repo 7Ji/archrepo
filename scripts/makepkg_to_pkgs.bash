@@ -3,6 +3,7 @@
 buildid="$(<"$1".id)"
 pkgdir=pkgs/"${buildid}"
 tempdir="${pkgdir}".temp
+rm -rf "${tempdir}"
 mkdir "${tempdir}"
 PKGDEST="$(readlink -f "${tempdir}")"
 pushd $1 &>/dev/null
