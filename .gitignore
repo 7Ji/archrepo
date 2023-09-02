@@ -1,4 +1,4 @@
-aarch64
-x86_64
-builder
-repos
+build
+pkgs
+releases
+sources
