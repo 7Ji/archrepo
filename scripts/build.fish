@@ -390,7 +390,6 @@ function deploy_if_need_build # 1: pkgname, 2: pkg git repo hash,
     else
         set build $argv[1]-$commit
     end
-    echo "$build" > build/$argv[1].id
     rm -f $pkgbuild
     printf "Build ID for package '%s' is '%s'\n" \
         $argv[1] $build
@@ -401,12 +400,13 @@ function deploy_if_need_build # 1: pkgname, 2: pkg git repo hash,
         rm -rf build/$argv[1]
         return 255
     end
-    rm -rf pkgs/$build
     if test $source_deployed -eq 0
         and ! deploy_sources $argv[1] $argv[2]
         printf "Failed to deploy sources for package '%s'\n" $argv[1]
         return 1
     end
+    rm -rf pkgs/$build
+    echo "$build" > build/$argv[1].id
     return 0
 end
 

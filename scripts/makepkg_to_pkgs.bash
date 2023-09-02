@@ -16,3 +16,4 @@ mv "${tempdir}" "${pkgdir}"
 for pkg in "${pkgdir}"/*; do
     ln -sf ../"${buildid}"/$(basename "${pkg}") pkgs/updated/
 done
+rm -rf "$1"{,.id}
