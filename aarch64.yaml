@@ -23,7 +23,6 @@ PKGBUILDs:
  - qbittorrent-enhanced-nox-git: https://aur.archlinux.org/qbittorrent-enhanced-nox-git.git
  - uboot-amlogic-ophub: https://github.com/7Ji-PKGBUILDs/uboot-amlogic-ophub.git
  - uboot-legacy-initrd-hooks: https://aur.archlinux.org/uboot-legacy-initrd-hooks.git
- - ungoogled-chromium: https://aur.archlinux.org/ungoogled-chromium.git
  - usbrelay: https://aur.archlinux.org/usbrelay.git
  - v4l-utils-mpp: https://aur.archlinux.org/v4l-utils-mpp.git
  - xray: https://aur.archlinux.org/xray.git
