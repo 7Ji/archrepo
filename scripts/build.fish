@@ -141,7 +141,7 @@ end
 # But as we maintain the PKGBUILDs list in-house, we can ignore the problem.
 # This could be rewritten using language that knows YAML format.
 function read_pkgbuilds # 1: config
-    set list (grep -o '^ - [a-Z0-9_-]\+: [a-Z0-9_:/.-]\+'  $argv[1])
+    set list (grep -o '^ - [a-Z0-9_.-]\+: [a-Z0-9_:/.-]\+'  $argv[1])
     set --global pkgs (string replace : '' (string split --no-empty --fields 2 ' ' $list))
     set --global urls (string split --no-empty --fields 3 ' ' $list)
     set --global hashes (for url in $urls; xxh3sum_64bit $url; end)
