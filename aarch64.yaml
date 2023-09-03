@@ -1,29 +1,28 @@
-PKGBUILDs:
- - ampart: https://aur.archlinux.org/ampart.git
- - chormium-mpp: https://aur.archlinux.org/chromium-mpp.git
- - dri2to3-git: https://aur.archlinux.org/dri2to3-git.git
- - fakeroot-tcp: https://aur.archlinux.org/fakeroot-tcp.git
- - ffmpeg4.4-mpp: https://aur.archlinux.org/ffmpeg4.4-mpp.git
- - ffmpeg-mpp: https://aur.archlinux.org/ffmpeg-mpp.git
- - gl4es-git: https://aur.archlinux.org/gl4es-git.git
- - kodi-matrix-mpp-git: https://aur.archlinux.org/kodi-matrix-mpp-git.git
- - kodi-nexus-mpp-git: https://aur.archlinux.org/kodi-nexus-mpp-git.git
- - libmali-valhall-g610: https://aur.archlinux.org/libmali-valhall-g610.git
- - librga-multi: https://aur.archlinux.org/librga-multi.git
- - librist: https://aur.archlinux.org/librist.git
- - libv4l-rkmpp-git: https://aur.archlinux.org/libv4l-rkmpp-git.git
- - linux-aarch64-7ji: https://github.com/7Ji-PKGBUILDs/linux-aarch64-7ji.git
- - linux-aarch64-flippy: https://aur.archlinux.org/linux-aarch64-flippy.git
- - linux-aarch64-orangepi5: https://aur.archlinux.org/linux-aarch64-orangepi5.git
- - linux-firmware-amlogic-ophub: https://aur.archlinux.org/linux-firmware-amlogic-ophub.git
- - linux-radxa-rkbsp5-git: https://aur.archlinux.org/linux-radxa-rkbsp5-git.git
- - mali-valhall-g610-firmware: https://aur.archlinux.org/mali-valhall-g610-firmware.git
- - mesa-panfork-git: https://aur.archlinux.org/mesa-panfork-git.git
- - mpp-git: https://aur.archlinux.org/mpp-git.git
- - qbittorrent-enhanced-nox-git: https://aur.archlinux.org/qbittorrent-enhanced-nox-git.git
- - uboot-amlogic-ophub: https://github.com/7Ji-PKGBUILDs/uboot-amlogic-ophub.git
- - uboot-legacy-initrd-hooks: https://aur.archlinux.org/uboot-legacy-initrd-hooks.git
- - usbrelay: https://aur.archlinux.org/usbrelay.git
- - v4l-utils-mpp: https://aur.archlinux.org/v4l-utils-mpp.git
- - xray-nogeo: https://github.com/7Ji-PKGBUILDs/xray-nogeo.git
- - yaopenvfd: https://aur.archlinux.org/yaopenvfd.git
+ampart: https://aur.archlinux.org/ampart.git
+chormium-mpp: https://aur.archlinux.org/chromium-mpp.git
+dri2to3-git: https://aur.archlinux.org/dri2to3-git.git
+fakeroot-tcp: https://aur.archlinux.org/fakeroot-tcp.git
+ffmpeg4.4-mpp: https://aur.archlinux.org/ffmpeg4.4-mpp.git
+ffmpeg-mpp: https://aur.archlinux.org/ffmpeg-mpp.git
+gl4es-git: https://aur.archlinux.org/gl4es-git.git
+kodi-matrix-mpp-git: https://aur.archlinux.org/kodi-matrix-mpp-git.git
+kodi-nexus-mpp-git: https://aur.archlinux.org/kodi-nexus-mpp-git.git
+libmali-valhall-g610: https://aur.archlinux.org/libmali-valhall-g610.git
+librga-multi: https://aur.archlinux.org/librga-multi.git
+librist: https://aur.archlinux.org/librist.git
+libv4l-rkmpp-git: https://aur.archlinux.org/libv4l-rkmpp-git.git
+linux-aarch64-7ji: https://github.com/7Ji-PKGBUILDs/linux-aarch64-7ji.git
+linux-aarch64-flippy: https://aur.archlinux.org/linux-aarch64-flippy.git
+linux-aarch64-orangepi5: https://aur.archlinux.org/linux-aarch64-orangepi5.git
+linux-firmware-amlogic-ophub: https://aur.archlinux.org/linux-firmware-amlogic-ophub.git
+linux-radxa-rkbsp5-git: https://aur.archlinux.org/linux-radxa-rkbsp5-git.git
+mali-valhall-g610-firmware: https://aur.archlinux.org/mali-valhall-g610-firmware.git
+mesa-panfork-git: https://aur.archlinux.org/mesa-panfork-git.git
+mpp-git: https://aur.archlinux.org/mpp-git.git
+qbittorrent-enhanced-nox-git: https://aur.archlinux.org/qbittorrent-enhanced-nox-git.git
+uboot-amlogic-ophub: https://github.com/7Ji-PKGBUILDs/uboot-amlogic-ophub.git
+uboot-legacy-initrd-hooks: https://aur.archlinux.org/uboot-legacy-initrd-hooks.git
+usbrelay: https://aur.archlinux.org/usbrelay.git
+v4l-utils-mpp: https://aur.archlinux.org/v4l-utils-mpp.git
+xray-nogeo: https://github.com/7Ji-PKGBUILDs/xray-nogeo.git
+yaopenvfd: https://aur.archlinux.org/yaopenvfd.git
