@@ -173,6 +173,48 @@ function dump_pkgbuild # 1: git dir 2: output
     end
 end
 
+# Dump all PKGBUILDs, parse them and get a list of all depends and optdepends
+# Install all missing deps
+function ensure_deps
+    set pkgbuild "$(mktemp)"
+    set depends
+    for i in (seq 1 $pkg_cnt)
+        set hash $hashes[$i]
+        set pkg $pkgs[$i]
+        if ! dump_pkgbuild sources/git/$hash $pkgbuild
+            printf "Failed to get PKGBUILD from '%s' to parse depends\n" \
+                    $pkg
+            rm -f $pkgbuild
+            return 1
+        end
+        if ! set --append depends (scripts/get_depends.bash $pkgbuild)
+            printf "Failed to parse depends from '%s'\n" $pkg
+            rm -f $pkgbuild
+            return 1
+        end
+    end
+    rm -f $pkgbuild
+    if test (count $depends) -eq 0
+        return 0
+    end
+    set depends (printf '%s\n' $depends | sort | uniq)
+    set missing (pacman -T $depends)
+    switch $status
+    case 0:
+        return 0
+    case 127:
+        printf "Missing dep:"
+        printf " '%s'" $depends
+    case '*':
+        printf "Unexpected return %u from pacman" $status
+        return 1
+    end
+    if ! sudo pacman -S --noconfirm $depends
+        echo "Failed to install missing deps with pacman"
+        return 1
+    end
+end
+
 # Dumps all PKGBUILDs, parse them and get a list of git sources, sync them
 function prepare_git_sources
     # do this alone first, so all git sources are up-to-date
@@ -510,6 +552,11 @@ end
 
 if ! sync_pkgbuilds
     echo "Failed to sync PKGBUILDs"
+    exit 1
+end
+
+if ! ensure_deps
+    echo "Failed to ensure dependencies"
     exit 1
 end
 

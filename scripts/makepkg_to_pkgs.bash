@@ -10,7 +10,7 @@ pushd $1 &>/dev/null
 # --holdver as we updated those repos before even deploying the PKGBUILDs
 # --noextract as sources were extracted during need_build()
 PKGEXT=.pkg.tar PKGDEST="${PKGDEST}"  \
-    makepkg --holdver --noextract --syncdeps --noconfirm -A
+    makepkg --holdver --noextract -A
 popd &>/dev/null
 # mv for atomic
 mv "${tempdir}" "${pkgdir}"
