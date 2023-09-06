@@ -200,12 +200,12 @@ function ensure_deps
     set depends (printf '%s\n' $depends | sort | uniq)
     set missing (pacman -T $depends)
     switch $status
-    case 0:
+    case 0
         return 0
-    case 127:
+    case 127
         printf "Missing dep:"
         printf " '%s'" $depends
-    case '*':
+    case '*'
         printf "Unexpected return %u from pacman" $status
         return 1
     end
