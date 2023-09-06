@@ -173,7 +173,7 @@ function dump_pkgbuild # 1: git dir 2: output
     end
 end
 
-# Dump all PKGBUILDs, parse them and get a list of all depends and optdepends
+# Dump all PKGBUILDs, parse them and get a list of all depends and makedepends
 # Install all missing deps
 function ensure_deps
     set pkgbuild "$(mktemp)"
@@ -209,7 +209,7 @@ function ensure_deps
         printf "Unexpected return %u from pacman" $status
         return 1
     end
-    if ! sudo pacman -S --noconfirm $depends
+    if ! sudo pacman -S --noconfirm $missing
         echo "Failed to install missing deps with pacman"
         return 1
     end
