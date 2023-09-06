@@ -22,6 +22,7 @@ mpp-git: https://aur.archlinux.org/mpp-git.git
 qbittorrent-enhanced-nox-git: https://aur.archlinux.org/qbittorrent-enhanced-nox-git.git
 uboot-amlogic-ophub: https://github.com/7Ji-PKGBUILDs/uboot-amlogic-ophub.git
 uboot-legacy-initrd-hooks: https://aur.archlinux.org/uboot-legacy-initrd-hooks.git
+usb2host: https://aur.archlinux.org/usb2host.git
 usbrelay: https://aur.archlinux.org/usbrelay.git
 v4l-utils-mpp: https://aur.archlinux.org/v4l-utils-mpp.git
 xray-nogeo: https://github.com/7Ji-PKGBUILDs/xray-nogeo.git
