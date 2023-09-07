@@ -15,6 +15,7 @@ linux-aarch64-7ji: https://github.com/7Ji-PKGBUILDs/linux-aarch64-7ji.git
 linux-aarch64-flippy: https://aur.archlinux.org/linux-aarch64-flippy.git
 linux-aarch64-orangepi5: https://aur.archlinux.org/linux-aarch64-orangepi5.git
 linux-firmware-amlogic-ophub: https://aur.archlinux.org/linux-firmware-amlogic-ophub.git
+linux-firmware-orangepi: https://aur.archlinux.org/linux-firmware-orangepi.git
 linux-radxa-rkbsp5-git: https://aur.archlinux.org/linux-radxa-rkbsp5-git.git
 mali-valhall-g610-firmware: https://aur.archlinux.org/mali-valhall-g610-firmware.git
 mesa-panfork-git: https://aur.archlinux.org/mesa-panfork-git.git
