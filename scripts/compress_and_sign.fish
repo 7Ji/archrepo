@@ -24,7 +24,7 @@ for i in (seq 1 $old_pkg_count)
     end
     printf "[%s] %s OK\n" $old_pkg_name $old_pkg_file
 end
-rm -rf $temp_dir/*
+rm -rf $temp_dir
 echo "=> Integrity check passed for existing repo"
 
 echo "=> Scanning new packages..."
