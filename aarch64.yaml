@@ -1,4 +1,5 @@
 ampart: https://aur.archlinux.org/ampart.git
+ampart-git: https://aur.archlinux.org/ampart-git.git
 chormium-mpp: https://aur.archlinux.org/chromium-mpp.git
 dri2to3-git: https://aur.archlinux.org/dri2to3-git.git
 fakeroot-tcp: https://aur.archlinux.org/fakeroot-tcp.git
