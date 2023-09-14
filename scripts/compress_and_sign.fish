@@ -48,7 +48,7 @@ for i in (seq 1 $new_pkg_count)
             printf "Skipped existing %s\n" $new_pkg_file_compressed
             continue
         else
-            printf "Warning: pkgfile existing but sig not found for %s, would re-create the pkg" $new_pkg_file_compressed
+            printf "Warning: pkgfile existing but sig not found for %s, would re-create the pkg\n" $new_pkg_file_compressed
             rm -f $new_pkg_file_compressed
         end
     end
@@ -73,7 +73,7 @@ if ! set new_pkg_count (count $new_pkg_names)
 else
     echo "=> Compressing new packages..."
     set compress_ongoing 0
-    for i in (seq 1 $new_pkgs_count)
+    for i in (seq 1 $new_pkg_count)
         if test $compress_ongoing -eq 4
             set compress_ongoing 0
             while test (cat /proc/loadavg | string split --fields 1 ' ') -gt 8
