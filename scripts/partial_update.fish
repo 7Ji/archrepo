@@ -18,8 +18,8 @@ popd # pkgs/updated
 set files $pkgs $sigs
 pushd releases
 for file in $files
+    ln -sf ../../pkgs/latest/$file github/(string replace ':' '.' $file)
     ln -sf ../../pkgs/latest/$file local/$file
-    ln -sf ../../pkgs/latest/$file local/(string replace ':' '.' $file)
 end
 pushd github
 repo-add --verify --sign 7Ji.db.tar.zst (string replace ':' '.' $pkgs) &
