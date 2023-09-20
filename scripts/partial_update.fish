@@ -21,20 +21,22 @@ for file in $files
     ln -sf ../../pkgs/latest/$file github/(string replace ':' '.' $file)
     ln -sf ../../pkgs/latest/$file local/$file
 end
-function clear_dead_links
-    for file in *.pkg.tar*
-        if test ! -f $file
-            rm -f $file
-        end
-    end
-end
 pushd github
 repo-add --verify --sign 7Ji.db.tar.zst (string replace ':' '.' $pkgs) &
-clear_dead_links
+for file in *.pkg.tar*
+    if test ! -f $file
+        rm -f $file
+    end
+end
 popd # github
 pushd local
 repo-add --verify --sign localrepo.db.tar.zst $pkgs &
-clear_dead_links
+for file in *.pkg.tar*
+    if test ! -f $file
+        rm -f $file
+        gh release delete-asset $arch $file --yes
+    end
+end
 popd # local
 wait
 sudo rsync --recursive --verbose --copy-links --delete local/ /srv/http/localrepo/$arch &
