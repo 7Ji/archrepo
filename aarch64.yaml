@@ -6,8 +6,8 @@ fakeroot-tcp: https://aur.archlinux.org/fakeroot-tcp.git
 ffmpeg4.4-mpp: https://aur.archlinux.org/ffmpeg4.4-mpp.git
 ffmpeg-mpp: https://aur.archlinux.org/ffmpeg-mpp.git
 gl4es-git: https://aur.archlinux.org/gl4es-git.git
-kodi-matrix-mpp-git: https://github.com/7Ji-PKGBUILDs/kodi-matrix-mpp-git.git
-kodi-nexus-mpp-git: https://github.com/7Ji-PKGBUILDs/kodi-nexus-mpp-git.git
+kodi-matrix-mpp-git: https://aur.archlinux.org/kodi-matrix-mpp-git.git
+kodi-nexus-mpp-git: https://aur.archlinux.org/kodi-nexus-mpp-git.git
 libmali-valhall-g610: https://aur.archlinux.org/libmali-valhall-g610.git
 librga-multi: https://aur.archlinux.org/librga-multi.git
 librist: https://aur.archlinux.org/librist.git
