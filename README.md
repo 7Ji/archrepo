@@ -15,9 +15,18 @@ Server = https://github.com/7Ji/archrepo/releases/download/$arch
 ```
 
 ## Building
-Use https://github.com/7Ji/arch_repo_builder to build the packages alone
-
-Use `scripts/compress_and_sign.fish` to do lazy updates
+To build (using https://github.com/7Ji/arch_repo_builder):
+```
+sudo --preserve-env=GOPROXY ./arch_repo_builder --proxy http://xray.lan:1081 --gmr git://gmr.lan aarch64.yaml
+```
+To full update:
+```
+fish scripts/full_update.fish aarch64
+```
+To partial update:
+```
+fish scripts/partial_update.fish aarch64
+```
 
 ## Pacman sync change
 
