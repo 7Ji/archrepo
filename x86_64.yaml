@@ -3,7 +3,7 @@ proxy: http://xray.lan:1081
 gmr: git://gmr.lan
 noclean: true
 pkgbuilds:
-  ampart: https://aur.archlinux.org/ampart.git
-  ampart-git: https://aur.archlinux.org/ampart-git.git
-  usbrelay: https://aur.archlinux.org/usbrelay.git
-  xray-nogeo: https://github.com/7Ji-PKGBUILDs/xray-nogeo.git
+  ampart: AUR
+  ampart-git: AUR
+  usbrelay: AUR
+  xray-nogeo: GITHUB/7Ji-PKGBUILDs/xray-nogeo
