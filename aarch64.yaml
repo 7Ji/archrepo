@@ -7,7 +7,7 @@ pkgbuilds:
   ampart: AUR
   ampart-git: AUR
   chromium-mpp: 
-    url: GITHUB/7Ji-PKGBUILDs/chromium-mpp
+    url: GITHUB/7Ji-PKGBUILDs/
     branch: distcc_mp
   dri2to3-git: AUR
   fakeroot-tcp: AUR
@@ -23,7 +23,7 @@ pkgbuilds:
   librga-multi: AUR
   librist: AUR
   libv4l-rkmpp-git: AUR
-  linux-aarch64-7ji: GITHUB/7Ji-PKGBUILDs/linux-aarch64-7ji
+  linux-aarch64-7ji: GITHUB/7Ji-PKGBUILDs/
   linux-aarch64-flippy: AUR
   linux-aarch64-orangepi5: AUR
   linux-firmware-amlogic-ophub: AUR
@@ -33,10 +33,10 @@ pkgbuilds:
   mesa-panfork-git: AUR
   mpp-git: AUR
   qbittorrent-enhanced-nox-git: AUR
-  uboot-amlogic-ophub: GITHUB/7Ji-PKGBUILDs/uboot-amlogic-ophub
+  uboot-amlogic-ophub: GITHUB/7Ji-PKGBUILDs/
   uboot-legacy-initrd-hooks: AUR
   usb2host: AUR
   usbrelay: AUR
   v4l-utils-mpp: AUR
-  xray-nogeo: GITHUB/7Ji-PKGBUILDs/xray-nogeo
+  xray-nogeo: GITHUB/7Ji-PKGBUILDs/
   yaopenvfd: AUR
