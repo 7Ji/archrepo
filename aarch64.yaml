@@ -6,7 +6,9 @@ basepkgs: [base-devel, distcc]
 pkgbuilds:
   ampart: AUR
   ampart-git: AUR
-  chromium-mpp: AUR
+  chromium-mpp: 
+    url: GITHUB/7Ji-PKGBUILDs/chromium-mpp
+    branch: distcc_mp
   dri2to3-git: AUR
   fakeroot-tcp: AUR
   ffmpeg4.4-mpp: AUR
