@@ -13,7 +13,10 @@ pkgbuilds:
   fakeroot-tcp: AUR
   ffmpeg4.4-mpp: AUR
   ffmpeg-mpp: AUR
-  gl4es-git: AUR
+  gl4es-git:
+    url: AUR
+    deps:
+      - libx11
   kodi-matrix-mpp-git: AUR
   kodi-nexus-mpp-git: AUR
   libmali-valhall-g610: AUR
