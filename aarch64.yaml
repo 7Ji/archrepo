@@ -3,6 +3,7 @@ proxy: http://xray.lan:1081
 gmr: git://gmr.lan
 noclean: true
 basepkgs: [base-devel, distcc]
+dephash_strategy: strict
 pkgbuilds:
   ampart: AUR
   ampart-git: AUR

@@ -2,6 +2,7 @@ sign: 8815547B7B80370675B3CD20BA27F219383BB875
 proxy: http://xray.lan:1081
 gmr: git://gmr.lan
 noclean: true
+dephash_strategy: strict
 pkgbuilds:
   ampart: AUR
   ampart-git: AUR
