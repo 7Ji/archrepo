@@ -3,21 +3,18 @@ proxy: http://xray.lan:1081
 gmr: git://gmr.lan
 noclean: true
 basepkgs: [base-devel, distcc]
-dephash_strategy: strict
+dephash_strategy: loose
 pkgbuilds:
   ampart: AUR
   ampart-git: AUR
-  chromium-mpp: 
-    url: GITHUB/7Ji-PKGBUILDs/
-    branch: distcc_mp
+  chromium-mpp: AUR
   dri2to3-git: AUR
   fakeroot-tcp: AUR
   ffmpeg4.4-mpp: AUR
   ffmpeg-mpp: AUR
   gl4es-git:
     url: AUR
-    deps:
-      - libx11
+    deps: [libx11]
   kodi-matrix-mpp-git: AUR
   kodi-nexus-mpp-git: AUR
   libmali-valhall-g610: AUR
