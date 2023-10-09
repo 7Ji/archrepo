@@ -12,8 +12,9 @@ rm -rf releases
 mkdir releases/{,github,local}
 pushd releases
 for file in $files
-    ln -s ../../pkgs/latest/$file github/(string replace ':' '.' $file)
-    ln -s ../../pkgs/latest/$file local/$file
+    set file_actual (readlink -f ../../pkgs/latest/$file)
+    ln -s $file_actual github/(string replace ':' '.' $file)
+    ln -s $file_actual local/$file
 end
 pushd github
 repo-add --verify --sign 7Ji.db.tar.zst *.pkg.tar.zst &
