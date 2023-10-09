@@ -12,7 +12,7 @@ rm -rf releases
 mkdir releases/{,github,local}
 pushd releases
 for file in $files
-    set file_actual (readlink -f ../../pkgs/latest/$file)
+    set file_actual (readlink -f ../pkgs/latest/$file)
     ln -s $file_actual github/(string replace ':' '.' $file)
     ln -s $file_actual local/$file
 end
