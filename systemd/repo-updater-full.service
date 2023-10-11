@@ -1,0 +1,10 @@
+[Unit]
+Description=Fully update Arch repo
+Conflicts=repo-updater-partial.service
+Requires=repo-builder.service
+After=repo-builder.service
+
+[Service]
+WorkingDirectory=~/build/repo
+EnvironmentFile=~/.config/repo.systemd.env
+ExecStart=/usr/bin/fish scripts/full_update.fish $ARCH

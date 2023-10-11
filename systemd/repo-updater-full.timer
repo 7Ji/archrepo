@@ -1,0 +1,8 @@
+[Unit]
+Description=Partially update Arch repo weekly
+
+[Timer]
+OnCalendar=Sun
+
+[Install]
+WantedBy=timers.target
