@@ -1,0 +1,8 @@
+[Unit]
+Description=Partially update Arch repo daily
+
+[Timer]
+OnCalendar=Mon,Tue,Wed,Thu,Fri,Sat
+
+[Install]
+WantedBy=timers.target
