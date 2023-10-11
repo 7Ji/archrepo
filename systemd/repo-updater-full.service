@@ -6,6 +6,6 @@ After=repo-builder.service
 
 [Service]
 EnvironmentFile=/etc/conf.d/repo.systemd.env
-User=$REPO_USER
+User=nomad7ji
 WorkingDirectory=/srv/repo_builder
 ExecStart=/usr/bin/fish scripts/full_update.fish $REPO_ARCH
