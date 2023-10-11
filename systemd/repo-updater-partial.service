@@ -3,6 +3,7 @@ Description=Partially update Arch repo
 Conflicts=repo-updater-full.service
 Requires=repo-builder.service
 After=repo-builder.service
+ConditionDirectoryNotEmpty=%h/build/repo/pkgs/updated
 
 [Service]
 WorkingDirectory=%h/build/repo
