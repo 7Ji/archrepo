@@ -3,7 +3,7 @@ Description=Build Arch repo
 
 [Service]
 Type=oneshot
-WorkingDirectory=%h/build/repo
-EnvironmentFile=%h/.config/repo.systemd.env
-ExecStart=/usr/bin/sudo ./arch_repo_builder ${ARCH}.yaml
+EnvironmentFile=/etc/conf.d/repo.systemd.env
+WorkingDirectory=$REPO_BUILD_DIR
+ExecStart=$REPO_BUILD_DIR/arch_repo_builder ${REPO_ARCH}.yaml
 Restart=on-failure

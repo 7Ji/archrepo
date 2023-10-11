@@ -3,9 +3,9 @@ Description=Partially update Arch repo
 Conflicts=repo-updater-full.service
 Requires=repo-builder.service
 After=repo-builder.service
-ConditionDirectoryNotEmpty=%h/build/repo/pkgs/updated
 
 [Service]
-WorkingDirectory=%h/build/repo
-EnvironmentFile=%h/.config/repo.systemd.env
-ExecStart=/usr/bin/fish scripts/partial_update.fish $ARCH
+EnvironmentFile=/etc/conf.d/repo.systemd.env
+User=$REPO_USER
+WorkingDirectory=$REPO_BUILD_DIR
+ExecStart=/usr/bin/fish scripts/partial_update.fish $REPO_ARCH
