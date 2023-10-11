@@ -7,5 +7,5 @@ After=repo-builder.service
 [Service]
 EnvironmentFile=/etc/conf.d/repo.systemd.env
 User=$REPO_USER
-WorkingDirectory=$REPO_BUILD_DIR
+WorkingDirectory=/srv/repo_builder
 ExecStart=/usr/bin/fish scripts/partial_update.fish $REPO_ARCH
