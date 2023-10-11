@@ -5,6 +5,6 @@ Requires=repo-builder.service
 After=repo-builder.service
 
 [Service]
-WorkingDirectory=~/build/repo
-EnvironmentFile=~/.config/repo.systemd.env
+WorkingDirectory=%h/build/repo
+EnvironmentFile=%h/.config/repo.systemd.env
 ExecStart=/usr/bin/fish scripts/partial_update.fish $ARCH
