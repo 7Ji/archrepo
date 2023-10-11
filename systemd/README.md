@@ -2,14 +2,13 @@
 
 ## Install the units
 ```
-mkdir -p ~/.config/systemd/user/
-ln -srf *.{service,timer} ~/.config/systemd/user/
+sudo ln -srf *.{service,timer} /etc/systemd/system
 ```
 
 ## Enable the units
 ```
-systemctl --user daemon-reload
-systemctl --user enable --now repo-updater-{full,partial}.timer
+sudo systemctl daemon-reload
+sudo systemctl enable --now repo-updater-{full,partial}.timer
 ```
 
 ## Trigger link
