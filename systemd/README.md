@@ -16,8 +16,8 @@ REPO_DROP=1000:998:nomad7ji
 
 ## Enable the units
 ```
-sudo systemctl --user daemon-reload
-sudo systemctl --user enable --now repo-updater-{full,partial}.timer
+sudo systemctl daemon-reload
+sudo systemctl enable --now repo-updater-{full,partial}.timer
 ```
 
 ## Trigger link
@@ -31,9 +31,9 @@ On other week days:
 ## Journal
 Whole log:
 ```
-journalctl --user --unit repo-builder.service
+journalctl -u repo-builder.service
 ```
 Real time:
 ```
-journalctl --user --unit repo-builder.service --follow
+journalctl -u repo-builder.service --follow
 ```
