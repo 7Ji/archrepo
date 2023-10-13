@@ -5,5 +5,4 @@ Description=Build Arch repo
 Type=oneshot
 EnvironmentFile=/etc/conf.d/repo.systemd.env
 WorkingDirectory=/srv/repo_builder
-ExecStart=/srv/repo_builder/arch_repo_builder --drop ${REPO_DROP} ${REPO_ARCH}.yaml
-Restart=on-failure
+ExecStart=/srv/repo_builder/arch_repo_builder --drop ${REPO_DROP} $REPO_EXTRA_ARGS ${REPO_ARCH}.yaml
