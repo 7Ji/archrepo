@@ -15,10 +15,8 @@ Server = https://github.com/7Ji/archrepo/releases/download/$arch
 ```
 
 ## Building
-To build (using https://github.com/7Ji/arch_repo_builder):
-```
-sudo --preserve-env=GOPROXY ./arch_repo_builder --proxy http://xray.lan:1081 --gmr git://gmr.lan aarch64.yaml
-```
+To build, use https://github.com/7Ji/arch_repo_builder
+
 To full update:
 ```
 fish scripts/full_update.fish aarch64
@@ -27,6 +25,17 @@ To partial update:
 ```
 fish scripts/partial_update.fish aarch64
 ```
+
+## Submitting new package
+Please note all of the packages for aarch64 need to be built on my own Orange Pi 5 Plus + Orange Pi 5 combo, I run all my projects without sponsorship including this one. The current daily partialy update + weekly full update model is already very time-consuming and power-hungry. So **I don't want to accept packages that's not absolutely needed**. 
+
+Packages meeting the following conditions **won't be accepted**:
+  - Already maintained in a repo, especially already maintained in a distro's official repo
+  - Not available on AUR
+  - Not verified to work on actual hardware
+  - Take too much time to build
+
+Submit the package by modifying `aarch64.yaml` and adding your package in the pkgbuilds list, at the correct alphabetical position, then open a PR. If you could provide the time needed to build it then it would be better.
 
 ## Pacman sync change
 
