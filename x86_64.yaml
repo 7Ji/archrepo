@@ -8,6 +8,7 @@ proxy_after: 3
 gmr: git://gmr.lan
 dephash_strategy: strict
 pkgbuilds:
+  7ji-keyring: GITHUB/7Ji-PKGBUILDs/
   ampart: AUR
   ampart-git: AUR
   usbrelay: AUR

@@ -9,6 +9,7 @@ gmr: git://gmr.lan
 basepkgs: [base-devel, distcc]
 dephash_strategy: loose
 pkgbuilds:
+  7ji-keyring: GITHUB/7Ji-PKGBUILDs/
   ampart: AUR
   ampart-git: AUR
   chromium-mpp: AUR
