@@ -29,8 +29,8 @@ pkgbuilds:
   linux-aarch64-7ji: GITHUB/7Ji-PKGBUILDs/
   linux-aarch64-flippy: AUR
   linux-aarch64-orangepi5: AUR
-  linux-firmware-amlogic-ophub: AUR
-  linux-firmware-orangepi: AUR
+  linux-firmware-amlogic-ophub-git: AUR
+  linux-firmware-orangepi-git: AUR
   linux-radxa-rkbsp5-git: AUR
   mali-valhall-g610-firmware: AUR
   mesa-panfork-git: AUR
