@@ -12,34 +12,33 @@ pkgbuilds:
   7ji-keyring: GITHUB/7Ji-PKGBUILDs/
   ampart: AUR
   ampart-git: AUR
-  chromium-mpp: AUR
-  dri2to3-git: AUR
+  chromium-mpp: GITHUB/7Ji-PKGBUILDs/
+  dri2to3-git: GITHUB/7Ji-PKGBUILDs/
   fakeroot-tcp: AUR
-  ffmpeg4.4-mpp: AUR
-  ffmpeg-mpp: AUR
+  ffmpeg4.4-mpp: GITHUB/7Ji-PKGBUILDs/
+  ffmpeg-mpp: GITHUB/7Ji-PKGBUILDs/
   gl4es-git:
-    url: AUR
+    url: GITHUB/7Ji-PKGBUILDs/
     deps: [libx11]
-  kodi-matrix-mpp-git: AUR
-  kodi-nexus-mpp-git: AUR
-  libmali-valhall-g610: AUR
-  librga-multi: AUR
-  librist: AUR
-  libv4l-rkmpp-git: AUR
+  kodi-matrix-mpp-git: GITHUB/7Ji-PKGBUILDs/
+  kodi-nexus-mpp-git: GITHUB/7Ji-PKGBUILDs/
+  libmali-valhall-g610: GITHUB/7Ji-PKGBUILDs/
+  librga-multi: GITHUB/7Ji-PKGBUILDs/
+  libv4l-rkmpp-git: GITHUB/7Ji-PKGBUILDs/
   linux-aarch64-7ji: GITHUB/7Ji-PKGBUILDs/
-  linux-aarch64-flippy: AUR
-  linux-aarch64-orangepi5: AUR
-  linux-firmware-amlogic-ophub-git: AUR
-  linux-firmware-orangepi-git: AUR
-  linux-radxa-rkbsp5-git: AUR
-  mali-valhall-g610-firmware: AUR
-  mesa-panfork-git: AUR
-  mpp-git: AUR
+  linux-aarch64-flippy: GITHUB/7Ji-PKGBUILDs/
+  linux-aarch64-orangepi5: GITHUB/7Ji-PKGBUILDs/
+  linux-firmware-amlogic-ophub-git: GITHUB/7Ji-PKGBUILDs/
+  linux-firmware-orangepi-git: GITHUB/7Ji-PKGBUILDs/
+  linux-radxa-rkbsp5-git: GITHUB/7Ji-PKGBUILDs/
+  mali-valhall-g610-firmware: GITHUB/7Ji-PKGBUILDs/
+  mesa-panfork-git: GITHUB/7Ji-PKGBUILDs/
+  mpp-git: GITHUB/7Ji-PKGBUILDs/
   qbittorrent-enhanced-nox-git: AUR
   uboot-amlogic-ophub: GITHUB/7Ji-PKGBUILDs/
-  uboot-legacy-initrd-hooks: AUR
+  uboot-legacy-initrd-hooks: GITHUB/7Ji-PKGBUILDs/
   usb2host: AUR
   usbrelay: AUR
-  v4l-utils-mpp: AUR
+  v4l-utils-mpp: GITHUB/7Ji-PKGBUILDs/
   xray-nogeo: GITHUB/7Ji-PKGBUILDs/
   yaopenvfd: AUR
