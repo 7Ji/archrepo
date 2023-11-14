@@ -8,8 +8,9 @@ proxy_after: 3
 gmr: git://gmr.lan
 dephash_strategy: strict
 pkgbuilds:
-  7ji-keyring: GITHUB/7Ji-PKGBUILDs/
+  7ji-keyring: GH/7Ji-PKGBUILDs/
   ampart: AUR
   ampart-git: AUR
+  git-mirrorer: GH/7Ji-PKGBUILDs/
   usbrelay: AUR
-  xray-nogeo: GITHUB/7Ji-PKGBUILDs/
+  xray-nogeo: GH/7Ji-PKGBUILDs/

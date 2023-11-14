@@ -9,36 +9,37 @@ gmr: git://gmr.lan
 basepkgs: [base-devel, distcc]
 dephash_strategy: loose
 pkgbuilds:
-  7ji-keyring: GITHUB/7Ji-PKGBUILDs/
+  7ji-keyring: GH/7Ji-PKGBUILDs/
   ampart: AUR
   ampart-git: AUR
-  chromium-mpp: GITHUB/7Ji-PKGBUILDs/
-  dri2to3-git: GITHUB/7Ji-PKGBUILDs/
+  chromium-mpp: GH/7Ji-PKGBUILDs/
+  dri2to3-git: GH/7Ji-PKGBUILDs/
   fakeroot-tcp: AUR
-  ffmpeg4.4-mpp: GITHUB/7Ji-PKGBUILDs/
-  ffmpeg-mpp: GITHUB/7Ji-PKGBUILDs/
+  ffmpeg4.4-mpp: GH/7Ji-PKGBUILDs/
+  ffmpeg-mpp: GH/7Ji-PKGBUILDs/
+  git-mirrorer: GH/7Ji-PKGBUILDs/
   gl4es-git:
-    url: GITHUB/7Ji-PKGBUILDs/
+    url: GH/7Ji-PKGBUILDs/
     deps: [libx11]
-  kodi-matrix-mpp-git: GITHUB/7Ji-PKGBUILDs/
-  kodi-nexus-mpp-git: GITHUB/7Ji-PKGBUILDs/
-  libmali-valhall-g610: GITHUB/7Ji-PKGBUILDs/
-  librga-multi: GITHUB/7Ji-PKGBUILDs/
-  libv4l-rkmpp-git: GITHUB/7Ji-PKGBUILDs/
-  linux-aarch64-7ji: GITHUB/7Ji-PKGBUILDs/
-  linux-aarch64-flippy: GITHUB/7Ji-PKGBUILDs/
-  linux-aarch64-orangepi5: GITHUB/7Ji-PKGBUILDs/
-  linux-firmware-amlogic-ophub-git: GITHUB/7Ji-PKGBUILDs/
-  linux-firmware-orangepi-git: GITHUB/7Ji-PKGBUILDs/
-  linux-radxa-rkbsp5-git: GITHUB/7Ji-PKGBUILDs/
-  mali-valhall-g610-firmware: GITHUB/7Ji-PKGBUILDs/
-  mesa-panfork-git: GITHUB/7Ji-PKGBUILDs/
-  mpp-git: GITHUB/7Ji-PKGBUILDs/
+  kodi-matrix-mpp-git: GH/7Ji-PKGBUILDs/
+  kodi-nexus-mpp-git: GH/7Ji-PKGBUILDs/
+  libmali-valhall-g610: GH/7Ji-PKGBUILDs/
+  librga-multi: GH/7Ji-PKGBUILDs/
+  libv4l-rkmpp-git: GH/7Ji-PKGBUILDs/
+  linux-aarch64-7ji: GH/7Ji-PKGBUILDs/
+  linux-aarch64-flippy: GH/7Ji-PKGBUILDs/
+  linux-aarch64-orangepi5: GH/7Ji-PKGBUILDs/
+  linux-firmware-amlogic-ophub-git: GH/7Ji-PKGBUILDs/
+  linux-firmware-orangepi-git: GH/7Ji-PKGBUILDs/
+  linux-radxa-rkbsp5-git: GH/7Ji-PKGBUILDs/
+  mali-valhall-g610-firmware: GH/7Ji-PKGBUILDs/
+  mesa-panfork-git: GH/7Ji-PKGBUILDs/
+  mpp-git: GH/7Ji-PKGBUILDs/
   qbittorrent-enhanced-nox-git: AUR
-  uboot-amlogic-ophub: GITHUB/7Ji-PKGBUILDs/
-  uboot-legacy-initrd-hooks: GITHUB/7Ji-PKGBUILDs/
+  uboot-amlogic-ophub: GH/7Ji-PKGBUILDs/
+  uboot-legacy-initrd-hooks: GH/7Ji-PKGBUILDs/
   usb2host: AUR
   usbrelay: AUR
-  v4l-utils-mpp: GITHUB/7Ji-PKGBUILDs/
-  xray-nogeo: GITHUB/7Ji-PKGBUILDs/
+  v4l-utils-mpp: GH/7Ji-PKGBUILDs/
+  xray-nogeo: GH/7Ji-PKGBUILDs/
   yaopenvfd: AUR
