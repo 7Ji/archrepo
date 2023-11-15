@@ -6,8 +6,9 @@ proxy: http://xray.lan:11092
 proxy_after: 3
 # This is a 7Ji/git-mirrorer instance only accessible within my LAN, comment it out for 3rd party builder
 gmr: git://gmr.lan
-basepkgs: [base-devel, distcc]
-dephash_strategy: loose
+basepkgs: [base-devel, distcc, ccache]
+home_binds: [.cache/ccache]
+dephash_strategy: strict
 pkgbuilds:
   7ji-keyring: GH/7Ji-PKGBUILDs/
   ampart: AUR
@@ -18,9 +19,7 @@ pkgbuilds:
   ffmpeg4.4-mpp: GH/7Ji-PKGBUILDs/
   ffmpeg-mpp: GH/7Ji-PKGBUILDs/
   git-mirrorer: GH/7Ji-PKGBUILDs/
-  gl4es-git:
-    url: GH/7Ji-PKGBUILDs/
-    deps: [libx11]
+  gl4es-git: GH/7Ji-PKGBUILDs/
   kodi-matrix-mpp-git: GH/7Ji-PKGBUILDs/
   kodi-nexus-mpp-git: GH/7Ji-PKGBUILDs/
   libmali-valhall-g610: GH/7Ji-PKGBUILDs/
