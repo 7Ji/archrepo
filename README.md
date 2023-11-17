@@ -14,6 +14,11 @@ add the following session in your `/etc/pacman.conf`:
 Server = https://github.com/7Ji/archrepo/releases/download/$arch
 ```
 
+Optionally, install my keyring (there's only one key so it's really not a ring)
+```
+pacman -Syu 7ji-keyring
+```
+
 ## Building
 To build, use https://github.com/7Ji/arch_repo_builder
 
@@ -38,7 +43,7 @@ The `x86_64` packages are built on an Intel NUC5PPYH (N3700 + 8G).
 
 Both of the builders fetch config update (i.e. change to **this** repo) from my local git server instead of Github. 
 
-In most cases changes are pushed to the local server first before they reach GitHub. Therefore, changes made on GitHub (by other contributors, or via PR) would need to be verified by myself before they reach the local git server and the builders.
+In most cases changes are pushed to the local server first before they reach GitHub. Changes that reach GitHub first (e.g.by other contributors, or via PR) would need to be verified by myself before they reach the local git server and the builders.
 
 ## Submitting new package
 Please note all of the packages for aarch64 need to be built on my own Orange Pi 5 Plus + Orange Pi 5 combo, I run all my projects without sponsorship including this one. The current daily partialy update + weekly full update model is already very time-consuming and power-hungry. So **I don't want to accept packages that's not absolutely needed**. 
