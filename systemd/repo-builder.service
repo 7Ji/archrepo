@@ -1,9 +1,14 @@
 [Unit]
 Description=Build Arch repo
+After=network-online.target
+Wants=network-online.target
 
 [Service]
-User=nomad7ji
+User=!WRITE_USER_HERE!
 WorkingDirectory=/srv/repo_builder
-ExecStart=/usr/bin/fish scripts/build_daemon.fish
+ExecStart=/usr/bin/python scripts/build_daemon.py --arch !WRITE_ARCH_HERE!
 Restart=always
 RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
