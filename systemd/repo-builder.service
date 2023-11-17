@@ -2,7 +2,8 @@
 Description=Build Arch repo
 
 [Service]
-Type=oneshot
-EnvironmentFile=/etc/conf.d/repo.systemd.env
+User=nomad7ji
 WorkingDirectory=/srv/repo_builder
-ExecStart=/srv/repo_builder/arch_repo_builder --drop ${REPO_DROP} $REPO_EXTRA_ARGS ${REPO_ARCH}.yaml
+ExecStart=/usr/bin/fish scripts/build_daemon.fish
+Restart=always
+RestartSec=5
