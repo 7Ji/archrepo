@@ -45,12 +45,46 @@ Both of the builders fetch config update (i.e. change to **this** repo) from my 
 
 In most cases changes are pushed to the local server first before they reach GitHub. Changes that reach GitHub first (e.g.by other contributors, or via PR) would need to be verified by myself before they reach the local git server and the builders.
 
-## Submitting new package
-Please note all of the packages for aarch64 need to be built on my own Orange Pi 5 Plus + Orange Pi 5 combo, I run all my projects without sponsorship including this one. The current daily partialy update + weekly full update model is already very time-consuming and power-hungry. So **I don't want to accept packages that's not absolutely needed**. 
+## Contribution
+### Package guideline
+Keep in mind all of the packages need to be built on limited resource as listed in [the previous section](#build-infrastructure). And adding them to the repo is not a build-once-use-forever affair, they **need to be re-built on every update of the package itself, its sources, and any of the dependencies**. This project, like all my other projects, run without sponsorship. So, **I don't want to accept packages that's not absolutely needed**. 
 
 Packages meeting the following conditions **won't be accepted**:
   - Already maintained in a repo, especially already maintained in a distro's official repo
   - Not verified to work on actual hardware
   - Take too much time to build
 
-Submit the package by modifying `aarch64.yaml` and adding your package in the pkgbuilds list, at the correct alphabetical position, then open a PR. If you could provide the time needed to build it then it would be better.
+### Adding package
+Create a PR which modifies `aarch64.yaml` and/or `x86_64.yaml`.
+
+#### Testing
+In the PR, you **must** list the time used and whether you could build them using https://github.com/7Ji/arch_repo_builder with a minimal config. Testing the build using makepkg or makechrootpkg is not allowed. **PR that wants to add packages without correct testing is considered impossible to build and won't be accepted.**
+
+E.g., if you want to add `devilutionx` and `fheroes2` to `aarch64`, create an empty folder, and create an `aarch64.yaml` with the following content:
+
+```
+pkgbuilds:
+  devilutionx: AUR
+  fheroes2: AUR
+```
+_The config syntax is documented [here](https://github.com/7Ji/arch_repo_builder#config)_
+
+Create an `arch_repo_builder` repo in another persistent place if not yet:
+```
+git init arch_repo_builder
+cd arch_repo_builder
+git remote add origin https://github.com/7Ji/arch_repo_builder.git
+git config remote.origin.fetch '+refs/heads/master:refs/remotes/origin/master'
+```
+Update the repo and build the builder itself:
+```
+git fetch --depth 1
+git reset --hard origin/master
+cargo build --release
+ln -sf $(readlink -f target/release/arch_repo_builder) [path to your testing dir]/arch_repo_builder
+```
+Run builder against your minimal config to test:
+```
+sudo ./arch_repo_builder aarch64.yaml
+```
+
