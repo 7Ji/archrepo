@@ -6,6 +6,7 @@ proxy: http://xray.lan:11092
 proxy_after: 3
 # This is a 7Ji/git-mirrorer instance only accessible within my LAN, comment it out for 3rd party builder
 gmr: git://gmr.lan
+basepkgs: [base-devel, ccache]
 home_binds: [.cache/ccache]
 dephash_strategy: strict
 pkgbuilds:
