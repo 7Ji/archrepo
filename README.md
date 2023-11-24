@@ -48,6 +48,17 @@ remove the `SigLevel` line so the section now looks like this:
 Server = https://github.com/7Ji/archrepo/releases/download/$arch
 ```
 
+## Installting the packages
+Just install or update them by `pacman -Syu`
+
+However, the builder would rebuild pacakges on every update of the PKGBUILD themselves, their sources, and their dependencies. This is all unattended and therefore the `pkgver` could be kept the same with the actual package already rebuilt and being a different binary release. This is a result of AUR-originated PKGBUILDs and that I don't want to introduce any difference from PKGBUILDs you would get from AUR directly.
+
+In most cases you can just ignore the update without `pkgver` change and keep using your local one. But if your local one breaks with their dependencies updated from the official repo then you can just force a reinstall to update it to the one built against the latest dependency:
+```
+sudo pacman -Scc # Type y, enter, enter
+sudo pacman -S [the broken package] 
+```
+
 ## Building
 It is not recommended to try to build these packages by yourself, as they take too much time. But if you want to, use https://github.com/7Ji/arch_repo_builder, which is a naive repo builder written in Rust for this repo which targets Github releases as repo storage, and build every package with clean dependency chain.
 
