@@ -48,19 +48,10 @@ remove the `SigLevel` line so the section now looks like this:
 Server = https://github.com/7Ji/archrepo/releases/download/$arch
 ```
 
-### Keyring package
-
 ## Building
-To build, use https://github.com/7Ji/arch_repo_builder
+It is not recommended to try to build these packages by yourself, as they take too much time. But if you want to, use https://github.com/7Ji/arch_repo_builder, which is a naive repo builder written in Rust for this repo which targets Github releases as repo storage, and build every package with clean dependency chain.
 
-To full update:
-```
-fish scripts/full_update.fish aarch64
-```
-To partial update:
-```
-fish scripts/partial_update.fish aarch64
-```
+Note that the builder would build packages in a procedural way, i.e. it expects built dependencies to be pushed to the repo and used in the next run instead of the current one. So you'll find trouble in the sense of "bootstrapping" the repo. This should be fixed later but it's not on top of my to-do list. To work around this, disable packages that don't have all dependencies met first, then re-enable them as you get more and more of them into your repo.
 
 ## Package list
 Check [aarch64.yaml](aarch64.yaml) and [x86_64.yaml](x86_64.yaml), the `pkgbuilds` section declares the lists. The URLs follows the alias rule documented [here](https://github.com/7Ji/arch_repo_builder#config).
