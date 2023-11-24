@@ -56,35 +56,3 @@ Packages meeting the following conditions **won't be accepted**:
 
 ### Adding package
 Create a PR which modifies `aarch64.yaml` and/or `x86_64.yaml`.
-
-#### Testing
-In the PR, you **must** list the time used and whether you could build them using https://github.com/7Ji/arch_repo_builder with a minimal config. Testing the build using makepkg or makechrootpkg is not allowed. **PR that wants to add packages without correct testing is considered impossible to build and won't be accepted.**
-
-E.g., if you want to add `devilutionx` and `fheroes2` to `aarch64`, create an empty folder, and create an `aarch64.yaml` with the following content:
-
-```
-pkgbuilds:
-  devilutionx: AUR
-  fheroes2: AUR
-```
-_The config syntax is documented [here](https://github.com/7Ji/arch_repo_builder#config)_
-
-Create an `arch_repo_builder` repo in another persistent place if not yet:
-```
-git init arch_repo_builder
-cd arch_repo_builder
-git remote add origin https://github.com/7Ji/arch_repo_builder.git
-git config remote.origin.fetch '+refs/heads/master:refs/remotes/origin/master'
-```
-Update the repo and build the builder itself:
-```
-git fetch --depth 1
-git reset --hard origin/master
-cargo build --release
-ln -sf $(readlink -f target/release/arch_repo_builder) [path to your testing dir]/arch_repo_builder
-```
-Run builder against your minimal config to test:
-```
-sudo ./arch_repo_builder aarch64.yaml
-```
-
