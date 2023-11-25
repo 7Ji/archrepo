@@ -13,6 +13,19 @@ pkgbuilds:
   7ji-keyring: GH/7Ji-PKGBUILDs/
   ampart: AUR
   ampart-git: AUR
+  celt: AUR
+  chromaprint-fftw: AUR
+  decklink-sdk: GH/7Ji-PKGBUILDs/
+  ffmpeg-full: AUR
+  flite1: AUR
   git-mirrorer: GH/7Ji-PKGBUILDs/
+  lensfun-git: AUR
+  libklvanc: AUR
+  mpp-git: AUR
+  openvino: AUR
+  uavs3d-git: AUR
   usbrelay: AUR
+  vo-amrwbenc: AUR
+  xavs: AUR
+  xavs2: AUR
   xray-nogeo: GH/7Ji-PKGBUILDs/
