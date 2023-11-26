@@ -7,7 +7,7 @@ The repo is only for the following two platforms:
 Any derivative distros or other platforms are **neither tested, supported or intended**. If you encounter any issue on those platforms, don't report them. 
 
 ## Featured packages
-You might be find the following packages useful:
+You might find the following packages useful:
 - `ffmpeg-mpp`, `ffmpeg4.4-mpp`, `chromium-mpp`, `kodi-matrix-mpp-git`, `kodi-nexus-mpp-git` provide a powerful and attractive video decoding and playback experience on your ArchLinux ARM box.
 - `linux-aarch64-orangepi5-git`, `linux-radxa-rkbsp5-git`, `linux-aarch64-7ji`, `linux-aarch64-flippy` provide up-to-date kernels for your ArchLinux ARM box.
 - `ffmpeg-full` provide a powerful video en/decoding toolbox for your ArchLinux box.
