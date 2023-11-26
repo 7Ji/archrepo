@@ -23,6 +23,7 @@ pkgbuilds:
   libaribcaption: AUR
   libklvanc: AUR
   mpp-git: AUR
+  opencv2: AUR
   openvino: AUR
   uavs3d-git: AUR
   usbrelay: AUR
