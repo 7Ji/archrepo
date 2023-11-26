@@ -20,6 +20,7 @@ pkgbuilds:
   flite1: AUR
   git-mirrorer: GH/7Ji-PKGBUILDs/
   lensfun-git: AUR
+  libaribcaption: AUR
   libklvanc: AUR
   mpp-git: AUR
   openvino: AUR
