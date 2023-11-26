@@ -6,6 +6,15 @@ The repo is only for the following two platforms:
 
 Any derivative distros or other platforms are **neither tested, supported or intended**. If you encounter any issue on those platforms, don't report them. 
 
+## Featured packages
+You might be find the following packages useful:
+- `ffmpeg-mpp`, `ffmpeg4.4-mpp`, `chromium-mpp`, `kodi-matrix-mpp-git`, `kodi-nexus-mpp-git` provide a powerful and attractive video decoding and playback experience on your ArchLinux ARM box.
+- `linux-aarch64-orangepi5-git`, `linux-radxa-rkbsp5-git`, `linux-aarch64-7ji`, `linux-aarch64-flippy` provide up-to-date kernels for your ArchLinux ARM box.
+- `ffmpeg-full` provide a powerful video en/decoding toolbox for your ArchLinux box.
+- `qbittorrent-enhanced-nox-git` makes your box ideal for headless seeding application.
+- `ampart`, `ampart-git`, `git-mirrorer`, `usb2host` are all shiny tools and sysutils written by 7Ji and they're released here officially.
+- many other packages waiting for you to try out
+
 Special note for **ArchLinux ARM**: all of the kernel packages in this repo follows the **ArchLinux** (non-ARM) way of packing kernels, and all DTBs are stored under `/boot/dtbs/[package name]` so multiple kernels don't conflict with each other. They **do not** follow the ALARM way and downstream way which conflicts with each other, therefore:
 - You can install multiple kernel packages from this repo for multi-booting
 - You can install kernel packages alongside ALARM official kernels for multi-booting
