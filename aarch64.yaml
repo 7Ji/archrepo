@@ -27,6 +27,8 @@ pkgbuilds:
   libv4l-rkmpp-git: GH/7Ji-PKGBUILDs/
   linux-aarch64-7ji: GH/7Ji-PKGBUILDs/
   linux-aarch64-flippy: GH/7Ji-PKGBUILDs/
+  linux-aarch64-mainline: GH/7Ji-PKGBUILDs/
+  linux-aarch64-mainline-git: GH/7Ji-PKGBUILDs/
   linux-aarch64-orangepi5: GH/7Ji-PKGBUILDs/
   linux-aarch64-orangepi5-git: GH/7Ji-PKGBUILDs/
   linux-firmware-amlogic-ophub-git: GH/7Ji-PKGBUILDs/
