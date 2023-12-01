@@ -1,4 +1,4 @@
-# Pacman repo for my pre-built AUR-like packages
+# A pacman repo focusing on ArchLinux and ArchLinuxARM as media center
 ## Supported platforms
 The repo is only for the following two platforms:
 - **ArchLinux** x86_64
@@ -6,19 +6,20 @@ The repo is only for the following two platforms:
 
 Any derivative distros or other platforms are **neither tested, supported or intended**. If you encounter any issue on those platforms, don't report them. 
 
-## Featured packages
-You might find the following packages useful:
-- `ffmpeg-mpp`, `ffmpeg4.4-mpp`, `chromium-mpp`, `kodi-matrix-mpp-git`, `kodi-nexus-mpp-git` provide a powerful and attractive video decoding and playback experience on your ArchLinux ARM box.
-- `linux-aarch64-orangepi5-git`, `linux-radxa-rkbsp5-git`, `linux-aarch64-7ji`, `linux-aarch64-flippy` provide up-to-date kernels for your ArchLinux ARM box.
-- `ffmpeg-full` provide a powerful video en/decoding toolbox for your ArchLinux box.
-- `qbittorrent-enhanced-nox-git` makes your box ideal for headless seeding application.
-- `ampart`, `ampart-git`, `git-mirrorer`, `usb2host` are all shiny tools and sysutils written by 7Ji and they're released here officially.
-- many other packages waiting for you to try out
+## AGGRESIVE REBUILD WARNING
+For the minimum manual operation for the repo maintainer, the builder for this repo applies a strict rebuild rule:
 
-Special note for **ArchLinux ARM**: all of the kernel packages in this repo follows the **ArchLinux** (non-ARM) way of packing kernels, and all DTBs are stored under `/boot/dtbs/[package name]` so multiple kernels don't conflict with each other. They **do not** follow the ALARM way and downstream way which conflicts with each other, therefore:
-- You can install multiple kernel packages from this repo for multi-booting
-- You can install kernel packages alongside ALARM official kernels for multi-booting
-- You **must** use a different booting configuration or adapt your existing ones to boot my kernel packages.
+_The builder would rebuild pacakges on **every update of the PKGBUILD themselves, their sources, and their dependencies**._
+
+This is all unattended and it makes sure as long as you do installation by `pacman -Syu [package]` you always get the one that links against the latest dependencies.
+
+Howevev, the `pkgver` could be kept the same with the actual package already rebuilt and being a different binary release. This is a result of AUR-originated PKGBUILDs and that I don't want to introduce any difference from PKGBUILDs you would get from AUR directly.
+
+In most cases you can just ignore the update without `pkgver` change and keep using your local one. But if your local one breaks with their dependencies updated from the official repo then you can just force a reinstall to update it to the one built against the latest dependency:
+```
+sudo pacman -Scc # Type y, enter, enter
+sudo pacman -S [the broken package] 
+```
 
 ## Adding the repo
 As every package in this repo is signed with my PGP key, including the keyring package itself, you must trust the repo before attempting to install any package. There're two ways of trusting the repo without tainting your trust chain: trust my key directly, or temporary disable the signkey verification and install the keyring package:
@@ -57,17 +58,6 @@ remove the `SigLevel` line so the section now looks like this:
 Server = https://github.com/7Ji/archrepo/releases/download/$arch
 ```
 
-## Installting the packages
-Just install or update them by `pacman -Syu`
-
-However, the builder would rebuild pacakges on every update of the PKGBUILD themselves, their sources, and their dependencies. This is all unattended and therefore the `pkgver` could be kept the same with the actual package already rebuilt and being a different binary release. This is a result of AUR-originated PKGBUILDs and that I don't want to introduce any difference from PKGBUILDs you would get from AUR directly.
-
-In most cases you can just ignore the update without `pkgver` change and keep using your local one. But if your local one breaks with their dependencies updated from the official repo then you can just force a reinstall to update it to the one built against the latest dependency:
-```
-sudo pacman -Scc # Type y, enter, enter
-sudo pacman -S [the broken package] 
-```
-
 ## Building
 It is not recommended to try to build these packages by yourself, as they take too much time. But if you want to, use https://github.com/7Ji/arch_repo_builder, which is a naive repo builder written in Rust for this repo which targets Github releases as repo storage, and build every package with clean dependency chain.
 
@@ -77,6 +67,20 @@ Note that the builder would build packages in a procedural way, i.e. it expects 
 Check [aarch64.yaml](aarch64.yaml) and [x86_64.yaml](x86_64.yaml), the `pkgbuilds` section declares the lists. The URLs follows the alias rule documented [here](https://github.com/7Ji/arch_repo_builder#config).
 
 Note that, different from most of the existing repos, I don't maintain the repo config alongside the packages. But most of them are available either on AUR, or under [7Ji-PKGBUILDs organisation](https://github.com/7Ji-PKGBUILDs).
+
+You might find the following packages useful:
+- `ffmpeg-mpp`, `ffmpeg4.4-mpp`, `chromium-mpp`, `kodi-matrix-mpp-git`, `kodi-nexus-mpp-git` provide a powerful and attractive video decoding and playback experience on your ArchLinux ARM box.
+- `linux-aarch64-orangepi5-git`, `linux-radxa-rkbsp5-git`, `linux-aarch64-7ji`, `linux-aarch64-flippy` provide up-to-date kernels for your ArchLinux ARM box.
+- `ffmpeg-full` provide a powerful video en/decoding toolbox for your ArchLinux box.
+- `qbittorrent-enhanced-nox-git` makes your box ideal for headless seeding application.
+- `ampart`, `ampart-git`, `git-mirrorer`, `usb2host` are all shiny tools and sysutils written by 7Ji and they're released here officially.
+- many other packages waiting for you to try out
+
+Special note for **ArchLinux ARM**: all of the kernel packages in this repo follows the **ArchLinux** (non-ARM) way of packing kernels, and all DTBs are stored under `/boot/dtbs/[package name]` so multiple kernels don't conflict with each other. They **do not** follow the ALARM way and downstream way which conflicts with each other, therefore:
+- You can install multiple kernel packages from this repo for multi-booting
+- You can install kernel packages alongside ALARM official kernels for multi-booting
+- You **must** use a different booting configuration or adapt your existing ones to boot my kernel packages.
+
 
 ## Build infrastructure
 The `aarch64` packages are built on an Orange Pi 5 Plus (RK3588 + 16G + NVMe) with an Orange Pi 5 (RK3588S + 8G) as distcc volunteer.
