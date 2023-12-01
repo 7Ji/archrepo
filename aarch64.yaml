@@ -37,7 +37,9 @@ pkgbuilds:
   mali-valhall-g610-firmware: GH/7Ji-PKGBUILDs/
   mesa-panfork-git: GH/7Ji-PKGBUILDs/
   mpp-git: GH/7Ji-PKGBUILDs/
-  mpv: https://gitlab.archlinux.org/archlinux/packaging/packages/mpv.git
+  mpv:
+    url: https://gitlab.archlinux.org/archlinux/packaging/packages/mpv.git
+    branch: main
   qbittorrent-enhanced-nox-git: AUR
   uboot-amlogic-ophub: GH/7Ji-PKGBUILDs/
   uboot-legacy-initrd-hooks: GH/7Ji-PKGBUILDs/
