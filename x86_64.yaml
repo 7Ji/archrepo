@@ -19,6 +19,7 @@ pkgbuilds:
   ffmpeg-full: AUR
   flite1: AUR
   git-mirrorer: GH/7Ji-PKGBUILDs/
+  kodi-git: AUR
   lensfun-git: AUR
   libaribcaption: AUR
   libklvanc: AUR
