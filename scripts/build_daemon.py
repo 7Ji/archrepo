@@ -60,7 +60,7 @@ def update_git_repo():
 
 def pkgs_update_non_empty() -> bool:
     try:
-        with os.scandir("pkgs/update") as it:
+        with os.scandir("pkgs/updates") as it:
             if any(it):
                 return True
     except:
