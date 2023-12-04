@@ -15,33 +15,20 @@ if test (count $pkgs) -ne (count $sigs)
     exit 1
 end
 popd # pkgs/updated
-set files $pkgs $sigs
+set files (readlink $pkgs $sigs)
 pushd releases
 for file in $files
-    set file_actual (readlink -f ../pkgs/updated/$file)
-    ln -sf $file_actual github/(string replace ':' '.' $file)
-    ln -sf $file_actual local/$file
+    ln -sf (string replace '../' '../pkgs/' $file) (string split --right --max 1 --fields 2 '/' $file | string replace ':' '.')
 end
-pushd github
-repo-add --verify --sign 7Ji.db.tar.zst (string replace ':' '.' $pkgs) &
-for file in *.pkg.tar*
-    if test ! -f $file
-        rm -f $file
-    end
-end
-popd # github
-pushd local
-repo-add --verify --sign localrepo.db.tar.zst $pkgs &
+repo-add --verify --sign 7Ji.db.tar.zst (string split --right --max 1 --fields 2 '/' $pkgs | string replace ':' '.') &
 for file in *.pkg.tar*
     if test ! -f $file
         rm -f $file
         gh release delete-asset $arch $file --yes
     end
 end
-popd # local
 wait
-sudo rsync --recursive --verbose --copy-links --delete local/ /srv/http/localrepo/$arch &
-pushd github
+sudo rsync --recursive --verbose --copy-links --delete ./ /srv/http/repo/7Ji/$arch &
 set temp_assets (mktemp)
 gh release view $arch | sed -n 's/^asset:	\(.\+\)$/\1/p' > $temp_assets
 set gh_files (string replace ':' '.' $files)
