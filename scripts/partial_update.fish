@@ -14,8 +14,8 @@ end
 if test (count $pkgs) -ne (count $sigs)
     exit 1
 end
-popd # pkgs/updated
 set files (readlink $pkgs $sigs)
+popd # pkgs/updated
 pushd releases
 for file in $files
     ln -sf (string replace '../' '../pkgs/' $file) (string split --right --max 1 --fields 2 '/' $file | string replace ':' '.')
@@ -40,5 +40,4 @@ for file in $gh_files
 end
 rm -f $temp_assets
 gh release upload $arch $gh_files
-popd # github
 popd # releases
