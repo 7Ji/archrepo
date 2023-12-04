@@ -31,7 +31,7 @@ wait
 sudo rsync --recursive --verbose --copy-links --delete ./ /srv/http/repo/7Ji/$arch &
 set temp_assets (mktemp)
 gh release view $arch | sed -n 's/^asset:	\(.\+\)$/\1/p' > $temp_assets
-set gh_files (string replace ':' '.' $files)
+set gh_files (string split --right --max 1 --fields 2 '/' $files | string replace ':' '.')
 set --append gh_files 7Ji.{db,files}{,.sig}
 for file in $gh_files
     if grep "^$file\$" $temp_assets
