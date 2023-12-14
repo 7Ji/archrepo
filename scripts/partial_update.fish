@@ -20,7 +20,7 @@ pushd releases
 for file in $files
     ln -sf (string replace '../' '../pkgs/' $file) (string split --right --max 1 --fields 2 '/' $file | string replace ':' '.')
 end
-repo-add --verify --sign 7Ji.db.tar.zst (string split --right --max 1 --fields 2 '/' $pkgs | string replace ':' '.') &
+repo-add --verify --sign 7Ji.db.tar.zst (string replace ':' '.' $pkgs) &
 for file in *.pkg.tar*
     if test ! -f $file
         rm -f $file
