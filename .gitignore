@@ -2,3 +2,7 @@ build
 pkgs
 releases
 sources
+roots
+logs
+
+arch_repo_builder

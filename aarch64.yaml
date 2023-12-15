@@ -1,48 +1,50 @@
 # Format of this file is documented at https://github.com/7Ji/arch_repo_builder#config
 # This needs my private signing key to work, comment it out for 3rd party builder
-sign: 8815547B7B80370675B3CD20BA27F219383BB875
+# sign: 8815547B7B80370675B3CD20BA27F219383BB875
 # This is a local HTTP proxy only accessible within my LAN, comment it out for 3rd party builder
-proxy: http://xray.lan:11092
-proxy_after: 3
+# proxy: http://xray.lan:11092
+# proxy_after: 3
 # This is a 7Ji/git-mirrorer instance only accessible within my LAN, comment it out for 3rd party builder
-gmr: git://gmr.lan
+# gmr: git://gmr.lan
 dephash_strategy: strict
+basepkgs: [base-devel, aarch64-linux-gnu-gcc]
 pkgbuilds:
-  7ji-keyring: GH/7Ji-PKGBUILDs/
-  ampart: AUR
-  ampart-git: AUR
-  chromium-mpp: GH/7Ji-PKGBUILDs/
-  dri2to3-git: GH/7Ji-PKGBUILDs/
-  fakeroot-tcp: AUR
-  ffmpeg4.4-mpp: GH/7Ji-PKGBUILDs/
-  ffmpeg-mpp: GH/7Ji-PKGBUILDs/
-  git-mirrorer: GH/7Ji-PKGBUILDs/
-  gl4es-git: GH/7Ji-PKGBUILDs/
-  kodi-matrix-mpp-git: GH/7Ji-PKGBUILDs/
-  kodi-nexus-mpp-git: GH/7Ji-PKGBUILDs/
-  libmali-valhall-g610: GH/7Ji-PKGBUILDs/
-  librga-multi: GH/7Ji-PKGBUILDs/
-  libv4l-rkmpp-git: GH/7Ji-PKGBUILDs/
-  linux-aarch64-7ji: GH/7Ji-PKGBUILDs/
-  linux-aarch64-flippy: GH/7Ji-PKGBUILDs/
+  # 7ji-keyring: GH/7Ji-PKGBUILDs/
+  # ampart: AUR
+  # ampart-git: AUR
+  # chromium-mpp: GH/7Ji-PKGBUILDs/
+  # dri2to3-git: GH/7Ji-PKGBUILDs/
+  # fakeroot-tcp: AUR
+  # ffmpeg4.4-mpp: GH/7Ji-PKGBUILDs/
+  # ffmpeg-mpp: GH/7Ji-PKGBUILDs/
+  # git-mirrorer: GH/7Ji-PKGBUILDs/
+  # gl4es-git: GH/7Ji-PKGBUILDs/
+  # kodi-matrix-mpp-git: GH/7Ji-PKGBUILDs/
+  # kodi-nexus-mpp-git: GH/7Ji-PKGBUILDs/
+  # libmali-valhall-g610: GH/7Ji-PKGBUILDs/
+  # librga-multi: GH/7Ji-PKGBUILDs/
+  # libv4l-rkmpp-git: GH/7Ji-PKGBUILDs/
+  # linux-aarch64-7ji: GH/7Ji-PKGBUILDs/
+  # linux-aarch64-flippy: GH/7Ji-PKGBUILDs/
 # linux-aarch64-mainline: GH/7Ji-PKGBUILDs/
 # linux-aarch64-mainline-git: GH/7Ji-PKGBUILDs/
-  linux-aarch64-orangepi5: GH/7Ji-PKGBUILDs/
-  linux-aarch64-orangepi5-git: GH/7Ji-PKGBUILDs/
-  linux-firmware-amlogic-ophub-git: GH/7Ji-PKGBUILDs/
+  linux-aarch64-orangepi5: GH/Vexiona/
+  # linux-aarch64-orangepi5: GH/Vexiona/
+  # linux-aarch64-orangepi5-git: GH/7Ji-PKGBUILDs/
+  # linux-firmware-amlogic-ophub-git: GH/7Ji-PKGBUILDs/
   linux-firmware-orangepi-git: GH/7Ji-PKGBUILDs/
-  linux-radxa-rkbsp5-git: GH/7Ji-PKGBUILDs/
-  mali-valhall-g610-firmware: GH/7Ji-PKGBUILDs/
-  mesa-panfork-git: GH/7Ji-PKGBUILDs/
-  mpp-git: GH/7Ji-PKGBUILDs/
-  mpv:
-    url: https://gitlab.archlinux.org/archlinux/packaging/packages/mpv.git
-    branch: main
-  qbittorrent-enhanced-nox-git: AUR
-  uboot-amlogic-ophub: GH/7Ji-PKGBUILDs/
-  uboot-legacy-initrd-hooks: GH/7Ji-PKGBUILDs/
-  usb2host: AUR
-  usbrelay: AUR
-  v4l-utils-mpp: GH/7Ji-PKGBUILDs/
-  xray-nogeo: GH/7Ji-PKGBUILDs/
-  yaopenvfd: AUR
+  # linux-radxa-rkbsp5-git: GH/7Ji-PKGBUILDs/
+  # mali-valhall-g610-firmware: GH/7Ji-PKGBUILDs/
+  # mesa-panfork-git: GH/7Ji-PKGBUILDs/
+  # mpp-git: GH/7Ji-PKGBUILDs/
+  # mpv:
+  #   url: https://gitlab.archlinux.org/archlinux/packaging/packages/mpv.git
+  #   branch: main
+  # qbittorrent-enhanced-nox-git: AUR
+  # uboot-amlogic-ophub: GH/7Ji-PKGBUILDs/
+  # uboot-legacy-initrd-hooks: GH/7Ji-PKGBUILDs/
+  # usb2host: AUR
+  # usbrelay: AUR
+  # v4l-utils-mpp: GH/7Ji-PKGBUILDs/
+  # xray-nogeo: GH/7Ji-PKGBUILDs/
+  # yaopenvfd: AUR
