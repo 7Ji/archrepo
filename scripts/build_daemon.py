@@ -10,7 +10,7 @@ def check_git_url():
         stdout=subprocess.PIPE)
     if r.returncode != 0 or \
         not (r.stdout == b'git://git.lan/repo.git\n' or \
-            r.stdout == b'https://github.com/7Ji/archrepo.git\n'):
+            r.stdout == b'https://github.com/Vexiona/archrepo.git\n'):
         print("Remote origin URL not in whitelist or cannot get it, cowardly refuse to build")
         exit(1)
 

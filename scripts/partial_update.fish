@@ -20,7 +20,7 @@ pushd releases
 for file in $files
     ln -sf (string replace '../' '../pkgs/' $file) (string split --right --max 1 --fields 2 '/' $file | string replace ':' '.')
 end
-repo-add --verify --sign 7Ji.db.tar.zst (string replace ':' '.' $pkgs) &
+repo-add --verify --sign Vexiona.db.tar.zst (string replace ':' '.' $pkgs) &
 for file in *.pkg.tar*
     if test ! -f $file
         rm -f $file
@@ -28,11 +28,11 @@ for file in *.pkg.tar*
     end
 end
 wait
-sudo rsync --recursive --verbose --copy-links --delete ./ /srv/http/repo/7Ji/$arch &
+sudo rsync --recursive --verbose --copy-links --delete ./ /srv/http/repo/Vexiona/$arch &
 set temp_assets (mktemp)
 gh release view $arch | sed -n 's/^asset:	\(.\+\)$/\1/p' > $temp_assets
 set gh_files (string split --right --max 1 --fields 2 '/' $files | string replace ':' '.')
-set --append gh_files 7Ji.{db,files}{,.sig}
+set --append gh_files Vexiona.{db,files}{,.sig}
 for file in $gh_files
     if grep "^$file\$" $temp_assets
         gh release delete-asset $arch $file --yes

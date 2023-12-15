@@ -2,7 +2,7 @@
 switch (git remote get-url origin)
 case git://git.lan/repo{.git,}
     echo "Local builder daemon started"
-case https://github.com/7Ji/archrepo{.git,}
+case https://github.com/Vexiona/archrepo{.git,}
     echo "Distributed builder daemon started"
 case '*'
     echo "Remote origin URL not in whitelist, cowardly refuse to build to avoid damaging work space"
