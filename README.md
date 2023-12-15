@@ -1,6 +1,19 @@
 # A pacman repo focusing on ArchLinux and ArchLinuxARM as media center
+
+## Credits
+
+This is a fork of [7Ji/archrepo](https://github.com/7Ji/archrepo) created so I can cross compile the arm kernel for my Orange Pi 5 plus on an x86 machine. This cuts the compile time from about 5 hrs to 25 mins.
+
+To cross compile the linux-aarch64-orangepi5 kernel yourself, you will need my modified version of [7Ji/arch_repo_builder](https://github.com/7Ji/arch_repo_builder) found at [Vexiona/arch_repo_builder](https://github.com/Vexiona/arch_repo_builder).
+
+## TODO
+
+Check whether the other packages work.
+
 ## Supported platforms
+
 The repo is only for the following two platforms:
+
 - **ArchLinux** x86_64
 - **ArchLinux ARM** aarch64
 
