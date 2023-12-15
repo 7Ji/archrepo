@@ -8,6 +8,7 @@
 # gmr: git://gmr.lan
 dephash_strategy: strict
 basepkgs: [base-devel, aarch64-linux-gnu-gcc]
+arch: aarch64
 pkgbuilds:
   # 7ji-keyring: GH/7Ji-PKGBUILDs/
   # ampart: AUR
