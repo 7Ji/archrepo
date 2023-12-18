@@ -41,3 +41,10 @@ end
 rm -f $temp_assets
 gh release upload $arch $gh_files
 popd # releases
+# Update the release note
+set full_note (gh release view $arch --json body | sed -n 's/.\+"\(Last full update at .\+\)".\+/\1/p')
+if test -n "$full_note"
+    gh release edit $arch --notes "$full_note
+
+Last partial update at $(date)"
+end
