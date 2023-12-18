@@ -44,5 +44,7 @@ popd # releases
 # Update the release note
 set full_note (gh release view $arch --json body | sed -n 's/.\+"\(Last full update at .\+\)".\+/\1/p' | string split --max 1 --fields 1 '\n')
 if test -n "$full_note"
-    gh release edit $arch --notes "$full_note\nLast partial update at $(date)"
+    gh release edit $arch --notes "$full_note
+    
+Last partial update at $(date)"
 end
