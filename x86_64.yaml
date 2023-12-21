@@ -15,6 +15,7 @@ pkgbuilds:
   celt: AUR
   chromaprint-fftw: AUR
   decklink-sdk: GH/7Ji-PKGBUILDs/
+  distccd-alarm: AUR
   ffmpeg-full: AUR
   flite1: AUR
   git-mirrorer: GH/7Ji-PKGBUILDs/
