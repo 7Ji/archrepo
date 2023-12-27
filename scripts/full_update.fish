@@ -15,7 +15,7 @@ for file in $files
     ln -sf (string replace '../' '../pkgs/' $file) (string split --right --max 1 --fields 2 '/' $file | string replace ':' '.')
 end
 repo-add --verify --sign 7Ji.db.tar.zst *.pkg.tar.zst
-sudo rsync --recursive --verbose --copy-links --delete ./ /srv/http/repo/7Ji/$arch &
+rsync --archive --recursive --verbose --copy-links --delete ./ /srv/http/repo/7Ji/$arch &
 gh release delete --yes $arch
 gh release create $arch --title $arch --notes "Last full update at $(date)" --latest 7Ji.{db,files}{,.sig} *.pkg.tar.zst{,.sig}
 popd # releases

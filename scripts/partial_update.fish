@@ -28,7 +28,7 @@ for file in *.pkg.tar*
     end
 end
 wait
-sudo rsync --recursive --verbose --copy-links --delete ./ /srv/http/repo/7Ji/$arch &
+rsync --recursive --verbose --copy-links --delete ./ /srv/http/repo/7Ji/$arch &
 set temp_assets (mktemp)
 gh release view $arch | sed -n 's/^asset:	\(.\+\)$/\1/p' > $temp_assets
 set gh_files (string split --right --max 1 --fields 2 '/' $files | string replace ':' '.')
