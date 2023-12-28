@@ -7,7 +7,8 @@ proxy_after: 3
 # This is a 7Ji/git-mirrorer instance only accessible within my LAN, comment it out for 3rd party builder
 gmr: git://gmr.lan
 dephash_strategy: strict
-basepkgs: [base-devel, distcc]
+basepkgs: [base-devel, distcc, ccache]
+home_binds: [.cache/ccache, .config/ccache]
 pkgbuilds:
   7ji-keyring: GH/7Ji-PKGBUILDs/
   ampart: AUR
