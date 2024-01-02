@@ -5,7 +5,7 @@ sign: 8815547B7B80370675B3CD20BA27F219383BB875
 proxy: http://xray.lan:11092
 proxy_after: 3
 # This is a 7Ji/git-mirrorer instance only accessible within my LAN, comment it out for 3rd party builder
-gmr: git://gmr.lan
+gmr: http://gmr.lan
 dephash_strategy: strict
 basepkgs: [base-devel, distcc, ccache]
 home_binds: [.cache/ccache, .config/ccache]
