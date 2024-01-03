@@ -11,6 +11,7 @@ pkgbuilds:
   7ji-keyring: GH/7Ji-PKGBUILDs/
   ampart: AUR
   ampart-git: AUR
+  bindfs: AUR
   celt: AUR
   chromaprint-fftw: AUR
   decklink-sdk: GH/7Ji-PKGBUILDs/
