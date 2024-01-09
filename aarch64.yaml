@@ -23,9 +23,6 @@ pkgbuilds:
   kodi-matrix-mpp-git: GH/7Ji-PKGBUILDs/
   kodi-nexus-mpp-git: GH/7Ji-PKGBUILDs/
   libmali-valhall-g610: GH/7Ji-PKGBUILDs/
-  libplacebo:
-    url: https://gitlab.archlinux.org/archlinux/packaging/packages/libplacebo.git
-    branch: main
   librga-multi: GH/7Ji-PKGBUILDs/
   libv4l-rkmpp-git: GH/7Ji-PKGBUILDs/
   linux-aarch64-7ji: GH/7Ji-PKGBUILDs/
