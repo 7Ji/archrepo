@@ -20,8 +20,8 @@ pkgbuilds:
   ffmpeg-mpp: GH/7Ji-PKGBUILDs/
   git-mirrorer: GH/7Ji-PKGBUILDs/
   gl4es-git: GH/7Ji-PKGBUILDs/
-  kodi-matrix-mpp-git: GH/7Ji-PKGBUILDs/
-  kodi-nexus-mpp-git: GH/7Ji-PKGBUILDs/
+# kodi-matrix-mpp-git: GH/7Ji-PKGBUILDs/
+# kodi-nexus-mpp-git: GH/7Ji-PKGBUILDs/
   libmali-valhall-g610: GH/7Ji-PKGBUILDs/
   librga-multi: GH/7Ji-PKGBUILDs/
   libv4l-rkmpp-git: GH/7Ji-PKGBUILDs/
