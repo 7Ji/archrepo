@@ -34,7 +34,7 @@ class GithubAPI:
             with open(path_local, 'rb') as f:
                 hasher = hashlib.file_digest(f, 'md5')
             md5_local = hasher.digest()
-            response = requests.get(asset.browser_download_url)
+            response = requests.get(asset.browser_download_url, stream = True)
             if response.status_code != 200:
                 print(f"Failed to access remote asset {asset.name}, assuming corrupted")
                 asset.delete_asset()
