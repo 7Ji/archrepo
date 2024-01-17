@@ -27,8 +27,5 @@ for pkg in *.pkg.tar.zst
     end
 end
 rm -f $list
-rsync --archive --recursive --verbose --copy-links --delete ./ /srv/http/repo/7Ji/$arch &
-gh release delete --yes $arch
-gh release create $arch --title $arch --notes "Last full update at $(date)" --latest 7Ji.{db,files}{,.sig} *.pkg.tar.zst{,.sig}
+rsync --archive --recursive --verbose --copy-links --delete ./ /srv/http/repo/7Ji/$arch
 popd # releases
-wait # rsync
