@@ -1,0 +1,10 @@
+[Unit]
+Description=Sync Arch repo
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+User=nomad7ji
+Environment=ALL_PROXY=socks5://xray.lan:11092
+WorkingDirectory=/srv/http/repo/7Ji
+ExecStart=/usr/bin/python /srv/repo/scripts/gh_sync.py
