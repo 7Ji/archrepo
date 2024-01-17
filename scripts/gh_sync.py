@@ -55,6 +55,7 @@ class GithubAPI:
                     if not entry.name in files_remote:
                         path_local = f"{name}/{entry.name}"
                         print(f"Appending file {path_local}")
+                        release.upload_asset(path = path_local)
 
 if __name__ == '__main__':
     with open('token', 'r') as f:
