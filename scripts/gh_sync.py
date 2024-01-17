@@ -7,18 +7,6 @@ import base64
 import hashlib
 import os
 
-class ReleaseAsset:
-    def __init__(self, name: str, url: str):
-        self.name = name
-        self.url = url
-
-    def verify(self, release: str) -> bool: # return: shouldUpdate
-        response = requests.get(self.url)
-        if response.status_code != 200:
-            raise Exception(f"Response from server is not 200 but '{response.status_code}'")
-        md5_remote = base64.b64decode(response.headers['content-md5'])
-        md5_local = hashlib.filedigest(f"{release}/{self.name}", 'md5')
-
 class GithubAPI:
     def __init__(self, token):
         self._token = token
