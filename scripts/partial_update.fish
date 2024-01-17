@@ -39,7 +39,23 @@ for file in $gh_files
     end
 end
 rm -f $temp_assets
-gh release upload $arch $gh_files
+for file in $gh_files
+    set try 0
+    while test $try -lt 3
+        set try (math $try + 1)
+        if gh release upload $arch $file
+            echo "Uploaded $file to Github release $arch"
+            set try 0
+            break
+        else
+            echo "Failed to upload $file, try $try of 3"
+        end
+    end
+    if test try -lt 0
+        echo "Failed to upload $file after all 3 tries, maintainer attention needed"
+        echo "[$(date)] Partial update failed: $file" >> logs/update.log
+    end
+end
 popd # releases
 # Update the release note
 set full_note (gh release view $arch --json body | sed -n 's/.\+"\(Last full update at .\+\)".\+/\1/p' | string split --max 1 --fields 1 '\\')
