@@ -38,6 +38,7 @@ pkgbuilds:
     branch: main
     subtree: /
   linux-radxa-rkbsp5-git: GH/7Ji-PKGBUILDs/
+  linux-rockchip-git: GH/7Ji-PKGBUILDs/
   linux-rockchip-joshua-git: 
     url: GH/7Ji-PKGBUILDs/
     branch: main
