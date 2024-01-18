@@ -26,6 +26,6 @@ for file in *.pkg.tar*
         rm -f $file
     end
 end
-wait
+fish ../scripts/remove_old.fish
 rsync --recursive --verbose --copy-links --delete ./ /srv/http/repo/7Ji/$arch
 popd # releases
