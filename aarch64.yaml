@@ -33,17 +33,14 @@ pkgbuilds:
   linux-aarch64-orangepi5-git: GH/7Ji-PKGBUILDs/
   linux-firmware-amlogic-ophub-git: GH/7Ji-PKGBUILDs/
   linux-firmware-orangepi-git: GH/7Ji-PKGBUILDs/
-  linux-joshua-git: 
-    url: GH/7Ji-PKGBUILDs/
-    branch: main
+  linux-joshua-git: GH/7Ji-PKGBUILDs/
   linux-orangepi-3b:
     url: GITHUB/w568w/alarm_repo
     branch: main
     subtree: /
   linux-radxa-rkbsp5-git: GH/7Ji-PKGBUILDs/
-  linux-rockchip-joshua-git: 
-    url: GH/7Ji-PKGBUILDs/
-    branch: main
+  linux-rockchip-joshua: GH/7Ji-PKGBUILDs/
+  linux-rockchip-joshua-git: GH/7Ji-PKGBUILDs/
   mali-valhall-g610-firmware: GH/7Ji-PKGBUILDs/
   mesa-panfork-git: GH/7Ji-PKGBUILDs/
   mpp-git: GH/7Ji-PKGBUILDs/
