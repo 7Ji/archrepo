@@ -23,6 +23,7 @@ class GithubAPI:
 
     def sync_release(self, repo: github.Repository, name: str):
         release = repo.get_release(name)
+        session = requests.Session()
         files_remote = []
         for asset in release.get_assets():
             files_remote.append(asset.name)
@@ -34,7 +35,7 @@ class GithubAPI:
             with open(path_local, 'rb') as f:
                 hasher = hashlib.file_digest(f, 'md5')
             md5_local = hasher.digest()
-            response = requests.get(asset.browser_download_url, stream = True)
+            response = session.get(asset.browser_download_url, stream = True)
             if response.status_code != 200:
                 print(f"Failed to access remote asset {asset.name}, assuming corrupted")
                 asset.delete_asset()
