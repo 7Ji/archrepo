@@ -35,19 +35,30 @@ class GithubAPI:
             with open(path_local, 'rb') as f:
                 hasher = hashlib.file_digest(f, 'md5')
             md5_local = hasher.digest()
-            response = session.get(asset.browser_download_url, stream = True)
-            response.close()
-            if response.status_code != 200:
-                print(f"Failed to access remote asset {asset.name}, assuming corrupted")
+            for i in range(6):
+                try:
+                    response = session.get(asset.browser_download_url, stream = True, timeout = 5)
+                except requests.exceptions.Timeout as e:
+                    print(f"Timeout accessing remote asset {asset.name}, try {i + 1} of 6")
+                    response = None
+                else:
+                    response.close()
+                    break
+            if response is None:
+                print(f"Timeout accessing remote asset {asset.name} after all tries, assuming corrupted")
                 asset.delete_asset()
             else:
-                md5_remote = base64.b64decode(response.headers['content-md5'])
-                if md5_local == md5_remote:
-                    print(f"Release asset {asset.name} is good")
-                    continue
-                else:
-                    print(f"Release asset desynced, MD5 mismatch: local {md5_local} != remote {md5_remote}")
+                if response.status_code != 200:
+                    print(f"Failed to access remote asset {asset.name}, assuming corrupted")
                     asset.delete_asset()
+                else:
+                    md5_remote = base64.b64decode(response.headers['content-md5'])
+                    if md5_local == md5_remote:
+                        print(f"Release asset {asset.name} is good")
+                        continue
+                    else:
+                        print(f"Release asset desynced, MD5 mismatch: local {md5_local} != remote {md5_remote}")
+                        asset.delete_asset()
             print(f"Replacing file {path_local}")
             release.upload_asset(path = path_local)
         
