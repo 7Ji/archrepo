@@ -18,6 +18,7 @@ pkgbuilds:
   fakeroot-tcp: AUR
   ffmpeg4.4-mpp: GH/7Ji-PKGBUILDs/
   ffmpeg-mpp: GH/7Ji-PKGBUILDs/
+  ffmpeg-rockchip: GH/7Ji-PKGBUILDs/
   git-mirrorer: GH/7Ji-PKGBUILDs/
   gl4es-git: GH/7Ji-PKGBUILDs/
 # kodi-matrix-mpp-git: GH/7Ji-PKGBUILDs/
