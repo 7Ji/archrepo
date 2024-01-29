@@ -33,6 +33,7 @@ pkgbuilds:
   linux-aarch64-orangepi5: GH/7Ji-PKGBUILDs/
   linux-aarch64-orangepi5-git: GH/7Ji-PKGBUILDs/
   linux-firmware-amlogic-ophub-git: GH/7Ji-PKGBUILDs/
+  linux-firmware-joshua-git: GH/7Ji-PKGBUILDs/
   linux-firmware-orangepi-git: GH/7Ji-PKGBUILDs/
   linux-joshua-git: GH/7Ji-PKGBUILDs/
   linux-orangepi-3b:
