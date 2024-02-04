@@ -1,11 +1,4 @@
 # Format of this file is documented at https://github.com/7Ji/arch_repo_builder#config
-# This needs my private signing key to work, comment it out for 3rd party builder
-sign: 8815547B7B80370675B3CD20BA27F219383BB875
-# This is a local HTTP proxy only accessible within my LAN, comment it out for 3rd party builder
-proxy: http://xray.lan:11092
-proxy_after: 3
-# This is a 7Ji/git-mirrorer instance only accessible within my LAN, comment it out for 3rd party builder
-gmr: http://gmr.lan
 dephash_strategy: strict
 basepkgs: [base-devel, distcc, ccache]
 home_binds: [.cache/ccache, .config/ccache]
