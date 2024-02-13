@@ -42,6 +42,7 @@ pkgbuilds:
   linux-rockchip-joshua-git: GH/7Ji-PKGBUILDs/
   mali-valhall-g610-firmware: GH/7Ji-PKGBUILDs/
   mesa-panfork-git: GH/7Ji-PKGBUILDs/
+  mpp: GH/7Ji-PKGBUILDs/
   mpp-git: GH/7Ji-PKGBUILDs/
   qbittorrent-enhanced-nox-git: AUR
   uboot-amlogic-ophub: GH/7Ji-PKGBUILDs/
