@@ -1,5 +1,7 @@
 # Format of this file is documented at https://github.com/7Ji/arch_repo_builder#config
 dephash_strategy: strict
+basepkgs: [base-devel, ccache]
+home_binds: [.cache/ccache, .config/ccache]
 pkgbuilds:
   7ji-keyring: GH/7Ji-PKGBUILDs/
   ampart: AUR
