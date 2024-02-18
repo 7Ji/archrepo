@@ -51,9 +51,7 @@ pkgbuilds:
   usb2host: AUR
   usbrelay: AUR
   v4l-utils-mpp: GH/7Ji-PKGBUILDs/
-  xray:
-    url: AUR
-    deps: [xray-geoip-placeholder, xray-domain-list-community-placeholder]
+  xray: AUR
   xray-geoip-placeholder: GH/7Ji-PKGBUILDs/
   xray-domain-list-community-placeholder: GH/7Ji-PKGBUILDs/
   yaopenvfd: AUR
