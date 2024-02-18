@@ -27,4 +27,5 @@ pkgbuilds:
   vo-amrwbenc: AUR
   xavs: AUR
   xavs2: AUR
-  xray-nogeo: GH/7Ji-PKGBUILDs/
+  xray-geoip-placeholder: GH/7Ji-PKGBUILDs/
+  xray-domain-list-community-placeholder: GH/7Ji-PKGBUILDs/
