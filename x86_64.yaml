@@ -25,6 +25,8 @@ pkgbuilds:
   uavs3d-git: AUR
   usbrelay: AUR
   vo-amrwbenc: AUR
+  waypipe: AUR
+  waypipe-git: AUR
   xavs: AUR
   xavs2: AUR
   xray-geoip-placeholder: GH/7Ji-PKGBUILDs/
