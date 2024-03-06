@@ -25,6 +25,8 @@ pkgbuilds:
   linux-aarch64-flippy: GH/7Ji-PKGBUILDs/
   linux-aarch64-orangepi5: GH/7Ji-PKGBUILDs/
   linux-aarch64-orangepi5-git: GH/7Ji-PKGBUILDs/
+  linux-aarch64-rockchip-rk5.10-joshua: GH/7Ji-PKGBUILDs/
+  linux-aarch64-rockchip-rk6.1-joshua-git: GH/7Ji-PKGBUILDs/
   linux-firmware:
     url: https://gitlab.archlinux.org/archlinux/packaging/packages/linux-firmware.git
     branch: main
@@ -37,8 +39,6 @@ pkgbuilds:
     branch: main
     subtree: /
   linux-radxa-rkbsp5-git: GH/7Ji-PKGBUILDs/
-  linux-rockchip-joshua: GH/7Ji-PKGBUILDs/
-  linux-aarch64-rockchip-rk6.1-joshua-git: GH/7Ji-PKGBUILDs/
   mali-valhall-g610-firmware: GH/7Ji-PKGBUILDs/
   mesa-panfork-git: GH/7Ji-PKGBUILDs/
   mpp: GH/7Ji-PKGBUILDs/
