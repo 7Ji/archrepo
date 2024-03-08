@@ -18,6 +18,7 @@ pkgbuilds:
   libv4l-rkmpp-git: GH/7Ji-PKGBUILDs/
   linux-aarch64-7ji: GH/7Ji-PKGBUILDs/
   linux-aarch64-flippy: GH/7Ji-PKGBUILDs/
+  linux-aarch64-joshua-git: GH/7Ji-PKGBUILDs/
   linux-aarch64-rockchip-bsp5.10-joshua: GH/7Ji-PKGBUILDs/
   linux-aarch64-rockchip-bsp5.10-radxa: GH/7Ji-PKGBUILDs/
   linux-aarch64-rockchip-bsp6.1: GH/7Ji-PKGBUILDs/
@@ -30,7 +31,6 @@ pkgbuilds:
   linux-firmware-amlogic-ophub-git: GH/7Ji-PKGBUILDs/
   linux-firmware-joshua-git: GH/7Ji-PKGBUILDs/
   linux-firmware-orangepi-git: GH/7Ji-PKGBUILDs/
-  linux-joshua-git: GH/7Ji-PKGBUILDs/
   linux-orangepi-3b:
     url: GITHUB/w568w/alarm_repo
     branch: main
