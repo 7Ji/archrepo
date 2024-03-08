@@ -9,21 +9,17 @@ pkgbuilds:
   chromium-mpp: GH/7Ji-PKGBUILDs/
   dri2to3-git: GH/7Ji-PKGBUILDs/
   fakeroot-tcp: AUR
-  ffmpeg4.4-mpp: GH/7Ji-PKGBUILDs/
-  ffmpeg-mpp: GH/7Ji-PKGBUILDs/
-  ffmpeg-rockchip-git: GH/7Ji-PKGBUILDs/
+  ffmpeg-mpp-git: GH/7Ji-PKGBUILDs/
   git-mirrorer: GH/7Ji-PKGBUILDs/
   gl4es-git: GH/7Ji-PKGBUILDs/
-# kodi-matrix-mpp-git: GH/7Ji-PKGBUILDs/
-  kodi-nexus-mpp-git: 
-    url: GH/7Ji-PKGBUILDs/
-    branch: next
+  kodi-mpp-git: GH/7Ji-PKGBUILDs/
   libmali-valhall-g610: GH/7Ji-PKGBUILDs/
   librga-multi: GH/7Ji-PKGBUILDs/
   libv4l-rkmpp-git: GH/7Ji-PKGBUILDs/
   linux-aarch64-7ji: GH/7Ji-PKGBUILDs/
   linux-aarch64-flippy: GH/7Ji-PKGBUILDs/
   linux-aarch64-rockchip-bsp5.10-joshua: GH/7Ji-PKGBUILDs/
+  linux-aarch64-rockchip-bsp5.10-radxa: GH/7Ji-PKGBUILDs/
   linux-aarch64-rockchip-bsp6.1: GH/7Ji-PKGBUILDs/
   linux-aarch64-rockchip-bsp6.1-joshua-git: GH/7Ji-PKGBUILDs/
   linux-aarch64-rockchip-rk3588-bsp5.10-orangepi: GH/7Ji-PKGBUILDs/
@@ -39,10 +35,8 @@ pkgbuilds:
     url: GITHUB/w568w/alarm_repo
     branch: main
     subtree: /
-  linux-radxa-rkbsp5-git: GH/7Ji-PKGBUILDs/
   mali-valhall-g610-firmware: GH/7Ji-PKGBUILDs/
   mesa-panfork-git: GH/7Ji-PKGBUILDs/
-  mpp: GH/7Ji-PKGBUILDs/
   mpp-git: GH/7Ji-PKGBUILDs/
   qbittorrent-enhanced-nox-git: AUR
   uboot-amlogic-ophub: GH/7Ji-PKGBUILDs/
