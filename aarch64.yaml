@@ -31,10 +31,6 @@ pkgbuilds:
   linux-firmware-amlogic-ophub-git: GH/7Ji-PKGBUILDs/
   linux-firmware-joshua-git: GH/7Ji-PKGBUILDs/
   linux-firmware-orangepi-git: GH/7Ji-PKGBUILDs/
-  linux-orangepi-3b:
-    url: GITHUB/w568w/alarm_repo
-    branch: main
-    subtree: /
   mali-valhall-g610-firmware: GH/7Ji-PKGBUILDs/
   mesa-panfork-git: GH/7Ji-PKGBUILDs/
   mpp-git: GH/7Ji-PKGBUILDs/
