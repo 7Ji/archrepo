@@ -20,7 +20,7 @@ pkgbuilds:
   linux-aarch64-flippy: GH/7Ji-PKGBUILDs/
   linux-aarch64-joshua-git: GH/7Ji-PKGBUILDs/
   linux-aarch64-rockchip-bsp5.10-joshua: GH/7Ji-PKGBUILDs/
-  linux-aarch64-rockchip-bsp5.10-radxa: GH/7Ji-PKGBUILDs/
+  linux-aarch64-rockchip-bsp5.10-radxa-git: GH/7Ji-PKGBUILDs/
   linux-aarch64-rockchip-bsp6.1: GH/7Ji-PKGBUILDs/
   linux-aarch64-rockchip-bsp6.1-joshua-git: GH/7Ji-PKGBUILDs/
   linux-aarch64-rockchip-rk3588-bsp5.10-orangepi: GH/7Ji-PKGBUILDs/
