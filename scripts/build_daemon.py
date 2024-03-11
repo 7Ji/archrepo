@@ -58,14 +58,14 @@ def update_git_repo():
         print("Failed to reset branch to update")
         exit(1)
 
-def pkgs_update_non_empty() -> bool:
+def pkgs_update_empty() -> bool:
     try:
         with os.scandir("pkgs/updates") as it:
             if any(it):
-                return True
+                return False
     except:
         pass
-    return False
+    return True
 
 
 def main():
@@ -75,6 +75,8 @@ def main():
         'sudo', './arch_repo_builder', f'{arch}.yaml', '--noclean', *args_remaining)
     partial_update_command = (
         'fish', 'scripts/partial_update.fish', arch)
+    full_update_command = (
+        'fish', 'scripts/full_update.fish', arch)
     del arch, args_remaining
     sha256_self = sha256_file(arg0)
     idle = 60
@@ -95,13 +97,20 @@ def main():
                 print("Daemon script updated, exit to let the outer supervisor decide whether to continue")
                 exit(0)
             idle = 0
-        subprocess.run(arch_repo_builder_command) # Don't care return
-        r = subprocess.run(partial_update_command)
-        if pkgs_update_non_empty():
+        r = subprocess.run(arch_repo_builder_command) # Don't care return
+        if r.returncode == 0:
+            r = subprocess.run(full_update_command)
             if r.returncode != 0:
-                print('Failed to update and refuse to continue as there are pkgs to upload')
+                print('Full update failed, maintainer attention needed')
                 exit(1)
-            idle = 60
+            continue
+        if pkgs_update_empty():
+            continue
+        idle = 60 # The next build to be triggered immediately after a partial update
+        r = subprocess.run(partial_update_command)
+        if r.returncode != 0:
+            print('Failed to update and refuse to continue as there are pkgs to upload')
+            exit(1)
 
 if __name__ == '__main__':
     main()
