@@ -25,6 +25,10 @@ pkgbuilds:
   linux-aarch64-rockchip-bsp6.1-joshua-git: GH/7Ji-PKGBUILDs/
   linux-aarch64-rockchip-rk3588-bsp5.10-orangepi: GH/7Ji-PKGBUILDs/
   linux-aarch64-rockchip-rk3588-bsp5.10-orangepi-git: GH/7Ji-PKGBUILDs/
+  linux-aarch64-rockchip-opi3b-npu-w568w:
+    url: GITHUB/w568w/alarm_repo
+    branch: main
+    subtree: /
   linux-firmware:
     url: https://gitlab.archlinux.org/archlinux/packaging/packages/linux-firmware.git
     branch: main
