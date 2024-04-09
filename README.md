@@ -1,30 +1,13 @@
 # A pacman repo focusing on ArchLinux and ArchLinuxARM as media center
 ## Supported platforms
-The repo is only for the following two platforms:
-- **ArchLinux** x86_64
-- **ArchLinux ARM** aarch64
+The repo is only for the following two distro and architecture combinations:
+- **ArchLinux** on x86_64
+- **ArchLinux ARM** on aarch64
 
-Any derivative distros or other platforms are **neither tested, supported or intended**. If you encounter any issue on those platforms, don't report them. 
-
-## AGGRESIVE REBUILD WARNING
-For the minimum manual operation for the repo maintainer, the builder for this repo applies a strict rebuild rule:
-
-_The builder would rebuild pacakges on **every update of the PKGBUILD themselves, their sources, and their dependencies**._
-
-This is all unattended and it makes sure as long as you do installation by `pacman -Syu [package]` you always get the one that links against the latest dependencies.
-
-Howevev, the `pkgver` could be kept the same with the actual package already rebuilt and being a different binary release. This is a result of AUR-originated PKGBUILDs and that I don't want to introduce any difference from PKGBUILDs you would get from AUR directly.
-
-In most cases you can just ignore the update without `pkgver` change and keep using your local one. But if your local one breaks with their dependencies updated from the official repo then you can just force a reinstall to update it to the one built against the latest dependency:
-```
-sudo pacman -Scc # Type y, enter, enter
-sudo pacman -S [the broken package] 
-```
+Any other distros or platforms are **neither tested, supported or intended to be run on**. If you encounter any issue on those platforms, don't report them. 
 
 ## Adding the repo
-As every package in this repo is signed with my PGP key, including the keyring package itself, you must trust the repo before attempting to install any package. There're two ways of trusting the repo without tainting your trust chain: trust my key directly, or temporary disable the signkey verification and install the keyring package:
-
-_Note: The packages are built against the dependencies from the official repos and this repo, and they're updated hourly, if you have other third party repos enabled, you'd better **place this repo prior to other third party repos** so you won't fetch wrong deps from their repos. The only exception is `archlinuxcn`, which I actively check for packaging conflicts_
+_Note: The packages are built against the dependencies from the official repos (`core` and `extra`) and this repo, and they're updated hourly, if you have other third party repos enabled, you'd better **place this repo prior to other third party repos** so you won't fetch wrong deps from their repos. The only exception is `archlinuxcn`, which I actively check for packaging conflicts_
 
 ### Direct trust
 import my signing key:
@@ -58,11 +41,6 @@ remove the `SigLevel` line so the section now looks like this:
 Server = https://github.com/7Ji/archrepo/releases/download/$arch
 ```
 
-## Building
-It is not recommended to try to build these packages by yourself, as they take too much time. But if you want to, use https://github.com/7Ji/arch_repo_builder, which is a naive repo builder written in Rust for this repo which targets Github releases as repo storage, and build every package with clean dependency chain.
-
-Note that the builder would build packages in a procedural way, i.e. it expects built dependencies to be pushed to the repo and used in the next run instead of the current one. So you'll find trouble in the sense of "bootstrapping" the repo. This should be fixed later but it's not on top of my to-do list. To work around this, disable packages that don't have all dependencies met first, then re-enable them as you get more and more of them into your repo.
-
 ## Package list
 Check [aarch64.yaml](aarch64.yaml) and [x86_64.yaml](x86_64.yaml), the `pkgbuilds` section declares the lists. The URLs follows the alias rule documented [here](https://github.com/7Ji/arch_repo_builder#config).
 
@@ -81,6 +59,25 @@ Special note for **ArchLinux ARM**: all of the kernel packages in this repo foll
 - You can install kernel packages alongside ALARM official kernels for multi-booting
 - You **must** use a different booting configuration or adapt your existing ones to boot my kernel packages.
 
+## AGGRESIVE REBUILD WARNING
+For the minimum manual operation for the repo maintainer, the builder for this repo applies a strict rebuild rule:
+
+_The builder would rebuild pacakges on **every update of the PKGBUILD themselves, their sources, and their dependencies**._
+
+This is all unattended and it makes sure as long as you do installation by `pacman -Syu [package]` you always get the one that links against the latest dependencies.
+
+Howevev, the `pkgver` could be kept the same with the actual package already rebuilt and being a different binary release. This is a result of AUR-originated PKGBUILDs and that I don't want to introduce any difference from PKGBUILDs you would get from AUR directly.
+
+In most cases you can just ignore the update without `pkgver` change and keep using your local one. But if your local one breaks with their dependencies updated from the official repo then you can just force a reinstall to update it to the one built against the latest dependency:
+```
+sudo pacman -Scc # Type y, enter, enter
+sudo pacman -S [the broken package] 
+```
+
+## Building
+It is not recommended to try to build these packages by yourself, as they take too much time. But if you want to, use https://github.com/7Ji/arch_repo_builder, which is a naive repo builder written in Rust for this repo which targets Github releases as repo storage, and build every package with clean dependency chain.
+
+Note that the builder would build packages in a procedural way, i.e. it expects built dependencies to be pushed to the repo and used in the next run instead of the current one. So you'll find trouble in the sense of "bootstrapping" the repo. This should be fixed later but it's not on top of my to-do list. To work around this, disable packages that don't have all dependencies met first, then re-enable them as you get more and more of them into your repo.
 
 ## Build infrastructure
 The `aarch64` packages are built on an Orange Pi 5 Plus (RK3588 + 16G + NVMe) with an Orange Pi 5 (RK3588S + 8G) as distcc volunteer.
@@ -101,10 +98,9 @@ Packages meeting the following conditions **won't be accepted**:
   - Take too much time to build
 
 ### Adding package
-Create a PR which modifies `aarch64.yaml` and/or `x86_64.yaml`.
+Create a PR which modifies `aarch64.yaml` and/or `x86_64.yaml`. After the PR merged, wait for the builder's next hourly update.
 
 ## License
-
 The repo config, document, and wrapper scripts, i.e. all files living in this git repository, are licensed under AGPLv3
 
 The builder which lives in [another repo](https://github.com/7Ji/arch_repo_builder) is licensed under Apache 2.0 + MIT dual license just like most of the other Rust projects. 
