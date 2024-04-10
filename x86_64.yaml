@@ -20,6 +20,7 @@ pkgbuilds:
   libklvanc: AUR
   mpp: GH/7Ji-PKGBUILDs/
   mpp-git: GH/7Ji-PKGBUILDs/
+  nsproxy-git: AUR
   opencv2: AUR
   openvino: AUR
   uavs3d-git: AUR
