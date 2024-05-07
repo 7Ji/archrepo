@@ -21,13 +21,16 @@ def is_intact(session: requests.Session, url, md5_local) -> bool:
         print(f"Timeout accessing remote asset {url} after all tries, assuming corrupted")
         return False
     if response.status_code != 200:
-        print(f"Failed to access remote asset {url}, assuming corrupted")
+        print(f"Failed to access remote asset {url}, status code {response.status_code}, assuming corrupted")
         return False
     try:
         md5_remote = base64.b64decode(response.headers['content-md5'])
     except KeyError:
-        print(f"Response header did not carry md5 of asset {url}, assuming corrupted")
-        return False
+        print(f"Response header did not carry md5 of asset {url}, downloading full file")
+        hasher = hashlib.new('md5')
+        for chunk in response.iter_content(0x100000):
+            hasher.update(chunk)
+        md5_remote = hasher.digest()
     if md5_local != md5_remote:
         print(f"Release asset {url} desynced, MD5 mismatch: local {md5_local} != remote {md5_remote}")
         return False
