@@ -9,7 +9,7 @@ pkgbuilds:
   bindfs: AUR
   celt: AUR
   chromaprint-fftw: AUR
-  decklink-sdk: GH/7Ji-PKGBUILDs/
+  decklink-sdk: AUR
   distccd-alarm: AUR
   ffmpeg-full: AUR
   flite1: AUR
