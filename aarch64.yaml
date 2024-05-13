@@ -47,7 +47,6 @@ pkgbuilds:
   usbrelay: AUR
   v4l-utils-mpp: GH/7Ji-PKGBUILDs/
   waypipe: AUR
-  waypipe-git: AUR
   xray: AUR
   xray-geoip-placeholder: GH/7Ji-PKGBUILDs/
   xray-domain-list-community-placeholder: GH/7Ji-PKGBUILDs/
