@@ -4,6 +4,7 @@ basepkgs: [base-devel, ccache]
 home_binds: [.cache/ccache, .config/ccache]
 pkgbuilds:
   7ji-keyring: GH/7Ji-PKGBUILDs/
+  ampack-git: AUR
   ampart: AUR
   ampart-git: AUR
   bindfs: AUR
