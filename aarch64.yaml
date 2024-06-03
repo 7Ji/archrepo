@@ -7,7 +7,7 @@ pkgbuilds:
   ampack-git: AUR
   ampart: AUR
   ampart-git: AUR
-  chromium-mpp: GH/7Ji-PKGBUILDs/
+  #chromium-mpp: GH/7Ji-PKGBUILDs/
   dri2to3-git: GH/7Ji-PKGBUILDs/
   fakeroot-tcp: AUR
   ffmpeg-mpp-git: GH/7Ji-PKGBUILDs/
