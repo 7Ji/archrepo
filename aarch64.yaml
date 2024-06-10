@@ -43,6 +43,7 @@ pkgbuilds:
   nsproxy-git: AUR
   qbittorrent-enhanced-nox-git: AUR
   sd-networkd-wg-ddns: AUR
+  sd-networkd-wg-deployer-git: AUR
   uboot-amlogic-ophub: GH/7Ji-PKGBUILDs/
   uboot-legacy-initrd-hooks: GH/7Ji-PKGBUILDs/
   usb2host: AUR
