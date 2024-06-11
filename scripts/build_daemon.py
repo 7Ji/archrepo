@@ -67,9 +67,8 @@ def pkgs_update_empty() -> bool:
         pass
     return True
 
-
 def main():
-    check_git_url()
+    # check_git_url()
     (arch, arg0, args_remaining) = parse_arg()
     arch_repo_builder_command = (
         'sudo', './arch_repo_builder', f'{arch}.yaml', '--noclean', *args_remaining)
