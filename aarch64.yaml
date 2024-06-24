@@ -43,13 +43,13 @@ pkgbuilds:
   nsproxy-git: AUR
   qbittorrent-enhanced-nox-git: AUR
   sd-networkd-wg-ddns: AUR
-  sd-networkd-wg-deployer-git: AUR
   uboot-amlogic-ophub: GH/7Ji-PKGBUILDs/
   uboot-legacy-initrd-hooks: GH/7Ji-PKGBUILDs/
   usb2host: AUR
   usbrelay: AUR
   v4l-utils-mpp: GH/7Ji-PKGBUILDs/
   waypipe: AUR
+  wireguard-deployer-git: AUR
   xray: AUR
   xray-geoip-placeholder: GH/7Ji-PKGBUILDs/
   xray-domain-list-community-placeholder: GH/7Ji-PKGBUILDs/
