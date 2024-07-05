@@ -171,6 +171,7 @@ full_update() {
     repo-add --verify --sign "${repo}".db.tar.zst *.pkg.tar!(*.sig)
     shopt -u extglob
     cd - > /dev/null
+    remote_update
 }
 
 partial_update() {
@@ -202,6 +203,7 @@ partial_update() {
     shopt -u extglob
     rm -f "${list_pkgs_to_keep}"
     cd - > /dev/null
+    remote_update
 }
 
 shopt -u extglob # Because Bash checks glob syntax in function definition
