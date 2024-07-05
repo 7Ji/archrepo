@@ -115,7 +115,7 @@ full_update() {
     shopt -s extglob
     repo-add --verify --sign "${repo}".db.tar.zst *.pkg.tar!(*.sig)
     shopt -u extglob
-    cd -
+    cd - > /dev/null
 }
 
 partial_update() {
@@ -127,7 +127,7 @@ partial_update() {
         link_target=$(readlink "${link_path}") || continue
         file_name="${link_target##*/}"
         file_name="${file_name/:/.}"
-        ln -s ../pkgs/"${link_target:3}"  releases/"${file_name}"
+        ln -sf ../pkgs/"${link_target:3}"  releases/"${file_name}"
         [[ "${file_name}" == *.sig ]] && continue
         pkgs_to_add+=("${file_name}")
     done
@@ -145,7 +145,7 @@ partial_update() {
     done
     shopt -u extglob
     rm -f "${list_pkgs_to_keep}"
-    cd -
+    cd - > /dev/null
 }
 
 shopt -u extglob # Because Bash checks glob syntax in function definition
