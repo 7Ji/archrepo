@@ -30,7 +30,7 @@ assert_declared() { #1: arg name
         fi
         declare -n var="$1"
         if [[ -z "${var}" ]]; then
-            log fatal "Variable '$1' is empty, you probably should've set it as argument --${1/_/-}"
+            log fatal "Variable '$1' is empty"
             bad='yes'
         fi
         shift
@@ -99,21 +99,17 @@ cli_build_daemon() {
 
 shopt -s extglob # Because Bash checks glob syntax in function definition
 
-link_release() {
-    assert_declared link_target file_name
-    file_name="${link_target##*/}"
-    file_name="${file_name/:/.}"
-    ln -s ../pkgs/"${link_target:3}"  releases/"${file_name}"
-}
-
 full_update() {
     assert_declared repo arch rsync_parent
     local link_target link_path file_name db
+
     rm -rf releases
     mkdir releases
     for link_path in pkgs/latest/*; do
         link_target=$(readlink "${link_path}") || continue
-        link_release
+        file_name="${link_target##*/}"
+        file_name="${file_name/:/.}"
+        ln -s ../pkgs/"${link_target:3}"  releases/"${file_name}"
     done
     cd releases
     shopt -s extglob
@@ -125,10 +121,13 @@ full_update() {
 partial_update() {
     assert_declared repo arch rsync_parent
     local link_target link_path file_name db pkgs_to_add=() dir_db list_pkgs_to_keep
+
     for link_path in pkgs/updated/*; do
         [[ ! -f ${link_path} ]] && continue
         link_target=$(readlink "${link_path}") || continue
-        link_release
+        file_name="${link_target##*/}"
+        file_name="${file_name/:/.}"
+        ln -s ../pkgs/"${link_target:3}"  releases/"${file_name}"
         [[ "${file_name}" == *.sig ]] && continue
         pkgs_to_add+=("${file_name}")
     done
