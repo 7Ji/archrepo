@@ -5,19 +5,19 @@ log() { #1: level, #2: content
 }
 
 info() {
-    log INFO "$@"
+    log INFO "$1"
 }
 
 warn() {
-    log WARN "$@"
+    log WARN "$1"
 }
 
 error() {
-    log ERROR "$@"
+    log ERROR "$1"
 }
 
 fatal() {
-    log FATAL "$@"
+    log FATAL "$1"
 }
 
 if [[ "${SCRIPT_DEBUG}" ]]; then
@@ -81,7 +81,7 @@ build_daemon() {
             fi
         fi
         idle=0
-        info "Starting builder with arguments: ${args_arb[@]}"
+        info "Starting builder with arguments: ${args_arb[*]}"
         if sudo ./arb "${args_arb[@]}"; then
             info 'Successfullly built, doing full update'
             if ! full_update; then
