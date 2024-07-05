@@ -26,6 +26,11 @@ assert_declared() { #1: arg name
             log fatal "Assertion failed: variable '$1' is not declared"
             exit 1
         fi
+        declare -n var="$1"
+        if [[ -z "${var}" ]]; then
+            log fatal "Assertion failed: variable '$1' is empty, you probably should've set it as argument --${1/_/-}"
+            exit 1
+        fi
         shift
     done
 }
