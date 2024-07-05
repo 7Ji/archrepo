@@ -20,6 +20,7 @@ fatal() {
     log FATAL "$@"
 }
 
+if [[ "${SCRIPT_DEBUG}" ]]; then
 assert_declared() { #1: arg name
     local bad=
     while (( $# > 0 )); do
@@ -39,6 +40,9 @@ assert_declared() { #1: arg name
         exit 1
     fi
 }
+else
+assert_declared() { :; }
+fi
 
 default_or() { #1: value, #2: default
     declare -n var="$1"
@@ -95,6 +99,13 @@ cli_build_daemon() {
 
 shopt -s extglob # Because Bash checks glob syntax in function definition
 
+link_release() {
+    assert_declared link_target file_name
+    file_name="${link_target##*/}"
+    file_name="${file_name/:/.}"
+    ln -s ../pkgs/"${link_target:3}"  releases/"${file_name}"
+}
+
 full_update() {
     assert_declared repo arch rsync_parent
     local link_target link_path file_name db
@@ -102,9 +113,7 @@ full_update() {
     mkdir releases
     for link_path in pkgs/latest/*; do
         link_target=$(readlink "${link_path}") || continue
-        file_name="${link_target##*/}"
-        file_name="${link_target/:/.}"
-        ln -s ../pkgs/"${link_target:3}"  releases/"${file_name}"
+        link_release
     done
     cd releases
     shopt -s extglob
@@ -119,9 +128,7 @@ partial_update() {
     for link_path in pkgs/updated/*; do
         [[ ! -f ${link_path} ]] && continue
         link_target=$(readlink "${link_path}") || continue
-        file_name="${link_target##*/}"
-        file_name="${link_target/:/.}"
-        ln -sf ../pkgs/"${link_target:3}" releases/"${file_name}"
+        link_release
         [[ "${file_name}" == *.sig ]] && continue
         pkgs_to_add+=("${file_name}")
     done
