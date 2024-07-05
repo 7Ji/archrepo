@@ -21,18 +21,23 @@ fatal() {
 }
 
 assert_declared() { #1: arg name
+    local bad=
     while (( $# > 0 )); do
         if [[ ! -v $1 ]]; then
-            log fatal "Assertion failed: variable '$1' is not declared"
-            exit 1
+            log fatal "Variable '$1' is not declared"
+            bad='yes'
         fi
         declare -n var="$1"
         if [[ -z "${var}" ]]; then
-            log fatal "Assertion failed: variable '$1' is empty, you probably should've set it as argument --${1/_/-}"
-            exit 1
+            log fatal "Variable '$1' is empty, you probably should've set it as argument --${1/_/-}"
+            bad='yes'
         fi
         shift
     done
+    if [[ "${bad}" ]]; then
+        log fatal 'Declaration assertion failed'
+        exit 1
+    fi
 }
 
 default_or() { #1: value, #2: default
