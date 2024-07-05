@@ -114,7 +114,7 @@ argparse_build_daemon() {
     while (( $# > 0 )); do
         case "$1" in
             --repo)
-                repo="2"
+                repo="$2"
                 shift
             ;;
             --arch)
@@ -216,7 +216,7 @@ argparse_update() {
     while (( $# > 0 )); do
         case "$1" in
             --repo)
-                repo="2"
+                repo="$2"
                 shift
             ;;
             --arch)
