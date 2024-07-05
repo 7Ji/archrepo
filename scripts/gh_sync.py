@@ -88,14 +88,15 @@ class GithubAPI:
                 continue
             with open(path_local, 'rb') as f:
                 hasher = hashlib.file_digest(f, 'md5')
-            md5_last = hashes.get(path_local)
-            md5_local = hasher.digest()
-            if md5_last == md5_local and is_intact(session, asset.browser_download_url, md5_local):
+            md5_last_hex = hashes.get(path_local)
+            md5_local_bytes = hasher.digest()
+            md5_local_hex = hasher.hexdigest()
+            if md5_last_hex == md5_local_hex and is_intact(session, asset.browser_download_url, md5_local_bytes):
                 continue
             print(f"Replacing file {path_local}")
             asset.delete_asset()
             release.upload_asset(path = path_local)
-            hashes.update(path_local, md5_local)
+            hashes.update(path_local, md5_local_hex)
         
         with os.scandir(name) as it:
             for entry in it:
