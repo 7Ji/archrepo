@@ -6,7 +6,7 @@ Wants=network-online.target
 [Service]
 User=!WRITE_USER_HERE!
 WorkingDirectory=/srv/repo_builder
-ExecStart=/usr/bin/python scripts/build_daemon.py --arch !WRITE_ARCH_HERE!
+ExecStart=/bin/bash scripts/build_daemon --repo !WRITE_REPO_HERE! --arch !WRITE_ARCH_HERE! --config !WRITE_CONFIG_HERE! --rsync-parent !WRITE_RSYNC_REMOTE_HERE! -- !WRITE_ADDITIONAL_ARGS_TO_ARB_HERE!
 Restart=always
 RestartSec=5
 
