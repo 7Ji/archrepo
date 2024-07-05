@@ -93,6 +93,8 @@ cli_build_daemon() {
     build_daemon
 }
 
+shopt -s extglob # Because Bash checks glob syntax in function definition
+
 full_update() {
     assert_declared repo arch rsync_parent
     local link_target link_path file_name db
@@ -110,6 +112,37 @@ full_update() {
     shopt -u extglob
     cd -
 }
+
+partial_update() {
+    assert_declared repo arch rsync_parent
+    local link_target link_path file_name db pkgs_to_add=() dir_db list_pkgs_to_keep
+    for link_path in pkgs/updated/*; do
+        [[ ! -f ${link_path} ]] && continue
+        link_target=$(readlink "${link_path}") || continue
+        file_name="${link_target##*/}"
+        file_name="${link_target/:/.}"
+        ln -sf ../pkgs/"${link_target:3}" releases/"${file_name}"
+        [[ "${file_name}" == *.sig ]] && continue
+        pkgs_to_add+=("${file_name}")
+    done
+    cd releases
+    repo-add --verify --sign "${repo}".db.tar.zst "${pkgs_to_add[@]}"
+    dir_db=$(mktemp -d)
+    tar -C "${dir_db}" -xvf "${repo}".db.tar.zst
+    list_pkgs_to_keep=$(mktemp)
+    sed -n '/%FILENAME%/{n;p;}' "${dir_db}"/*/desc | sort | uniq > "${list_pkgs_to_keep}"
+    rm -rf "${dir_db}"
+    shopt -s extglob
+    for link_path in *.pkg.tar!(*.sig); do
+        grep -q '^'"${link_path}"'$' "${list_pkgs_to_keep}" && continue
+        rm -f "${link_path}"{,.sig}
+    done
+    shopt -u extglob
+    rm -f "${list_pkgs_to_keep}"
+    cd -
+}
+
+shopt -u extglob # Because Bash checks glob syntax in function definition
 
 argparse_update() {
     repo=7Ji
@@ -140,33 +173,6 @@ cli_full_update() {
     full_update
 }
 
-partial_update() {
-    assert_declared repo arch rsync_parent
-    local link_target link_path file_name db pkgs_to_add=() dir_db list_pkgs_to_keep
-    for link_path in pkgs/updated/*; do
-        [[ ! -f ${link_path} ]] && continue
-        link_target=$(readlink "${link_path}") || continue
-        file_name="${link_target##*/}"
-        file_name="${link_target/:/.}"
-        ln -sf ../pkgs/"${link_target:3}" releases/"${file_name}"
-        [[ "${file_name}" == *.sig ]] && continue
-        pkgs_to_add+=("${file_name}")
-    done
-    cd releases
-    repo-add --verify --sign "${repo}".db.tar.zst "${pkgs_to_add[@]}"
-    dir_db=$(mktemp -d)
-    tar -C "${dir_db}" -xvf "${repo}".db.tar.zst
-    list_pkgs_to_keep=$(mktemp)
-    sed -n '/%FILENAME%/{n;p;}' "${dir_db}"/*/desc | sort | uniq > "${list_pkgs_to_keep}"
-    rm -rf "${dir_db}"
-    for link_path in *.pkg.tar!(*.sig); do
-        grep -q '^'"${link_path}"'$' "${list_pkgs_to_keep}" && continue
-        rm -f "${link_path}"{,.sig}
-    done
-    rm -f "${list_pkgs_to_keep}"
-    cd -
-}
-
 cli_partial_update() {
     local arch= rsync_parent=
     argparse_update "$@"
@@ -174,7 +180,7 @@ cli_partial_update() {
 }
 
 applet="${0##*/}"
-case "$0" in
+case "${applet}" in
     build_daemon)
         cli_build_daemon "$@"
         ;;
@@ -185,6 +191,6 @@ case "$0" in
         cli_partial_update "$@"
         ;;
     *)
-        log fatal "Unknown applet '$0'"
+        log fatal "Unknown applet '${applet}'"
         ;;
 esac
