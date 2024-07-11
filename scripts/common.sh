@@ -153,6 +153,23 @@ remote_update() {
 
 shopt -s extglob # Because Bash checks glob syntax in function definition
 
+trim_unneeded() {
+    local link_path dir_db list_pkgs_to_keep
+
+    dir_db=$(mktemp -d)
+    tar -C "${dir_db}" -xvf "${repo}".db.tar.zst
+    list_pkgs_to_keep=$(mktemp)
+    sed -n '/%FILENAME%/{n;p;}' "${dir_db}"/*/desc | sort | uniq > "${list_pkgs_to_keep}"
+    rm -rf "${dir_db}"
+    shopt -s extglob
+    for link_path in *.pkg.tar!(*.sig); do
+        grep -q '^'"${link_path}"'$' "${list_pkgs_to_keep}" && continue
+        rm -f "${link_path}"{,.sig}
+    done
+    shopt -u extglob
+    rm -f "${list_pkgs_to_keep}"
+}
+
 full_update() {
     assert_declared repo arch rsync_parent
 
@@ -170,6 +187,7 @@ full_update() {
     shopt -s extglob
     repo-add --verify --sign "${repo}".db.tar.zst *.pkg.tar!(*.sig)
     shopt -u extglob
+    trim_unneeded
     cd - > /dev/null
     remote_update
 }
@@ -177,7 +195,7 @@ full_update() {
 partial_update() {
     assert_declared repo arch rsync_parent
 
-    local link_target link_path file_name db pkgs_to_add=() dir_db list_pkgs_to_keep
+    local link_target link_path file_name db pkgs_to_add=()
 
     for link_path in pkgs/updated/*; do
         [[ ! -f ${link_path} ]] && continue
@@ -190,18 +208,7 @@ partial_update() {
     done
     cd releases
     repo-add --verify --sign "${repo}".db.tar.zst "${pkgs_to_add[@]}"
-    dir_db=$(mktemp -d)
-    tar -C "${dir_db}" -xvf "${repo}".db.tar.zst
-    list_pkgs_to_keep=$(mktemp)
-    sed -n '/%FILENAME%/{n;p;}' "${dir_db}"/*/desc | sort | uniq > "${list_pkgs_to_keep}"
-    rm -rf "${dir_db}"
-    shopt -s extglob
-    for link_path in *.pkg.tar!(*.sig); do
-        grep -q '^'"${link_path}"'$' "${list_pkgs_to_keep}" && continue
-        rm -f "${link_path}"{,.sig}
-    done
-    shopt -u extglob
-    rm -f "${list_pkgs_to_keep}"
+    trim_unneeded
     cd - > /dev/null
     remote_update
 }
