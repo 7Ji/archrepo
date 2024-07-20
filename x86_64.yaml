@@ -7,6 +7,7 @@ pkgbuilds:
   ampack-git: AUR
   ampart: AUR
   ampart-git: AUR
+  anyray-geodata-placeholder: GH/7Ji-PKGBUILDs/
   bindfs: AUR
   #celt: AUR
   #chromaprint-fftw: AUR
@@ -33,5 +34,3 @@ pkgbuilds:
   wireguard-deployer-git: AUR
   #xavs: AUR
   #xavs2: AUR
-  xray-geoip-placeholder: GH/7Ji-PKGBUILDs/
-  xray-domain-list-community-placeholder: GH/7Ji-PKGBUILDs/

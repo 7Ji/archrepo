@@ -7,6 +7,7 @@ pkgbuilds:
   ampack-git: AUR
   ampart: AUR
   ampart-git: AUR
+  anyray-geodata-placeholder: GH/7Ji-PKGBUILDs/
   chromium-mpp: GH/7Ji-PKGBUILDs/
   dri2to3-git: GH/7Ji-PKGBUILDs/
   fakeroot-tcp: AUR
@@ -57,6 +58,4 @@ pkgbuilds:
   waypipe: AUR
   wireguard-deployer-git: AUR
   xray: AUR
-  xray-geoip-placeholder: GH/7Ji-PKGBUILDs/
-  xray-domain-list-community-placeholder: GH/7Ji-PKGBUILDs/
   yaopenvfd: AUR
