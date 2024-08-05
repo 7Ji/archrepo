@@ -154,6 +154,8 @@ remote_update() {
 shopt -s extglob # Because Bash checks glob syntax in function definition
 
 trim_unneeded() {
+    assert_declared repo
+
     local link_path dir_db list_pkgs_to_keep
 
     dir_db=$(mktemp -d)
@@ -171,7 +173,8 @@ trim_unneeded() {
 }
 
 finish_update() {
-    local link_path dir_db list_pkgs_to_keep rsync_parent repo arch
+    assert_declared rsync_parent repo arch
+
     rm -f "${repo}".{db,files}.tar.zst.old{,.sig}
     trim_unneeded
     cd - > /dev/null
