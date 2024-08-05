@@ -170,6 +170,14 @@ trim_unneeded() {
     rm -f "${list_pkgs_to_keep}"
 }
 
+finish_update() {
+    local link_path dir_db list_pkgs_to_keep rsync_parent repo arch
+    rm -f "${repo}".{db,files}.tar.zst.old{,.sig}
+    trim_unneeded
+    cd - > /dev/null
+    remote_update
+}
+
 full_update() {
     assert_declared repo arch rsync_parent
 
@@ -187,9 +195,7 @@ full_update() {
     shopt -s extglob
     repo-add --verify --sign "${repo}".db.tar.zst *.pkg.tar!(*.sig)
     shopt -u extglob
-    trim_unneeded
-    cd - > /dev/null
-    remote_update
+    finish_update
 }
 
 partial_update() {
@@ -208,9 +214,7 @@ partial_update() {
     done
     cd releases
     repo-add --verify --sign "${repo}".db.tar.zst "${pkgs_to_add[@]}"
-    trim_unneeded
-    cd - > /dev/null
-    remote_update
+    finish_update
 }
 
 shopt -u extglob # Because Bash checks glob syntax in function definition
