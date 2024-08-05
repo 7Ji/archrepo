@@ -45,7 +45,7 @@ pkgbuilds:
   mesa-panvk-git:
     url: GH/hbiyik/agrrepo
     subtree: /
-  mmc-utils-git: AUR
+  #mmc-utils-git: AUR
   mpp-git: GH/7Ji-PKGBUILDs/
   nsproxy-git: AUR
   qbittorrent-enhanced-nox-git: AUR
