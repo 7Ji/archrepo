@@ -41,10 +41,10 @@ pkgbuilds:
   mesa-panfork-git: GH/7Ji-PKGBUILDs/
   mesa-panfrost-git:
     url: GH/hbiyik/agrrepo
-    subtree: /
+    subtree: mesa/
   mesa-panvk-git:
     url: GH/hbiyik/agrrepo
-    subtree: /
+    subtree: mesa/
   #mmc-utils-git: AUR
   mpp-git: GH/7Ji-PKGBUILDs/
   nsproxy-git: AUR
