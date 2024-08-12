@@ -40,9 +40,6 @@ pkgbuilds:
   linux-firmware-orangepi-git: GH/7Ji-PKGBUILDs/
   mali-valhall-g610-firmware: GH/7Ji-PKGBUILDs/
   mesa-panfork-git: GH/7Ji-PKGBUILDs/
-  mesa-panfrost-git:
-    url: GH/hbiyik/agrrepo
-    subtree: mesa/
   mesa-panvk-git:
     url: GH/hbiyik/agrrepo
     subtree: mesa/
