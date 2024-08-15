@@ -30,7 +30,7 @@ pkgbuilds:
   usbrelay: AUR
   #vo-amrwbenc: AUR
   waypipe: AUR
-  waypipe-git: AUR
+  #waypipe-git: AUR
   wireguard-deployer-git: AUR
   #xavs: AUR
   #xavs2: AUR
