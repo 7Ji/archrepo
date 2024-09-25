@@ -83,7 +83,8 @@ build_daemon() {
         idle=0
         info "Starting builder with arguments: ${args_arb[*]}"
         if sudo --preserve-env=ALL_PROXY,HTTPS_PROXY,HTTP_PROXY,GOPROXY ./arb "${args_arb[@]}"; then
-            info 'Successfullly built, doing full update'
+            info 'Successfullly built, doing full update after cleaning logs'
+            rm -rf logs
             if ! full_update; then
                 error 'Full update failed, maintainer attention needed'
                 exit 1
