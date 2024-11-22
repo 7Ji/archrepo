@@ -24,7 +24,7 @@ pkgbuilds:
   #linux-aarch64-rockchip-armbian-git: GH/7Ji-PKGBUILDs/
   linux-aarch64-rockchip-bsp5.10-joshua-git: GH/7Ji-PKGBUILDs/
   linux-aarch64-rockchip-bsp5.10-radxa-git: GH/7Ji-PKGBUILDs/
-  linux-aarch64-rockchip-bsp: GH/7Ji-PKGBUILDs/
+  #linux-aarch64-rockchip-bsp: GH/7Ji-PKGBUILDs/
   linux-aarch64-rockchip-bsp6.1-fydetab-git: GH/7Ji-PKGBUILDs/
   linux-aarch64-rockchip-bsp6.1-joshua-git: GH/7Ji-PKGBUILDs/
   linux-aarch64-rockchip-joshua-git: GH/7Ji-PKGBUILDs/
