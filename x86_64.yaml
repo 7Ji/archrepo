@@ -26,6 +26,7 @@ pkgbuilds:
   #opencv2: AUR
   #openvino: AUR
   sd-networkd-wg-ddns: AUR
+  snasync-git: GH/7Ji-PKGBUILDs/
   #uavs3d-git: AUR
   usbrelay: AUR
   #vo-amrwbenc: AUR
