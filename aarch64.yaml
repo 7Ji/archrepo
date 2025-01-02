@@ -46,9 +46,7 @@ pkgbuilds:
     url: GH/hbiyik/agrrepo
     subtree: mesa/
   #mmc-utils-git: AUR
-  moonraker-git:
-    url: AUR
-    makedeps: [python-pdm-backend]
+  moonraker-git: AUR
   mpp-git: GH/7Ji-PKGBUILDs/
   nsproxy-git: AUR
   python-inotify-simple: AUR
