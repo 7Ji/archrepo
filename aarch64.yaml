@@ -39,6 +39,7 @@ pkgbuilds:
   linux-firmware-amlogic-ophub-git: GH/7Ji-PKGBUILDs/
   linux-firmware-joshua-git: GH/7Ji-PKGBUILDs/
   linux-firmware-orangepi-git: GH/7Ji-PKGBUILDs/
+  mainsail-git: AUR
   mali-valhall-g610-firmware: GH/7Ji-PKGBUILDs/
   mesa-panfork-git: GH/7Ji-PKGBUILDs/
   mesa-panvk-git:
