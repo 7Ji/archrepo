@@ -53,6 +53,7 @@ pkgbuilds:
   python-libnacl: AUR
   python-periphery: AUR
   python-pyserial-asyncio: AUR
+  python-smart_open: AUR
   python-streaming-form-data: AUR
   qbittorrent-enhanced-nox-git: AUR
   sd-networkd-wg-ddns: AUR
