@@ -4,7 +4,7 @@ basepkgs: [base-devel, ccache]
 home_binds: [.cache/ccache, .config/ccache]
 pkgbuilds:
   7ji-keyring: GH/7Ji-PKGBUILDs/
-  ampack-git: AUR
+  #ampack-git: AUR
   ampart: AUR
   ampart-git: AUR
   anyray-geodata-placeholder: GH/7Ji-PKGBUILDs/
@@ -32,6 +32,6 @@ pkgbuilds:
   #vo-amrwbenc: AUR
   waypipe: AUR
   #waypipe-git: AUR
-  wireguard-deployer-git: AUR
+  #wireguard-deployer-git: AUR
   #xavs: AUR
   #xavs2: AUR
