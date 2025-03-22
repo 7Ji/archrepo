@@ -22,6 +22,7 @@ pkgbuilds:
   #libklvanc: AUR
   #mpp: GH/7Ji-PKGBUILDs/
   #mpp-git: GH/7Ji-PKGBUILDs/
+  nginx-mainline-mod-dav-ext: AUR
   nsproxy-git: AUR
   #opencv2: AUR
   #openvino: AUR
