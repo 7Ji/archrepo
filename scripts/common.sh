@@ -60,13 +60,13 @@ build_daemon() {
     args_arb=(--noclean "${args_builder[@]}" "${config}")
     integ_self=$(sha256sum $(readlink -f -- "$0")) # Both checksum and path
     enable sleep
-    idle=60
+    idle=720
     while true; do
         commit_remote=$(git ls-remote origin master)
         commit_remote="${commit_remote::40}"
         commit_local=$(git rev-parse master)
         if [[ "${commit_remote}" == "${commit_local}" ]]; then
-            if (( "${idle}" < 60 )); then
+            if (( "${idle}" < 720 )); then
                 let idle++
                 sleep 60
                 continue
