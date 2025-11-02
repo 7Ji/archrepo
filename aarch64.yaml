@@ -7,7 +7,7 @@ pkgbuilds:
   ampack-git: AUR
   #ampart: AUR
   ampart-git: GH/7Ji-PKGBUILDs/
-  #anyray-geodata-placeholder: GH/7Ji-PKGBUILDs/
+  anyray-geodata-placeholder: GH/7Ji-PKGBUILDs/
   #chromium-mpp: GH/7Ji-PKGBUILDs/
   #dri2to3-git: GH/7Ji-PKGBUILDs/
   #fakeroot-tcp: AUR

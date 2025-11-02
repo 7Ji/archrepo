@@ -5,31 +5,31 @@ home_binds: [.cache/ccache, .config/ccache]
 pkgbuilds:
   7ji-keyring: GH/7Ji-PKGBUILDs/
   #ampack-git: AUR
-  ampart: AUR
+  #ampart: AUR
   ampart-git: AUR
   anyray-geodata-placeholder: GH/7Ji-PKGBUILDs/
   bindfs: AUR
   #celt: AUR
   #chromaprint-fftw: AUR
   #decklink-sdk: AUR
-  distccd-alarm: AUR
+  #distccd-alarm: AUR
   #ffmpeg-full: AUR
   #flite1: AUR
-  git-mirrorer: GH/7Ji-PKGBUILDs/
+  #git-mirrorer: GH/7Ji-PKGBUILDs/
   #kodi-git: AUR
   #lensfun-git: AUR
   #libaribcaption: AUR
   #libklvanc: AUR
   #mpp: GH/7Ji-PKGBUILDs/
   #mpp-git: GH/7Ji-PKGBUILDs/
-  nginx-mainline-mod-dav-ext: AUR
-  nsproxy-git: AUR
+  #nginx-mainline-mod-dav-ext: AUR
+  #nsproxy-git: AUR
   #opencv2: AUR
   #openvino: AUR
   sd-networkd-wg-ddns: AUR
   snasync-git: GH/7Ji-PKGBUILDs/
   #uavs3d-git: AUR
-  usbrelay: AUR
+  #usbrelay: AUR
   #vo-amrwbenc: AUR
   waypipe: AUR
   #waypipe-git: AUR
