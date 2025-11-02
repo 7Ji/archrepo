@@ -5,67 +5,67 @@ home_binds: [.cache/ccache, .config/ccache]
 pkgbuilds:
   7ji-keyring: GH/7Ji-PKGBUILDs/
   ampack-git: AUR
-  ampart: AUR
+  #ampart: AUR
   ampart-git: GH/7Ji-PKGBUILDs/
-  anyray-geodata-placeholder: GH/7Ji-PKGBUILDs/
+  #anyray-geodata-placeholder: GH/7Ji-PKGBUILDs/
   #chromium-mpp: GH/7Ji-PKGBUILDs/
-  dri2to3-git: GH/7Ji-PKGBUILDs/
-  fakeroot-tcp: AUR
+  #dri2to3-git: GH/7Ji-PKGBUILDs/
+  #fakeroot-tcp: AUR
   #ffmpeg-mpp-git: GH/7Ji-PKGBUILDs/
-  git-mirrorer: GH/7Ji-PKGBUILDs/
-  gl4es-git: GH/7Ji-PKGBUILDs/
-  kodi-mpp-git: GH/7Ji-PKGBUILDs/
-  libmali-valhall-g610: GH/7Ji-PKGBUILDs/
-  librga-multi: GH/7Ji-PKGBUILDs/
-  libv4l-rkmpp-git: GH/7Ji-PKGBUILDs/
+  #git-mirrorer: GH/7Ji-PKGBUILDs/
+  #gl4es-git: GH/7Ji-PKGBUILDs/
+  #kodi-mpp-git: GH/7Ji-PKGBUILDs/
+  #libmali-valhall-g610: GH/7Ji-PKGBUILDs/
+  #librga-multi: GH/7Ji-PKGBUILDs/
+  #libv4l-rkmpp-git: GH/7Ji-PKGBUILDs/
   linux-aarch64-7ji: GH/7Ji-PKGBUILDs/
-  linux-aarch64-flippy: GH/7Ji-PKGBUILDs/
+  #linux-aarch64-flippy: GH/7Ji-PKGBUILDs/
   linux-aarch64-flippy-git: GH/7Ji-PKGBUILDs/
   linux-aarch64-phytium-git: GH/7Ji-PKGBUILDs/
   linux-aarch64-rockchip-bsp5.10-joshua-git: GH/7Ji-PKGBUILDs/
-  linux-aarch64-rockchip-bsp5.10-radxa-git: GH/7Ji-PKGBUILDs/
+  #linux-aarch64-rockchip-bsp5.10-radxa-git: GH/7Ji-PKGBUILDs/
   #linux-aarch64-rockchip-bsp: GH/7Ji-PKGBUILDs/
-  linux-aarch64-rockchip-bsp6.1-armbian-git: GH/7Ji-PKGBUILDs/
-  linux-aarch64-rockchip-bsp6.1-fydetab-git: GH/7Ji-PKGBUILDs/
+  #linux-aarch64-rockchip-bsp6.1-armbian-git: GH/7Ji-PKGBUILDs/
+  #linux-aarch64-rockchip-bsp6.1-fydetab-git: GH/7Ji-PKGBUILDs/
   linux-aarch64-rockchip-bsp6.1-joshua-git: GH/7Ji-PKGBUILDs/
-  linux-aarch64-rockchip-joshua-git: GH/7Ji-PKGBUILDs/
-  linux-aarch64-rockchip-opi3b-npu-w568w:
-    url: GITHUB/w568w/alarm_repo
-    branch: main
-    subtree: /
-  linux-aarch64-rockchip-rk3588-bsp5.10-orangepi-git: GH/7Ji-PKGBUILDs/
-  linux-firmware:
-    url: https://gitlab.archlinux.org/archlinux/packaging/packages/linux-firmware.git
-    branch: main
-  linux-firmware-amlogic-ophub-git: GH/7Ji-PKGBUILDs/
-  linux-firmware-joshua-git: GH/7Ji-PKGBUILDs/
-  linux-firmware-orangepi-git: GH/7Ji-PKGBUILDs/
-  mainsail-git: GH/7Ji-PKGBUILDs/
-  mali-valhall-g610-firmware: GH/7Ji-PKGBUILDs/
-  mesa-panfork-git: GH/7Ji-PKGBUILDs/
-  mesa-panvk-git:
-    url: GH/hbiyik/agrrepo
-    subtree: mesa/
+  #linux-aarch64-rockchip-joshua-git: GH/7Ji-PKGBUILDs/
+  #linux-aarch64-rockchip-opi3b-npu-w568w:
+  #  url: GITHUB/w568w/alarm_repo
+  #  branch: main
+  #  subtree: /
+  #linux-aarch64-rockchip-rk3588-bsp5.10-orangepi-git: GH/7Ji-PKGBUILDs/
+  #linux-firmware:
+  #  url: https://gitlab.archlinux.org/archlinux/packaging/packages/linux-firmware.git
+  #  branch: main
+  #linux-firmware-amlogic-ophub-git: GH/7Ji-PKGBUILDs/
+  #linux-firmware-joshua-git: GH/7Ji-PKGBUILDs/
+  #linux-firmware-orangepi-git: GH/7Ji-PKGBUILDs/
+  #mainsail-git: GH/7Ji-PKGBUILDs/
+  #mali-valhall-g610-firmware: GH/7Ji-PKGBUILDs/
+  #mesa-panfork-git: GH/7Ji-PKGBUILDs/
+  #mesa-panvk-git:
+  #  url: GH/hbiyik/agrrepo
+  #  subtree: mesa/
   #mmc-utils-git: AUR
-  moonraker-git: GH/7Ji-PKGBUILDs/
-  mpp-git: GH/7Ji-PKGBUILDs/
-  nsproxy-git: AUR
-  python-inotify-simple: AUR
-  python-libnacl: AUR
-  python-periphery: AUR
-  python-pyserial-asyncio: AUR
-  python-smart_open: AUR
-  python-streaming-form-data: AUR
+  #moonraker-git: GH/7Ji-PKGBUILDs/
+  #mpp-git: GH/7Ji-PKGBUILDs/
+  #nsproxy-git: AUR
+  #python-inotify-simple: AUR
+  #python-libnacl: AUR
+  #python-periphery: AUR
+  #python-pyserial-asyncio: AUR
+  #python-smart_open: AUR
+  #python-streaming-form-data: AUR
   qbittorrent-enhanced-nox-git: AUR
   sd-networkd-wg-ddns: AUR
   snasync-git: GH/7Ji-PKGBUILDs/
   #sunshine-mpp-git: GH/7Ji-PKGBUILDs/
-  uboot-amlogic-ophub: GH/7Ji-PKGBUILDs/
-  uboot-legacy-initrd-hooks: GH/7Ji-PKGBUILDs/
-  usb2host: AUR
+  #uboot-amlogic-ophub: GH/7Ji-PKGBUILDs/
+  #uboot-legacy-initrd-hooks: GH/7Ji-PKGBUILDs/
+  #usb2host: AUR
   usbrelay: AUR
-  v4l-utils-mpp: GH/7Ji-PKGBUILDs/
+  #v4l-utils-mpp: GH/7Ji-PKGBUILDs/
   waypipe: AUR
-  wireguard-deployer-git: AUR
+  #wireguard-deployer-git: AUR
   xray: AUR
   yaopenvfd: AUR
