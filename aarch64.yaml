@@ -56,7 +56,7 @@ pkgbuilds:
   #python-pyserial-asyncio: AUR
   #python-smart_open: AUR
   #python-streaming-form-data: AUR
-  qbittorrent-enhanced-nox-git: AUR
+  #qbittorrent-enhanced-nox-git: AUR
   sd-networkd-wg-ddns: AUR
   snasync-git: GH/7Ji-PKGBUILDs/
   #sunshine-mpp-git: GH/7Ji-PKGBUILDs/
