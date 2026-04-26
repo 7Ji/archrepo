@@ -24,10 +24,9 @@ class GithubAPI:
 
     def sync_release(self, repo: github.Repository, name: str):
         release = repo.get_release(name)
-        session = requests.Session()
-        files_remote = []
+        files_remote = set()
         for asset in release.get_assets():
-            files_remote.append(asset.name)
+            files_remote.add(asset.name)
             path_local = f"{name}/{asset.name}"
             if not os.path.exists(path_local):
                 print(f"Release asset {asset.name} does not exist locally, should delete")
@@ -49,6 +48,7 @@ class GithubAPI:
             asset.delete_asset()
             release.upload_asset(path = path_local)
 
+        print(f"Assets before appending: {files_remote}")
         with os.scandir(name) as it:
             for entry in it:
                 if not entry.name.startswith('.') and entry.is_file():
