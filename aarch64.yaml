@@ -65,7 +65,7 @@ pkgbuilds:
   #usb2host: AUR
   usbrelay: AUR
   #v4l-utils-mpp: GH/7Ji-PKGBUILDs/
-  waypipe: AUR
+  #waypipe: AUR
   #wireguard-deployer-git: AUR
   xray: AUR
   yaopenvfd: AUR
